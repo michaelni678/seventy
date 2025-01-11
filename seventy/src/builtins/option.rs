@@ -3,6 +3,22 @@
 use crate::core::{Sanitizer, Validator};
 
 /// [`Validator`] checks if [`Some`].
+/// 
+/// # Examples
+/// 
+/// The example below validates the field is filled. 
+/// Because of the newtype's guarantees, it is impossible to construct a 
+/// `RequiredField` with an inner option that is [`None`].
+/// 
+/// ```
+/// use seventy::{builtins::option::*, core::Newtype, seventy};
+/// 
+/// #[seventy(validate(some))]
+/// pub struct RequiredField(Option<String>);
+/// 
+/// assert!(RequiredField::try_new(Some(String::from("Seventy is a cool crate."))).is_ok());
+/// assert!(RequiredField::try_new(None).is_err());
+/// ```
 pub struct some;
 
 impl<T> Validator<Option<T>> for some {
@@ -17,6 +33,32 @@ impl<T> Validator<Option<T>> for some {
 /// 
 /// For [`Validator`], if [`None`] the inner validator is skipped and the validation is valid.
 /// See [`unwrap_then`] if the target must be [`Some`].
+/// 
+/// # Examples
+/// 
+/// The example below sanitizes a middle name and validates it is alphabetic if it is given.
+/// Because of the newtype's guarantees, the constructed `MiddleName` will always 
+/// be trimmed, and cannot exist if the inner string is not alphabetic.
+/// 
+/// ```
+/// use seventy::{builtins::{option::*, string::*}, core::Newtype, seventy};
+/// 
+/// #[seventy(
+///     sanitize(some_then(trim)),
+///     validate(some_then(alphabetic))
+/// )]
+/// pub struct MiddleName(Option<String>);
+/// 
+/// assert_eq!(
+///     MiddleName::try_new(Some(String::from("   John   "))).unwrap().into_inner().unwrap(),
+///     "John"
+/// );
+/// 
+/// assert!(MiddleName::try_new(None).is_ok());
+/// 
+/// assert!(MiddleName::try_new(Some(String::from("   J0hn   "))).is_err());
+/// 
+/// ```
 pub struct some_then<SV>(pub SV);
 
 impl<T, S> Sanitizer<Option<T>> for some_then<S>
@@ -47,6 +89,23 @@ where
 /// 
 /// If [`None`] the inner validator is skipped and the validation is invalid.
 /// See [`some_then`] if the target can be [`None`].
+/// 
+/// # Examples
+/// 
+/// The example below validates a rating is given and between 1 and 10.
+/// Because of the newtype's guarantees, it is impossible to construct a 
+/// `RequiredFeedback` with an inner option that is [`None`] or not between 0 and 10.
+/// 
+/// ```
+/// use seventy::{builtins::{compare::*, option::*}, core::Newtype, seventy};
+/// 
+/// #[seventy(validate(unwrap_then(within(1..=10))))]
+/// pub struct RequiredFeedback(Option<u8>);
+/// 
+/// assert!(RequiredFeedback::try_new(Some(7)).is_ok());
+/// assert!(RequiredFeedback::try_new(Some(11)).is_err());
+/// assert!(RequiredFeedback::try_new(None).is_err());
+/// ```
 pub struct unwrap_then<V>(pub V);
 
 impl<T, V> Validator<Option<T>> for unwrap_then<V>

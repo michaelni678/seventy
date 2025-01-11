@@ -247,7 +247,7 @@ where
 /// ```
 /// use seventy::{builtins::string::*, core::Newtype, seventy};
 /// 
-/// #[seventy(validate(lowercase))]
+/// #[seventy(validate(uppercase))]
 /// pub struct UppercaseString(String);
 /// 
 /// assert!(UppercaseString::try_new("SHOUT").is_ok());
@@ -349,8 +349,8 @@ where
 /// #[seventy(validate(regex(r"^[A-Z]([a-zA-Z0-9]|[- @\.#&!])*$")))]
 /// pub struct Company(String);
 /// 
-/// assert!(Company::try_new("7-Tea Inc.").is_ok());
-/// assert!(Company::try_new("7-\u{1F375} Inc.").is_err());
+/// assert!(Company::try_new("Seven Tea Inc.").is_ok());
+/// assert!(Company::try_new("Seven \u{1F375} Inc.").is_err());
 /// ```
 #[cfg(feature = "regex")]
 pub fn regex(regex: &'static str) -> _regex {
