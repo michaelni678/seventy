@@ -5,14 +5,14 @@ use std::ops::RangeBounds;
 use crate::core::Validator;
 
 /// [`Validator`] checks if less than other value.
-/// 
+///
 /// # Examples
 ///
 /// The example below validates the percentage of germs killed for a cleaning
 /// product is less than 100.0 units. Because of the newtype's guarantees,
-/// it is impossible to construct `PercentGermsKilled` with an inner f32 that is 
+/// it is impossible to construct `PercentGermsKilled` with an inner f32 that is
 /// 100.0 or greater.
-/// 
+///
 /// ```
 /// use seventy::{builtins::compare::*, core::Newtype, seventy};
 ///
@@ -35,13 +35,13 @@ where
 }
 
 /// [`Validator`] checks if less than or equal to other value.
-/// 
+///
 /// # Examples
 ///
 /// The example below validates the package weight is less than or equal
 /// to the limit of 70.0. Because of the newtype's guarantees, it is impossible
 /// to construct `PackageWeight` with an inner f32 that is greater than 70.0.
-/// 
+///
 /// ```
 /// use seventy::{builtins::compare::*, core::Newtype, seventy};
 ///
@@ -66,13 +66,13 @@ where
 }
 
 /// [`Validator`] checks if greater than other value.
-/// 
+///
 /// # Examples
 ///
 /// The example below validates the inner i32 is positive. Because of the
 /// newtype's guarantees, it is impossible to construct `PositiveNumber` with
 /// a negative or zero i32.
-/// 
+///
 /// ```
 /// use seventy::{builtins::compare::*, core::Newtype, seventy};
 ///
@@ -95,9 +95,9 @@ where
 }
 
 /// [`Validator`] checks if greater than or equal to other value.
-/// 
+///
 /// # Examples
-/// 
+///
 /// The example below validates the age is over 13. Because of the newtype's
 /// guarantees, it is impossible to construct `Age` with an inner u8 less than 13.
 ///
@@ -123,12 +123,12 @@ where
 }
 
 /// [`Validator`] checks if equal than other value.
-/// 
+///
 /// # Examples
 ///
 /// The example below validates the inner u8 is 70. Because of the newtype's
 /// guarantees, it is impossible to construct `Seventy` with a non-70 u8.
-/// 
+///
 /// ```
 /// use seventy::{builtins::compare::*, core::Newtype, seventy};
 ///
@@ -150,12 +150,12 @@ where
 }
 
 /// [`Validator`] checks if not equal than other value.
-/// 
+///
 /// # Examples
 ///
 /// The example below validates the inner u32 is not 0. Because of the newtype's
 /// guarantees, it is impossible to construct `NonZeroU32` with a zero.
-/// 
+///
 /// ```
 /// use seventy::{builtins::compare::*, core::Newtype, seventy};
 ///
@@ -177,13 +177,13 @@ where
 }
 
 /// [`Validator`] checks if within range.
-/// 
+///
 /// # Examples
 ///
 /// The example below validates the loan request amount is between 5000 and 100000.
 /// Because of the newtype's guarantees, it is impossible to construct `LoanAmount`
 /// with a u32 less than 5000 or greater than 100000.
-/// 
+///
 /// ```
 /// use seventy::{builtins::compare::*, core::Newtype, seventy};
 ///

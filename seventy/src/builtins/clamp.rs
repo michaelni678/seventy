@@ -3,13 +3,13 @@
 use crate::core::Sanitizer;
 
 /// [`Sanitizer`] restricts to between `min` and `max`.
-/// 
+///
 /// # Examples
-/// 
-/// The example below sanitizes an f32 to be clamped to between -1.0 and 1.0. 
-/// Because of the newtype's guarantees, the constructed `Movement` will 
+///
+/// The example below sanitizes an f32 to be clamped to between -1.0 and 1.0.
+/// Because of the newtype's guarantees, the constructed `Movement` will
 /// always have an inner f32 between -1.0 and 1.0.
-/// 
+///
 /// ```
 /// use seventy::{builtins::clamp::*, core::Newtype, seventy};
 ///
@@ -42,14 +42,14 @@ where
     }
 }
 
-/// [`Sanitizer`] restricts to greater than the min. 
-/// 
+/// [`Sanitizer`] restricts to greater than the min.
+///
 /// # Examples
-/// 
-/// The example below sanitizes an f32 to be clamped to greater than or equal to 0.0. 
-/// Because of the newtype's guarantees, the constructed `Distance` will 
+///
+/// The example below sanitizes an f32 to be clamped to greater than or equal to 0.0.
+/// Because of the newtype's guarantees, the constructed `Distance` will
 /// always have an inner f32 greater than or equal to 0.0.
-/// 
+///
 /// ```
 /// use seventy::{builtins::clamp::*, core::Newtype, seventy};
 ///
@@ -75,14 +75,14 @@ where
     }
 }
 
-/// [`Sanitizer`] restricts to less than the max. 
-/// 
+/// [`Sanitizer`] restricts to less than the max.
+///
 /// # Examples
 ///
 /// The example below sanitizes an f32 to be clamped to less than or equal to
 /// 100.0. Because of the newtype's guarantees, the constructed `BatteryCharge` will
 /// always have an inner f32 less than or equal to 100.0.
-/// 
+///
 /// ```
 /// use seventy::{builtins::clamp::*, core::Newtype, seventy};
 ///

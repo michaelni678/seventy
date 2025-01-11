@@ -3,13 +3,13 @@
 use crate::core::{Sanitizer, Validator};
 
 /// [`Validator`] checks if among the collection.
-/// 
+///
 /// # Examples
 ///
 /// The example below validates the sunscreen's SPF is among the array of
-/// common SPFs. Because of the newtype's guarantees, it is impossible to construct 
+/// common SPFs. Because of the newtype's guarantees, it is impossible to construct
 /// `SunscreenSPF` with an SPF that is not listed.
-/// 
+///
 /// ```
 /// use seventy::{builtins::collection::*, core::Newtype, seventy};
 ///
@@ -31,13 +31,13 @@ where
 }
 
 /// [`Sanitizer`] sorts elements.
-/// 
+///
 /// # Examples
-/// 
-/// The example below sanitizes a vec of chars to be sorted. 
-/// Because of the newtype's guarantees, the constructed `SortedChars` will 
+///
+/// The example below sanitizes a vec of chars to be sorted.
+/// Because of the newtype's guarantees, the constructed `SortedChars` will
 /// always have an inner vec that has been sorted.
-/// 
+///
 /// ```
 /// use seventy::{builtins::collection::*, core::Newtype, seventy};
 ///

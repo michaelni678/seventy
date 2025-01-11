@@ -7,16 +7,16 @@ use crate::core::Validator;
 use regex_util::Regex;
 
 /// [`Validator`] checks if valid email.
-/// 
+///
 /// Uses the regex found in this post:
 /// <https://stackoverflow.com/a/201378>
-/// 
+///
 /// # Examples
 ///
-/// The example below validates the inner string is a valid email. 
+/// The example below validates the inner string is a valid email.
 /// Because of the newtype's guarantees, it is impossible to construct
 /// `EmailAddress` with an inner string that is not a valid email.
-/// 
+///
 /// ```
 /// use seventy::{builtins::email::*, core::Newtype, seventy};
 ///

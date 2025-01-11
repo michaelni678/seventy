@@ -3,13 +3,13 @@
 use crate::core::Validator;
 
 /// [`Validator`] checks if finite.
-/// 
+///
 /// # Examples
 ///
 /// The example below validates the inner f32 is finite. Because of the
 /// newtype's guarantees, it is impossible to construct `FiniteF32` with
 /// an inner f32 that is not finite.
-/// 
+///
 /// ```
 /// use seventy::{builtins::float::*, core::Newtype, seventy};
 ///

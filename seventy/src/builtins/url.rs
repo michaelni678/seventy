@@ -3,19 +3,19 @@
 use crate::core::Validator;
 
 /// [`Validator`] checks if valid URL.
-/// 
+///
 /// # Examples
-/// 
-/// The example below validates the URL is valid. 
-/// Because of the newtype's guarantees, it is impossible to construct a 
+///
+/// The example below validates the URL is valid.
+/// Because of the newtype's guarantees, it is impossible to construct a
 /// `URL` with an inner string that is not a valid URL.
-/// 
+///
 /// ```
 /// use seventy::{builtins::url::*, core::Newtype, seventy};
-/// 
+///
 /// #[seventy(validate(url))]
 /// pub struct URL(String);
-/// 
+///
 /// assert!(URL::try_new("https://github.com/michaelni678/seventy").is_ok());
 /// assert!(URL::try_new("http://[:::1]").is_err());
 /// ```
