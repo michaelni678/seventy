@@ -12,9 +12,9 @@ impl<T> Validator<Option<T>> for some {
 
 pub struct some_then<SV>(pub SV);
 
-impl<T, SV> Sanitizer<Option<T>> for some_then<SV>
+impl<T, S> Sanitizer<Option<T>> for some_then<S>
 where
-    SV: Sanitizer<T>,
+    S: Sanitizer<T>,
 {
     fn sanitize(&self, target: &mut Option<T>) {
         if let Some(inner) = target {
@@ -23,9 +23,9 @@ where
     }
 }
 
-impl<T, SV> Validator<Option<T>> for some_then<SV>
+impl<T, V> Validator<Option<T>> for some_then<V>
 where
-    SV: Validator<T>,
+    V: Validator<T>,
 {
     fn validate(&self, target: &Option<T>) -> bool {
         if let Some(inner) = target {
