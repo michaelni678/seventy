@@ -1,0 +1,11 @@
+[workspace]
+resolver = "2"
+members = [
+    "seventy",
+    "seventy-macros",
+
+    "examples",
+]
+
+[workspace.dependencies]
+seventy = { path = "seventy", features = ["full"] }

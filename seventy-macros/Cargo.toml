@@ -1,0 +1,20 @@
+[package]
+name = "seventy-macros"
+version = "0.1.0"
+edition = "2021"
+repository = "https://github.com/michaelni678/seventy"
+readme = "../README.md"
+license = "Apache-2.0"
+keywords = ["newtype", "sanitization", "validation"]
+description = "Procedural macros for `Seventy`"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = "1"
+quote = "1"
+syn = { version = "2", features = ["full"] }
+
+[dev-dependencies]
+seventy = { workspace = true }

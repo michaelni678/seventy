@@ -1,0 +1,31 @@
+[package]
+name = "seventy"
+version = "0.1.0"
+edition = "2021"
+repository = "https://github.com/michaelni678/seventy"
+readme = "../README.md"
+license = "Apache-2.0"
+keywords = ["newtype", "sanitization", "validation"]
+description = "Newtype sanitization and validation"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+[features]
+full = [
+    "credit-card",
+    "email",
+    "regex",
+    "url",
+]
+credit-card = ["dep:credit-card-util"]
+email = ["dep:regex-util"]
+regex = ["dep:regex-util"]
+url = ["dep:url-util"]
+
+[dependencies]
+seventy-macros = { path = "../seventy-macros" }
+credit-card-util = { package = "card-validate", version = "2.4.0", optional = true }
+regex-util = { package = "regex", version = "1.11", optional = true }
+url-util = { package = "url", version = "2.5.0", optional = true }

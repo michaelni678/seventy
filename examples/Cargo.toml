@@ -1,0 +1,11 @@
+[package]
+name = "examples"
+edition = "2021"
+publish = false
+
+[dev-dependencies]
+seventy = { workspace = true }
+
+[[example]]
+name = "read_me"
+path = "read_me.rs"
