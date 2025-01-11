@@ -7,7 +7,7 @@ use crate::core::{Sanitizer, Validator};
 /// # Examples
 /// 
 /// The example below validates the field is filled. 
-/// Because of the newtype's guarantees, it is impossible to construct a 
+/// Because of the newtype's guarantees, it is impossible to construct 
 /// `RequiredField` with an inner option that is [`None`].
 /// 
 /// ```
@@ -93,7 +93,7 @@ where
 /// # Examples
 /// 
 /// The example below validates a rating is given and between 1 and 10.
-/// Because of the newtype's guarantees, it is impossible to construct a 
+/// Because of the newtype's guarantees, it is impossible to construct 
 /// `RequiredFeedback` with an inner option that is [`None`] or not between 0 and 10.
 /// 
 /// ```

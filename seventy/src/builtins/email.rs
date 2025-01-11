@@ -15,7 +15,7 @@ use regex_util::Regex;
 ///
 /// The example below validates the inner string is a valid email. 
 /// Because of the newtype's guarantees, it is impossible to construct
-/// an `EmailAddress` with an inner string that is not a valid email.
+/// `EmailAddress` with an inner string that is not a valid email.
 /// 
 /// ```
 /// use seventy::{builtins::email::*, core::Newtype, seventy};

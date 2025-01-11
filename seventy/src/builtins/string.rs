@@ -91,7 +91,7 @@ impl Sanitizer<String> for trim_right {
 /// # Examples
 /// 
 /// The example below validates the inner string is alpabetic. Because of the
-/// newtype's guarantees, it is impossible to construct a `FirstName` with
+/// newtype's guarantees, it is impossible to construct `FirstName` with
 /// an inner string that is not alphabetic.
 /// 
 /// ```
@@ -119,7 +119,7 @@ where
 /// # Examples
 /// 
 /// The example below validates the inner string is alphanumeric. Because of the
-/// newtype's guarantees, it is impossible to construct a `Username` with
+/// newtype's guarantees, it is impossible to construct `Username` with
 /// an inner string that is not alphanumeric.
 /// 
 /// ```
@@ -147,7 +147,7 @@ where
 /// # Examples
 /// 
 /// The example below validates the inner string is ASCII. Because of the
-/// newtype's guarantees, it is impossible to construct a `Password` with
+/// newtype's guarantees, it is impossible to construct `Password` with
 /// an inner string that is not ASCII.
 /// 
 /// ```
@@ -191,7 +191,7 @@ where
 /// ```
 /// 
 /// The example below validates the inner string is lowercase. Because of the
-/// newtype's guarantees, it is impossible to construct a `LowercaseString` with
+/// newtype's guarantees, it is impossible to construct `LowercaseString` with
 /// an inner string that is not lowercase.
 /// 
 /// ```
@@ -241,7 +241,7 @@ where
 /// ```
 /// 
 /// The example below validates the inner string is uppercase. Because of the
-/// newtype's guarantees, it is impossible to construct an `UppercaseString` with
+/// newtype's guarantees, it is impossible to construct `UppercaseString` with
 /// an inner string that is not uppercase.
 /// 
 /// ```
@@ -275,7 +275,7 @@ where
 /// # Examples
 /// 
 /// The example below validates the text is less than or equal to 15 characters. 
-/// Because of the newtype's guarantees, it is impossible to construct a 
+/// Because of the newtype's guarantees, it is impossible to construct 
 /// `TextBox` with an inner string that greater than 15 characters.
 /// 
 /// ```
@@ -312,7 +312,7 @@ where
 /// # Examples
 /// 
 /// The example below validates the text is not empty. 
-/// Because of the newtype's guarantees, it is impossible to construct a 
+/// Because of the newtype's guarantees, it is impossible to construct 
 /// `TextBox` with an inner string that is empty.
 /// 
 /// ```
@@ -340,7 +340,7 @@ where
 /// # Examples
 /// 
 /// The example below validates the company matches the regex. 
-/// Because of the newtype's guarantees, it is impossible to construct a 
+/// Because of the newtype's guarantees, it is impossible to construct 
 /// `Company` with an inner string that does not match the regex.
 /// 
 /// ```

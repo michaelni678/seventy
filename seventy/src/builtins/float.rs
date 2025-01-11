@@ -6,8 +6,8 @@ use crate::core::Validator;
 /// 
 /// # Examples
 ///
-/// The example below validates the inner f32 is alphanumeric. Because of the
-/// newtype's guarantees, it is impossible to construct a `FiniteF32` with
+/// The example below validates the inner f32 is finite. Because of the
+/// newtype's guarantees, it is impossible to construct `FiniteF32` with
 /// an inner f32 that is not finite.
 /// 
 /// ```
