@@ -1,4 +1,4 @@
-#![cfg_attr(docsrs, feature(doc_auto_cfg, doc_notable_trait))]
+#![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
 //! Seventy is a simple newtype sanitizer and validator.
 

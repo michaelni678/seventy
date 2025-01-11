@@ -115,9 +115,9 @@ where
     }
 }
 
-pub struct nonempty;
+pub struct not_empty;
 
-impl<T> Validator<T> for nonempty
+impl<T> Validator<T> for not_empty
 where
     T: AsRef<str>,
 {

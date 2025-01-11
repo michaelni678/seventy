@@ -4,7 +4,6 @@
 ///
 /// If you want to call this function without the trait being in scope,
 /// consider enabling the `inherent` upgrade.
-#[cfg_attr(docsrs, doc(notable_trait))]
 pub trait Newtype: Sized {
     /// The inner value of the new type.
     type Inner;
@@ -83,7 +82,6 @@ pub trait Bypassable: Newtype {
 }
 
 /// Sanitization logic.
-#[cfg_attr(docsrs, doc(notable_trait))]
 pub trait Sanitizer<T>
 where
     T: ?Sized,
@@ -93,7 +91,6 @@ where
 }
 
 /// Validation logic.
-#[cfg_attr(docsrs, doc(notable_trait))]
 pub trait Validator<T>
 where
     T: ?Sized,
