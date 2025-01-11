@@ -2,6 +2,7 @@
 
 use crate::core::Validator;
 
+/// [`Validator`] checks if valid URL.
 pub struct url;
 
 impl<T> Validator<T> for url

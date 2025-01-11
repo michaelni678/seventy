@@ -6,6 +6,7 @@ use crate::core::Validator;
 
 use regex_util::Regex;
 
+/// [`Validator`] checks if valid email.
 pub struct email;
 
 impl<T> Validator<T> for email

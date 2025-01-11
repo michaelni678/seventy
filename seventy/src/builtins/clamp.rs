@@ -2,6 +2,7 @@
 
 use crate::core::Sanitizer;
 
+/// [`Sanitizer`] restricts to between `min` and `max`.
 pub struct clamp<T> {
     pub min: T,
     pub max: T,
@@ -22,6 +23,7 @@ where
     }
 }
 
+/// [`Sanitizer`] restricts to greater than the min. 
 pub struct clamp_min<T>(pub T);
 
 impl<T> Sanitizer<T> for clamp_min<T>
@@ -37,6 +39,7 @@ where
     }
 }
 
+/// [`Sanitizer`] restricts to less than the max. 
 pub struct clamp_max<T>(pub T);
 
 impl<T> Sanitizer<T> for clamp_max<T>

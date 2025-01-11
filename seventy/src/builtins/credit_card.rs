@@ -4,6 +4,7 @@ use crate::core::Validator;
 
 pub use credit_card_util::Type as CreditCardIssuer;
 
+/// [`Validator`] checks if valid credit card number.
 pub struct credit_card_number;
 
 impl<T> Validator<T> for credit_card_number
@@ -15,6 +16,7 @@ where
     }
 }
 
+/// [`Validator`] checks if valid credit card number and forwards issuer to inner validator.
 pub struct credit_card_number_then<V>(pub V);
 
 impl<T, V> Validator<T> for credit_card_number_then<V>

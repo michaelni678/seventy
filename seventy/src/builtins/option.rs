@@ -2,6 +2,7 @@
 
 use crate::core::{Sanitizer, Validator};
 
+/// [`Validator`] checks if [`Some`].
 pub struct some;
 
 impl<T> Validator<Option<T>> for some {
@@ -10,6 +11,12 @@ impl<T> Validator<Option<T>> for some {
     }
 }
 
+/// [`Sanitizer`] and [`Validator`] forwards unwrapped target if [`Some`].
+/// 
+/// For [`Sanitizer`], if [`None`] the inner sanitizer is skipped.
+/// 
+/// For [`Validator`], if [`None`] the inner validator is skipped and the validation is valid.
+/// See [`unwrap_then`] if the target must be [`Some`].
 pub struct some_then<SV>(pub SV);
 
 impl<T, S> Sanitizer<Option<T>> for some_then<S>
@@ -36,6 +43,10 @@ where
     }
 }
 
+/// [`Validator`] forwards unwrapped target if [`Some`].
+/// 
+/// If [`None`] the inner validator is skipped and the validation is invalid.
+/// See [`some_then`] if the target can be [`None`].
 pub struct unwrap_then<V>(pub V);
 
 impl<T, V> Validator<Option<T>> for unwrap_then<V>

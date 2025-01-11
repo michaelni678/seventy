@@ -2,14 +2,17 @@
 
 use crate::core::{Sanitizer, Validator};
 
+/// [`Sanitizer`] trims whitespace.
 pub struct trim;
 
 impl Sanitizer<String> for trim {
     fn sanitize(&self, target: &mut String) {
-        (trim_left, trim_right).sanitize(target);
+        // OPTIMIZE: Try trimming in-place.
+        *target = target.trim().to_string();
     }
 }
 
+/// [`Sanitizer`] trims left whitespace.
 pub struct trim_left;
 
 impl Sanitizer<String> for trim_left {
@@ -19,6 +22,7 @@ impl Sanitizer<String> for trim_left {
     }
 }
 
+/// [`Sanitizer`] trims right whitespace.
 pub struct trim_right;
 
 impl Sanitizer<String> for trim_right {
@@ -28,6 +32,7 @@ impl Sanitizer<String> for trim_right {
     }
 }
 
+/// [`Validator`] checks if only alphabetic.
 pub struct alphabetic;
 
 impl<T> Validator<T> for alphabetic
@@ -39,6 +44,7 @@ where
     }
 }
 
+/// [`Validator`] checks if only alphanumeric.
 pub struct alphanumeric;
 
 impl<T> Validator<T> for alphanumeric
@@ -50,6 +56,7 @@ where
     }
 }
 
+/// [`Validator`] checks if only ASCII.
 pub struct ascii;
 
 impl<T> Validator<T> for ascii
@@ -61,6 +68,43 @@ where
     }
 }
 
+/// [`Sanitizer`] converts to lowercase. [`Validator`] checks if only lowercase.
+pub struct lowercase;
+
+impl Sanitizer<String> for lowercase {
+    fn sanitize(&self, target: &mut String) {
+        *target = target.to_lowercase();
+    }
+}
+
+impl<T> Validator<T> for lowercase
+where
+    T: AsRef<str>,
+{
+    fn validate(&self, target: &T) -> bool {
+        target.as_ref().chars().all(char::is_lowercase)
+    }
+}
+
+/// [`Sanitizer`] converts to uppercase. [`Validator`] checks if only uppercase.
+pub struct uppercase;
+
+impl Sanitizer<String> for uppercase {
+    fn sanitize(&self, target: &mut String) {
+        *target = target.to_uppercase();
+    }
+}
+
+impl<T> Validator<T> for uppercase
+where
+    T: AsRef<str>,
+{
+    fn validate(&self, target: &T) -> bool {
+        target.as_ref().chars().all(char::is_uppercase)
+    }
+}
+
+/// [`Validator`] forwards length to inner validator.
 pub enum length<V> {
     bytes(V),
     chars(V),
@@ -81,40 +125,7 @@ where
     }
 }
 
-pub struct lowercase;
-
-impl Sanitizer<String> for lowercase {
-    fn sanitize(&self, target: &mut String) {
-        *target = target.to_lowercase();
-    }
-}
-
-impl<T> Validator<T> for lowercase
-where
-    T: AsRef<str>,
-{
-    fn validate(&self, target: &T) -> bool {
-        target.as_ref().chars().all(char::is_lowercase)
-    }
-}
-
-pub struct uppercase;
-
-impl Sanitizer<String> for uppercase {
-    fn sanitize(&self, target: &mut String) {
-        *target = target.to_uppercase();
-    }
-}
-
-impl<T> Validator<T> for uppercase
-where
-    T: AsRef<str>,
-{
-    fn validate(&self, target: &T) -> bool {
-        target.as_ref().chars().all(char::is_uppercase)
-    }
-}
-
+/// [`Validator`] checks if not empty.
 pub struct not_empty;
 
 impl<T> Validator<T> for not_empty
@@ -126,6 +137,7 @@ where
     }
 }
 
+/// [`Validator`] checks if matches regex.
 #[cfg(feature = "regex")]
 pub fn regex(regex: &'static str) -> _regex {
     _regex(regex_util::Regex::new(regex).unwrap())

@@ -2,6 +2,7 @@
 
 use crate::core::Validator;
 
+/// [`Validator`] checks if finite.
 pub struct finite;
 
 impl Validator<f32> for finite {
