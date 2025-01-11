@@ -11,7 +11,7 @@ use crate::core::{Sanitizer, Validator};
 /// `SunscreenSPF` with an SPF that is not listed.
 ///
 /// ```
-/// use seventy::{builtins::collection::*, core::Newtype, seventy};
+/// use seventy::{builtins::collection::*, seventy, Newtype};
 ///
 /// #[seventy(validate(among([8, 15, 30, 40, 50, 100])))]
 /// struct SunscreenSPF(u8);
@@ -39,7 +39,7 @@ where
 /// always have an inner vec that has been sorted.
 ///
 /// ```
-/// use seventy::{builtins::collection::*, core::Newtype, seventy};
+/// use seventy::{builtins::collection::*, seventy, Newtype};
 ///
 /// #[seventy(sanitize(sort))]
 /// struct SortedChars(Vec<char>);

@@ -11,7 +11,7 @@ use crate::core::{Sanitizer, Validator};
 /// `RequiredField` with an inner option that is [`None`].
 ///
 /// ```
-/// use seventy::{builtins::option::*, core::Newtype, seventy};
+/// use seventy::{builtins::option::*, seventy, Newtype};
 ///
 /// #[seventy(validate(some))]
 /// pub struct RequiredField(Option<String>);
@@ -43,8 +43,7 @@ impl<T> Validator<Option<T>> for some {
 /// ```
 /// use seventy::{
 ///     builtins::{option::*, string::*},
-///     core::Newtype,
-///     seventy,
+///     seventy, Newtype,
 /// };
 ///
 /// #[seventy(sanitize(some_then(trim)), validate(some_then(alphabetic)))]
@@ -102,8 +101,7 @@ where
 /// ```
 /// use seventy::{
 ///     builtins::{compare::*, option::*},
-///     core::Newtype,
-///     seventy,
+///     seventy, Newtype,
 /// };
 ///
 /// #[seventy(validate(unwrap_then(within(1..=10))))]

@@ -11,7 +11,7 @@ use crate::core::Validator;
 /// an inner f32 that is not finite.
 ///
 /// ```
-/// use seventy::{builtins::float::*, core::Newtype, seventy};
+/// use seventy::{builtins::float::*, seventy, Newtype};
 ///
 /// #[seventy(validate(finite))]
 /// struct FiniteF32(f32);

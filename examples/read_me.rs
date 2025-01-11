@@ -4,8 +4,7 @@
 
 use seventy::{
     builtins::{compare::*, string::*},
-    core::Newtype,
-    seventy,
+    seventy, Newtype,
 };
 
 #[seventy(

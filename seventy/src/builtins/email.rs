@@ -18,7 +18,7 @@ use regex_util::Regex;
 /// `EmailAddress` with an inner string that is not a valid email.
 ///
 /// ```
-/// use seventy::{builtins::email::*, core::Newtype, seventy};
+/// use seventy::{builtins::email::*, seventy, Newtype};
 ///
 /// #[seventy(validate(email))]
 /// struct EmailAddress(String);

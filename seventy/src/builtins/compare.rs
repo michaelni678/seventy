@@ -14,7 +14,7 @@ use crate::core::Validator;
 /// 100.0 or greater.
 ///
 /// ```
-/// use seventy::{builtins::compare::*, core::Newtype, seventy};
+/// use seventy::{builtins::compare::*, seventy, Newtype};
 ///
 /// #[seventy(validate(lt(100.0)))]
 /// struct PercentGermsKilled(f32);
@@ -43,7 +43,7 @@ where
 /// to construct `PackageWeight` with an inner f32 that is greater than 70.0.
 ///
 /// ```
-/// use seventy::{builtins::compare::*, core::Newtype, seventy};
+/// use seventy::{builtins::compare::*, seventy, Newtype};
 ///
 /// const MAX_PACKAGE_WEIGHT: f32 = 70.0;
 ///
@@ -74,7 +74,7 @@ where
 /// a negative or zero i32.
 ///
 /// ```
-/// use seventy::{builtins::compare::*, core::Newtype, seventy};
+/// use seventy::{builtins::compare::*, seventy, Newtype};
 ///
 /// #[seventy(validate(gt(0)))]
 /// struct PositiveNumber(i32);
@@ -102,7 +102,7 @@ where
 /// guarantees, it is impossible to construct `Age` with an inner u8 less than 13.
 ///
 /// ```
-/// use seventy::{builtins::compare::*, core::Newtype, seventy};
+/// use seventy::{builtins::compare::*, seventy, Newtype};
 ///
 /// #[seventy(validate(ge(13)))]
 /// struct Age(u8);
@@ -130,7 +130,7 @@ where
 /// guarantees, it is impossible to construct `Seventy` with a non-70 u8.
 ///
 /// ```
-/// use seventy::{builtins::compare::*, core::Newtype, seventy};
+/// use seventy::{builtins::compare::*, seventy, Newtype};
 ///
 /// #[seventy(validate(eq(70)))]
 /// struct Seventy(u8);
@@ -157,7 +157,7 @@ where
 /// guarantees, it is impossible to construct `NonZeroU32` with a zero.
 ///
 /// ```
-/// use seventy::{builtins::compare::*, core::Newtype, seventy};
+/// use seventy::{builtins::compare::*, seventy, Newtype};
 ///
 /// #[seventy(validate(ne(0)))]
 /// struct NonZeroU32(u32);
@@ -185,7 +185,7 @@ where
 /// with a u32 less than 5000 or greater than 100000.
 ///
 /// ```
-/// use seventy::{builtins::compare::*, core::Newtype, seventy};
+/// use seventy::{builtins::compare::*, seventy, Newtype};
 ///
 /// #[seventy(validate(within(5000..=100000)))]
 /// struct LoanAmount(u32);

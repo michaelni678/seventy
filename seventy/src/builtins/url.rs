@@ -11,7 +11,7 @@ use crate::core::Validator;
 /// `URL` with an inner string that is not a valid URL.
 ///
 /// ```
-/// use seventy::{builtins::url::*, core::Newtype, seventy};
+/// use seventy::{builtins::url::*, seventy, Newtype};
 ///
 /// #[seventy(validate(url))]
 /// pub struct URL(String);

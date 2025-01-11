@@ -13,7 +13,7 @@ pub use credit_card_util::Type as CreditCardIssuer;
 /// `CreditCardNumber` with an inner string that is not a valid credit card number.
 ///
 /// ```
-/// use seventy::{builtins::credit_card::*, core::Newtype, seventy};
+/// use seventy::{builtins::credit_card::*, seventy, Newtype};
 ///
 /// #[seventy(validate(credit_card_number))]
 /// struct CreditCardNumber(String);
@@ -49,8 +49,7 @@ where
 /// ```
 /// use seventy::{
 ///     builtins::{collection::*, credit_card::*},
-///     core::Newtype,
-///     seventy,
+///     seventy, Newtype,
 /// };
 ///
 /// const ACCEPTED_ISSUERS: [CreditCardIssuer; 2] =

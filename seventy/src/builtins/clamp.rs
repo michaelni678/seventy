@@ -11,7 +11,7 @@ use crate::core::Sanitizer;
 /// always have an inner f32 between -1.0 and 1.0.
 ///
 /// ```
-/// use seventy::{builtins::clamp::*, core::Newtype, seventy};
+/// use seventy::{builtins::clamp::*, seventy, Newtype};
 ///
 /// #[seventy(sanitize(clamp { min: -1.0, max: 1.0 }))]
 /// struct Movement(f32);
@@ -51,7 +51,7 @@ where
 /// always have an inner f32 greater than or equal to 0.0.
 ///
 /// ```
-/// use seventy::{builtins::clamp::*, core::Newtype, seventy};
+/// use seventy::{builtins::clamp::*, seventy, Newtype};
 ///
 /// #[seventy(sanitize(clamp_min(0.0)))]
 /// struct Distance(f32);
@@ -84,7 +84,7 @@ where
 /// always have an inner f32 less than or equal to 100.0.
 ///
 /// ```
-/// use seventy::{builtins::clamp::*, core::Newtype, seventy};
+/// use seventy::{builtins::clamp::*, seventy, Newtype};
 ///
 /// #[seventy(sanitize(clamp_max(100)))]
 /// struct BatteryCharge(u8);

@@ -11,7 +11,7 @@ use crate::core::{Sanitizer, Validator};
 /// always have an inner string that has been trimmed.
 ///
 /// ```
-/// use seventy::{builtins::string::*, core::Newtype, seventy};
+/// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(sanitize(trim))]
 /// pub struct Username(String);
@@ -39,7 +39,7 @@ impl Sanitizer<String> for trim {
 /// always have an inner string that has been left-trimmed.
 ///
 /// ```
-/// use seventy::{builtins::string::*, core::Newtype, seventy};
+/// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(sanitize(trim_left))]
 /// pub struct Username(String);
@@ -67,7 +67,7 @@ impl Sanitizer<String> for trim_left {
 /// always have an inner string that has been right-trimmed.
 ///
 /// ```
-/// use seventy::{builtins::string::*, core::Newtype, seventy};
+/// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(sanitize(trim_right))]
 /// pub struct Username(String);
@@ -95,7 +95,7 @@ impl Sanitizer<String> for trim_right {
 /// an inner string that is not alphabetic.
 ///
 /// ```
-/// use seventy::{builtins::string::*, core::Newtype, seventy};
+/// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(validate(alphabetic))]
 /// pub struct FirstName(String);
@@ -123,7 +123,7 @@ where
 /// an inner string that is not alphanumeric.
 ///
 /// ```
-/// use seventy::{builtins::string::*, core::Newtype, seventy};
+/// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(validate(alphanumeric))]
 /// pub struct Username(String);
@@ -151,7 +151,7 @@ where
 /// an inner string that is not ASCII.
 ///
 /// ```
-/// use seventy::{builtins::string::*, core::Newtype, seventy};
+/// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(validate(ascii))]
 /// pub struct Password(String);
@@ -179,7 +179,7 @@ where
 /// string that is lowercase.
 ///
 /// ```
-/// use seventy::{builtins::string::*, core::Newtype, seventy};
+/// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(sanitize(lowercase))]
 /// pub struct SearchQuery(String);
@@ -197,7 +197,7 @@ where
 /// an inner string that is not lowercase.
 ///
 /// ```
-/// use seventy::{builtins::string::*, core::Newtype, seventy};
+/// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(validate(lowercase))]
 /// pub struct LowercaseString(String);
@@ -231,7 +231,7 @@ where
 /// string that is uppercase.
 ///
 /// ```
-/// use seventy::{builtins::string::*, core::Newtype, seventy};
+/// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(sanitize(uppercase))]
 /// pub struct ID(String);
@@ -247,7 +247,7 @@ where
 /// an inner string that is not uppercase.
 ///
 /// ```
-/// use seventy::{builtins::string::*, core::Newtype, seventy};
+/// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(validate(uppercase))]
 /// pub struct UppercaseString(String);
@@ -283,8 +283,7 @@ where
 /// ```
 /// use seventy::{
 ///     builtins::{compare::*, string::*},
-///     core::Newtype,
-///     seventy,
+///     seventy, Newtype,
 /// };
 ///
 /// #[seventy(validate(length::chars(le(15))))]
@@ -322,7 +321,7 @@ where
 /// `TextBox` with an inner string that is empty.
 ///
 /// ```
-/// use seventy::{builtins::string::*, core::Newtype, seventy};
+/// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(validate(not_empty))]
 /// pub struct TextBox(String);
@@ -350,7 +349,7 @@ where
 /// `Company` with an inner string that does not match the regex.
 ///
 /// ```
-/// use seventy::{builtins::string::*, core::Newtype, seventy};
+/// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(validate(regex(r"^[A-Z]([a-zA-Z0-9]|[- @\.#&!])*$")))]
 /// pub struct Company(String);
