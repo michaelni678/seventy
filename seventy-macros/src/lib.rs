@@ -14,7 +14,7 @@ mod seventy;
 /// # Upgrades
 ///
 /// - `as_ref`: Implements `AsRef` for the newtype. The `Newtype` trait already has an
-/// equivalent `to_inner` method, but this provides compatability with APIs that expect `AsRef`.
+///     equivalent `to_inner` method, but this provides compatability with APIs that expect `AsRef`.
 ///
 /// ```
 /// use seventy::{core::Newtype, seventy};
@@ -88,6 +88,22 @@ mod seventy;
 ///
 /// ---
 ///
+/// - `deserializable`: Implements `serde::Deserialize` for the newtype. You must have `serde` as a dependency!
+///
+/// ```
+/// use seventy::{seventy, Newtype};
+///
+/// #[seventy(upgrades(deserializable))]
+/// pub struct Message(String);
+///
+/// let json = "\"Seventy is a cool crate\"";
+///
+/// let message: Message = serde_json::from_str(json).unwrap();
+/// assert_eq!(message.into_inner(), "Seventy is a cool crate");
+/// ```
+///
+/// ---
+///
 /// - `inherent`: Makes the `Newtype` trait methods callable without the trait in scope.
 ///
 /// The code below fails to compile, since the `Newtype` trait is not in scope.
@@ -119,6 +135,37 @@ mod seventy;
 ///
 /// ---
 ///
+/// - `serializable`: Implements `serde::Serialize` for the newtype. You must have `serde` as a dependency!
+///
+/// ```
+/// use seventy::{seventy, Newtype};
+///
+/// #[seventy(upgrades(serializable))]
+/// pub struct Message(String);
+///
+/// let message = Message::try_new("Seventy is a cool crate").unwrap();
+/// let json = serde_json::to_string(&message).unwrap();
+///
+/// assert_eq!(json, "\"Seventy is a cool crate\"");
+/// ```
+///
+/// ---
+///
+/// - `try_from`: Implements `TryFrom` for the newtype. The `Newtype` trait already has the method
+///     `Newtype::try_new`, which is similar to `TryFrom::try_from`, however the latter expects
+///     a concrete type, whereas the former `Newtype::try_new` does not.
+///
+/// ```
+/// use seventy::{seventy, Newtype};
+///
+/// #[seventy(upgrades(try_from))]
+/// pub struct Number(i32);
+///
+/// assert!(Number::try_from(5).is_ok());
+/// ```
+///
+/// ---
+///
 /// - `unexposed`: Prevents accessing the field directly from the same module.
 ///
 /// The code below modifies a newtype's value by directly accessing the field, which is not good!
@@ -145,21 +192,6 @@ mod seventy;
 ///
 /// let mut etm = UnexposedToModule::try_new(70).unwrap();
 /// etm.0 = 444;
-/// ```
-///
-/// ---
-///
-/// - `try_from`: Implements `TryFrom` for the newtype. The `Newtype` trait already has the method
-/// `Newtype::try_new`, which is similar to `TryFrom::try_from`, however the latter expects a concrete
-/// type, whereas the former `Newtype::try_new` does not.
-///
-/// ```
-/// use seventy::{seventy, Newtype};
-///
-/// #[seventy(upgrades(try_from))]
-/// pub struct Number(i32);
-///
-/// assert!(Number::try_from(5).is_ok());
 /// ```
 #[proc_macro_attribute]
 pub fn seventy(metas: TokenStream, item: TokenStream) -> TokenStream {

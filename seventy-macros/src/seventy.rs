@@ -1,8 +1,11 @@
 //! Helpers for expanding the `seventy` attribute proc-macro.
 
-use proc_macro2::TokenStream as TokenStream2;
+use proc_macro2::{Span, TokenStream as TokenStream2};
 use quote::{format_ident, quote};
-use syn::{punctuated::Punctuated, Error, Fields, FieldsUnnamed, ItemStruct, Meta, Result, Token};
+use syn::{
+    punctuated::Punctuated, Error, Fields, FieldsUnnamed, GenericParam, ItemStruct, Lifetime,
+    LifetimeParam, Meta, Result, Token,
+};
 
 pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<TokenStream2> {
     let ident = &item.ident;
@@ -23,8 +26,10 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
     let mut as_ref = false;
     let mut bypassable = false;
     let mut deref = false;
+    let mut deserializable = false;
     let mut inherent = false;
     let mut unexposed = false;
+    let mut serializable = false;
     let mut try_from = false;
 
     let mut sanitizers = None;
@@ -39,12 +44,16 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                     bypassable = true;
                 } else if meta.path.is_ident("deref") {
                     deref = true;
+                } else if meta.path.is_ident("deserializable") {
+                    deserializable = true;
                 } else if meta.path.is_ident("inherent") {
                     inherent = true;
-                } else if meta.path.is_ident("unexposed") {
-                    unexposed = true;
+                } else if meta.path.is_ident("serializable") {
+                    serializable = true;
                 } else if meta.path.is_ident("try_from") {
                     try_from = true;
+                } else if meta.path.is_ident("unexposed") {
+                    unexposed = true;
                 } else {
                     return Err(meta.error("unrecognized upgrade"));
                 }
@@ -174,6 +183,28 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
         });
     }
 
+    if deserializable {
+        let mut generics = item.generics.clone();
+        let lifetime = Lifetime::new("'de", Span::call_site());
+        generics
+            .params
+            .push(GenericParam::from(LifetimeParam::new(lifetime)));
+        let (impl_generics, _, _) = generics.split_for_impl();
+
+        expansion.push(quote! {
+            impl #impl_generics ::serde::Deserialize<'de> for #ident #ty_generics #where_clause {
+                fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+                where
+                    D: ::serde::Deserializer<'de>,
+                {
+                    let inner = <Self as ::seventy::core::Newtype>::Inner::deserialize(deserializer)?;
+                    <Self as ::seventy::core::Newtype>::try_new(inner)
+                        .map_err(|_| ::serde::de::Error::custom("Validation error"))
+                }
+            }
+        });
+    }
+
     if inherent {
         expansion.push(quote! {
             impl #impl_generics #ident #ty_generics #where_clause {
@@ -187,6 +218,19 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
 
                 pub fn into_inner(self) -> <Self as ::seventy::core::Newtype>::Inner {
                     <Self as ::seventy::core::Newtype>::into_inner(self)
+                }
+            }
+        });
+    }
+
+    if serializable {
+        expansion.push(quote! {
+            impl #impl_generics ::serde::Serialize for #ident #ty_generics #where_clause {
+                fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+                where
+                    S: ::serde::Serializer,
+                {
+                    serializer.serialize_newtype_struct(stringify!(#ident), self.to_inner())
                 }
             }
         });
