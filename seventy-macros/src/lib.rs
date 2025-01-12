@@ -92,7 +92,7 @@ mod seventy;
 ///
 /// The code below fails to compile, since the `Newtype` trait is not in scope.
 ///
-/// ```compile_fail
+/// ```compile_fail,E0599
 /// use seventy::{builtins::compare::*, seventy};
 ///
 /// #[seventy(
@@ -102,8 +102,6 @@ mod seventy;
 ///
 /// assert!(Rating::try_new(5).is_ok());
 /// ```
-///
-/// ---
 ///
 /// The code below compiles due to the inherent upgrade.
 ///
@@ -117,6 +115,36 @@ mod seventy;
 /// pub struct Rating(u8);
 ///
 /// assert!(Rating::try_new(5).is_ok());
+/// ```
+///
+/// ---
+///
+/// - `unexposed`: Prevents accessing the field directly from the same module.
+///
+/// The code below modifies a newtype's value by directly accessing the field, which is not good!
+///
+/// ```
+/// use seventy::{seventy, Newtype};
+///
+/// #[seventy()]
+/// pub struct ExposedToModule(i32);
+///
+/// let mut etm = ExposedToModule::try_new(70).unwrap();
+/// etm.0 = 444;
+///
+/// assert_eq!(etm.into_inner(), 444);
+/// ```
+///
+/// The code below unexposes the inner field, so the bad code now produces a compilation error.
+///
+/// ```compile_fail,E0616
+/// use seventy::{Newtype, seventy};
+///
+/// #[seventy(upgrades(unexposed))]
+/// pub struct UnexposedToModule(i32);
+///
+/// let mut etm = UnexposedToModule::try_new(70).unwrap();
+/// etm.0 = 444;
 /// ```
 ///
 /// ---

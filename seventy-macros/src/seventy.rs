@@ -1,7 +1,7 @@
 //! Helpers for expanding the `seventy` attribute proc-macro.
 
 use proc_macro2::TokenStream as TokenStream2;
-use quote::quote;
+use quote::{format_ident, quote};
 use syn::{punctuated::Punctuated, Error, Fields, FieldsUnnamed, ItemStruct, Meta, Result, Token};
 
 pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<TokenStream2> {
@@ -24,6 +24,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
     let mut bypassable = false;
     let mut deref = false;
     let mut inherent = false;
+    let mut unexposed = false;
     let mut try_from = false;
 
     let mut sanitizers = None;
@@ -40,6 +41,8 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                     deref = true;
                 } else if meta.path.is_ident("inherent") {
                     inherent = true;
+                } else if meta.path.is_ident("unexposed") {
+                    unexposed = true;
                 } else if meta.path.is_ident("try_from") {
                     try_from = true;
                 } else {
@@ -60,7 +63,9 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
 
     let mut expansion = Vec::new();
 
-    expansion.push(quote! { #item });
+    if !unexposed {
+        expansion.push(quote! { #item });
+    }
 
     expansion.push(quote! {
         impl #impl_generics ::seventy::core::Newtype for #ident #ty_generics #where_clause {
@@ -199,5 +204,24 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
         });
     }
 
-    Ok(quote! { #(#expansion)* })
+    if unexposed {
+        let module = format_ident!("__{ident}");
+
+        Ok(quote! {
+            #[doc(hidden)]
+            #[allow(non_snake_case)]
+            pub mod #module {
+                use super::*;
+
+                #item
+
+                #(#expansion)*
+            }
+
+            #[doc(inline)]
+            pub use #module::#ident;
+        })
+    } else {
+        Ok(quote! { #(#expansion)* })
+    }
 }
