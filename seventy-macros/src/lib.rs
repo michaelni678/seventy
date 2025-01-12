@@ -167,6 +167,13 @@ mod seventy;
 /// ---
 ///
 /// - `unexposed`: Prevents accessing the field directly from the same module.
+/// 
+/// WARNING:   
+/// This upgrade can cause issues for derive macros. For example, deriving `Clone`
+/// works fine without the `unexposed` upgrade, but with the upgrade, a compilation error
+/// is emitted since the expanded code cannot access `self.0`. To get around this, you may
+/// need to manually implement the methods. There are some common derives that have been made
+/// into upgrades for your convenience, such as `deserializable`, and `serializable`.
 ///
 /// The code below modifies a newtype's value by directly accessing the field, which is not good!
 ///
