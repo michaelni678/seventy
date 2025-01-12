@@ -210,7 +210,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
         Ok(quote! {
             #[doc(hidden)]
             #[allow(non_snake_case)]
-            pub mod #module {
+            mod #module {
                 use super::*;
 
                 #item
