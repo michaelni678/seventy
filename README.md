@@ -6,13 +6,6 @@
 - **Customizable**: Define your own sanitizers and validators to suit your needs.
 - **Simplistic**: There is no error handling. If you need to know why the newtype couldn't be created, this crate isn't for you.
 
-## Installation
-
-Currently not on crates.io. Specify the dependency using this git repository instead.
-```
-seventy = { git = "https://github.com/michaelni678/seventy" }
-```
-
 ## Usage
 
 ```rust
