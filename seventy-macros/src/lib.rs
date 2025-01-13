@@ -87,33 +87,6 @@ mod seventy;
 /// ```
 ///
 /// ---
-/// 
-/// - `derive`: Derives for the newtypes. 
-/// 
-/// **This is only necessary when the `unexposed` upgrade is also enabled.**
-/// 
-/// The code below fails to compile, since `self.0` is hidden.
-/// 
-/// ```compile_fail,E0423,E0616
-/// use seventy::seventy;
-/// 
-/// #[derive(Clone)]
-/// #[seventy(upgrades(unexposed))]
-/// pub struct Thing(i32);
-/// ```
-/// 
-/// The code below compiles due to the `derive` upgrade.
-/// 
-/// ```
-/// use seventy::{seventy, Newtype};
-/// 
-/// #[seventy(upgrades(derive(Clone), unexposed))]
-/// pub struct Thing(i32);
-/// 
-/// Thing::try_new(70).unwrap().clone();
-/// ```
-/// 
-/// ---
 ///
 /// - `deserializable`: Implements `serde::Deserialize` for the newtype. You must have `serde` as a dependency!
 ///
@@ -196,10 +169,8 @@ mod seventy;
 /// - `unexposed`: Prevents accessing the field directly from the same module.
 /// 
 /// NOTE:
-/// This upgrade can cause issues for derive macros. For example, deriving `Clone`
-/// works fine without the `unexposed` upgrade, but with the upgrade, a compilation error
-/// is emitted since the expanded code cannot access `self.0`. To get around this, you
-/// can either use the `derive` upgrade or manually implement the trait being derived.
+/// When this upgrade is enabled, all attributes (such as derives) must be below the
+/// `seventy` macro.
 ///
 /// The code below modifies a newtype's value by directly accessing the field, which is not good!
 ///
