@@ -29,10 +29,3 @@ assert_eq!(
 
 assert!(Username::try_new("   u$ername   ").is_err());
 ```
-
-## Bypassing
-
-> [!CAUTION]
-> This violates the newtype's guarantees. Use with caution!
-
-In cases where sanitization or validation are not necessary (such as retrieving data that has already been sanitized and validated from a database), the `bypass` upgrade can be applied to the newtype.
