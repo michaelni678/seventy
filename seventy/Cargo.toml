@@ -3,6 +3,7 @@ name = "seventy"
 version = "0.1.0"
 edition = "2021"
 repository = "https://github.com/michaelni678/seventy"
+homepage = "https://github.com/michaelni678/seventy"
 readme = "../README.md"
 license = "Apache-2.0"
 keywords = ["newtype", "sanitization", "validation"]
