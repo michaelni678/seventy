@@ -167,7 +167,7 @@ mod seventy;
 /// ---
 ///
 /// - `unexposed`: Prevents accessing the field directly from the same module.
-/// 
+///
 /// NOTE:
 /// When this upgrade is enabled, all attributes (such as derives) must be below the
 /// `seventy` macro.

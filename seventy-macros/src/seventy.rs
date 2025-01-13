@@ -3,7 +3,8 @@
 use proc_macro2::{Span, TokenStream as TokenStream2};
 use quote::{format_ident, quote};
 use syn::{
-    punctuated::Punctuated, Error, Fields, FieldsUnnamed, GenericParam, ItemStruct, Lifetime, LifetimeParam, Meta, Result, Token
+    punctuated::Punctuated, Error, Fields, FieldsUnnamed, GenericParam, ItemStruct, Lifetime,
+    LifetimeParam, Meta, Result, Token,
 };
 
 pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<TokenStream2> {
@@ -25,7 +26,6 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
     let mut as_ref = false;
     let mut bypassable = false;
     let mut deref = false;
-    let mut derive = None;
     let mut deserializable = false;
     let mut inherent = false;
     let mut unexposed = false;
@@ -37,7 +37,8 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
 
     for meta in metas {
         if meta.path().is_ident("upgrades") {
-            let metas = meta.require_list()?
+            let metas = meta
+                .require_list()?
                 .parse_args_with(Punctuated::<Meta, Token![,]>::parse_terminated)?;
 
             for meta in metas {
@@ -47,9 +48,6 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                     bypassable = true;
                 } else if meta.path().is_ident("deref") {
                     deref = true;
-                } else if meta.path().is_ident("derive") {
-                    let tokens = &meta.require_list()?.tokens;
-                    derive = Some(quote!(#[derive(#tokens)]));
                 } else if meta.path().is_ident("deserializable") {
                     deserializable = true;
                 } else if meta.path().is_ident("inherent") {
@@ -78,8 +76,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
     let mut expansion = Vec::new();
 
     if !unexposed {
-        expansion.push(quote! { 
-            #derive
+        expansion.push(quote! {
             #item
         });
     }
@@ -265,7 +262,6 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
             mod #module {
                 use super::*;
 
-                #derive
                 #item
 
                 #(#expansion)*

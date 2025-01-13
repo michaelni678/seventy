@@ -12,7 +12,7 @@ pub struct RegisterRequest {
 }
 
 #[seventy(
-    upgrades(deserializable, inherent, serializable, unexposed, derive(Clone)),
+    upgrades(deserializable, inherent, serializable, unexposed),
     sanitize(trim),
     validate(email)
 )]
