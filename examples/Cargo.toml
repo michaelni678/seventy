@@ -1,0 +1,17 @@
+[package]
+name = "examples"
+edition = "2021"
+publish = false
+
+[dev-dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+seventy = { workspace = true }
+
+[[example]]
+name = "read_me"
+path = "read_me.rs"
+
+[[example]]
+name = "register"
+path = "register.rs"
