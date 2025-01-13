@@ -3,8 +3,7 @@
 use proc_macro2::{Span, TokenStream as TokenStream2};
 use quote::{format_ident, quote};
 use syn::{
-    punctuated::Punctuated, Error, Fields, FieldsUnnamed, GenericParam, ItemStruct, Lifetime,
-    LifetimeParam, Meta, Result, Token,
+    punctuated::Punctuated, Error, Fields, FieldsUnnamed, GenericParam, ItemStruct, Lifetime, LifetimeParam, Meta, Result, Token
 };
 
 pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<TokenStream2> {
@@ -26,6 +25,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
     let mut as_ref = false;
     let mut bypassable = false;
     let mut deref = false;
+    let mut derive = None;
     let mut deserializable = false;
     let mut inherent = false;
     let mut unexposed = false;
@@ -37,28 +37,33 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
 
     for meta in metas {
         if meta.path().is_ident("upgrades") {
-            meta.require_list()?.parse_nested_meta(|meta| {
-                if meta.path.is_ident("as_ref") {
+            let metas = meta.require_list()?
+                .parse_args_with(Punctuated::<Meta, Token![,]>::parse_terminated)?;
+
+            for meta in metas {
+                if meta.path().is_ident("as_ref") {
                     as_ref = true;
-                } else if meta.path.is_ident("bypassable") {
+                } else if meta.path().is_ident("bypassable") {
                     bypassable = true;
-                } else if meta.path.is_ident("deref") {
+                } else if meta.path().is_ident("deref") {
                     deref = true;
-                } else if meta.path.is_ident("deserializable") {
+                } else if meta.path().is_ident("derive") {
+                    let tokens = &meta.require_list()?.tokens;
+                    derive = Some(quote!(#[derive(#tokens)]));
+                } else if meta.path().is_ident("deserializable") {
                     deserializable = true;
-                } else if meta.path.is_ident("inherent") {
+                } else if meta.path().is_ident("inherent") {
                     inherent = true;
-                } else if meta.path.is_ident("serializable") {
+                } else if meta.path().is_ident("serializable") {
                     serializable = true;
-                } else if meta.path.is_ident("try_from") {
+                } else if meta.path().is_ident("try_from") {
                     try_from = true;
-                } else if meta.path.is_ident("unexposed") {
+                } else if meta.path().is_ident("unexposed") {
                     unexposed = true;
                 } else {
-                    return Err(meta.error("unrecognized upgrade"));
+                    return Err(Error::new_spanned(meta, "unrecognized upgrade"));
                 }
-                Ok(())
-            })?;
+            }
         } else if meta.path().is_ident("sanitize") {
             let tokens = &meta.require_list()?.tokens;
             sanitizers = Some(quote!(#tokens));
@@ -73,7 +78,10 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
     let mut expansion = Vec::new();
 
     if !unexposed {
-        expansion.push(quote! { #item });
+        expansion.push(quote! { 
+            #derive
+            #item
+        });
     }
 
     expansion.push(quote! {
@@ -257,6 +265,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
             mod #module {
                 use super::*;
 
+                #derive
                 #item
 
                 #(#expansion)*
