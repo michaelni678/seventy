@@ -8,12 +8,12 @@
 //! due to a couple of reasons:
 //!
 //! - **Avoiding name collisions**: Using snake_case prevents name collisions
-//!     with newtypes, which are PascalCase (aka UpperCamelCase).
+//!   with newtypes, which are PascalCase (aka UpperCamelCase).
 //!
 //! - **Simulate attributes**: In the [`seventy`] proc-macro, sanitizers and
-//!     validators are used as part of attributes and resemble nested
-//!     attributes. To maintain consistency, it's more fitting for built-ins
-//!     to follow the attribute naming convention.
+//!   validators are used as part of attributes and resemble nested attributes.
+//!   To maintain consistency, it's more fitting for built-ins to follow the
+//!   attribute naming convention.
 //!
 //! [`seventy`]: macro@seventy::seventy
 

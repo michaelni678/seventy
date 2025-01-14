@@ -46,8 +46,8 @@ where
 ///
 /// # Examples
 ///
-/// The example below sanitizes an f32 to be clamped to greater than or equal to 0.0.
-/// Because of the newtype's guarantees, the constructed `Distance` will
+/// The example below sanitizes an f32 to be clamped to greater than or equal to
+/// 0.0. Because of the newtype's guarantees, the constructed `Distance` will
 /// always have an inner f32 greater than or equal to 0.0.
 ///
 /// ```
@@ -80,8 +80,8 @@ where
 /// # Examples
 ///
 /// The example below sanitizes an f32 to be clamped to less than or equal to
-/// 100.0. Because of the newtype's guarantees, the constructed `BatteryCharge` will
-/// always have an inner f32 less than or equal to 100.0.
+/// 100.0. Because of the newtype's guarantees, the constructed `BatteryCharge`
+/// will always have an inner f32 less than or equal to 100.0.
 ///
 /// ```
 /// use seventy::{builtins::clamp::*, seventy, Newtype};

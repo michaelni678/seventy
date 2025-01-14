@@ -4,7 +4,8 @@
 //!
 //! Seventy is a simple [newtype](https://doc.rust-lang.org/rust-by-example/generics/new_types.html) sanitizer and validator.
 //!
-//! The [`macro@seventy`] procedural macro is provided to automatically implement sanitization, validation, and other logic.
+//! The [`macro@seventy`] procedural macro is provided to automatically
+//! implement sanitization, validation, and other logic.
 //!
 //! ## Sanitizing
 //!
@@ -12,7 +13,8 @@
 //!
 //! ### Examples
 //!
-//! The example below sanitizes the inner string by trimming surrounding whitespace.
+//! The example below sanitizes the inner string by trimming surrounding
+//! whitespace.
 //!
 //! ```
 //! use seventy::{builtins::string::*, seventy, Newtype};
@@ -57,8 +59,8 @@
 //!
 //! ## Validating
 //!
-//! Validation checks if a target adheres to a set of rules. Validation
-//! is run after sanitization.
+//! Validation checks if a target adheres to a set of rules. Validation is run
+//! after sanitization.
 //!
 //! ### Examples
 //!
@@ -101,9 +103,10 @@
 //!
 //! ### Errors?
 //!
-//! Seventy does not support error handling. A validator only returns a boolean indicating
-//! whether the validation result is valid or invalid. If you need to know the specific
-//! reason why a newtype couldn't be created, Seventy is not the crate for you.
+//! Seventy does not support error handling. A validator only returns a boolean
+//! indicating whether the validation result is valid or invalid. If you need to
+//! know the specific reason why a newtype couldn't be created, Seventy is not
+//! the crate for you.
 //!
 //! ## Upgrading
 //!

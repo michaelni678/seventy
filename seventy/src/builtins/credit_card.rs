@@ -10,7 +10,8 @@ pub use credit_card_util::Type as CreditCardIssuer;
 ///
 /// The example below validates the inner string is a valid credit card number.
 /// Because of the newtype's guarantees, it is impossible to construct
-/// `CreditCardNumber` with an inner string that is not a valid credit card number.
+/// `CreditCardNumber` with an inner string that is not a valid credit card
+/// number.
 ///
 /// ```
 /// use seventy::{builtins::credit_card::*, seventy, Newtype};
@@ -37,14 +38,16 @@ where
     }
 }
 
-/// [`Validator`] checks if valid credit card number and forwards issuer to inner validator.
+/// [`Validator`] checks if valid credit card number and forwards issuer to
+/// inner validator.
 ///
 /// # Examples
 ///
 /// The example below validates the inner string is a valid credit card number
 /// and then forwards the credit card issuer to the inner validator.
 /// Because of the newtype's guarantees, it is impossible to construct
-/// `CreditCardNumber` with an inner string that is not a valid credit card number.
+/// `CreditCardNumber` with an inner string that is not a valid credit card
+/// number.
 ///
 /// ```
 /// use seventy::{

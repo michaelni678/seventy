@@ -2,7 +2,8 @@
 //!
 //! A bundle combines multiple sanitizers / validators into one.
 //!
-//! [`Sanitizer`] and [`Validator`] are both implemented for up to a tuple arity of 12.
+//! [`Sanitizer`] and [`Validator`] are both implemented for up to a tuple arity
+//! of 12.
 //!
 //! For example, `some_then` only takes a single validator. Using a bundle,
 //! two validators (`alphabetic` and `length`) can be combined into one.
