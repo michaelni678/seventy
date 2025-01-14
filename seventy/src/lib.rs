@@ -26,6 +26,10 @@
 //! );
 //! ```
 //!
+//! ## Built-in Sanitizers
+//!
+//! Seventy provides [`built-in sanitizers`] for common use cases.
+//!
 //! ## Custom Sanitizers
 //!
 //! Custom sanitizers can be defined with the [`Sanitizer`] trait.
@@ -73,6 +77,10 @@
 //! assert!(Username::try_new("username").is_ok());
 //! assert!(Username::try_new("u$ername").is_err());
 //! ```
+//!
+//! ## Built-in Validators
+//!
+//! Seventy provides [`built-in validators`] for common use cases.
 //!
 //! ## Custom Validators
 //!
@@ -137,11 +145,7 @@
 //! ```
 //! use seventy::{builtins::string::*, seventy, Newtype};
 //!
-//! #[seventy(
-//!     upgrades(deref), 
-//!     sanitize(trim), 
-//!     validate(alphanumeric)
-//! )]
+//! #[seventy(upgrades(deref), sanitize(trim), validate(alphanumeric))]
 //! pub struct Username(String);
 //!
 //! let username = Username::try_new("   username   ").unwrap();
@@ -150,7 +154,9 @@
 //! assert!(Username::try_new("   u$ername   ").is_err());
 //! ```
 //!
+//! [`built-in sanitizers`]: seventy::builtins
 //! [`Sanitizer`]: seventy::core::Sanitizer
+//! [`built-in validators`]: seventy::builtins
 //! [`Validator`]: seventy::core::Validator
 
 extern crate self as seventy;
