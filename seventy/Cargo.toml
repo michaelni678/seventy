@@ -2,6 +2,7 @@
 name = "seventy"
 version = "0.1.0"
 edition = "2021"
+authors = ["Michael Ni <michael.ni678@gmail.com>"]
 repository = "https://github.com/michaelni678/seventy"
 homepage = "https://github.com/michaelni678/seventy"
 readme = "../README.md"

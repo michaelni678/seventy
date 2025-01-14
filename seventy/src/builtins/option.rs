@@ -31,14 +31,15 @@ impl<T> Validator<Option<T>> for some {
 ///
 /// For [`Sanitizer`], if [`None`] the inner sanitizer is skipped.
 ///
-/// For [`Validator`], if [`None`] the inner validator is skipped and the validation is valid.
-/// See [`unwrap_then`] if the target must be [`Some`].
+/// For [`Validator`], if [`None`] the inner validator is skipped and the
+/// validation is valid. See [`unwrap_then`] if the target must be [`Some`].
 ///
 /// # Examples
 ///
-/// The example below sanitizes a middle name and validates it is alphabetic if it is given.
-/// Because of the newtype's guarantees, the constructed `MiddleName` will always
-/// be trimmed, and cannot exist if the inner string is not alphabetic.
+/// The example below sanitizes a middle name and validates it is alphabetic if
+/// it is given. Because of the newtype's guarantees, the constructed
+/// `MiddleName` will always be trimmed, and cannot exist if the inner string is
+/// not alphabetic.
 ///
 /// ```
 /// use seventy::{
@@ -96,7 +97,8 @@ where
 ///
 /// The example below validates a rating is given and between 1 and 10.
 /// Because of the newtype's guarantees, it is impossible to construct
-/// `RequiredFeedback` with an inner option that is [`None`] or not between 0 and 10.
+/// `RequiredFeedback` with an inner option that is [`None`] or not between 0
+/// and 10.
 ///
 /// ```
 /// use seventy::{

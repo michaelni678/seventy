@@ -7,14 +7,16 @@ mod seventy;
 
 /// Newtype attribute.
 ///
-/// Automatically implements the `Newtype`, `Sanitizable`, and `Validatable` traits.
+/// Automatically implements the `Newtype`, `Sanitizable`, and `Validatable`
+/// traits.
 ///
 /// Other functionality may also be implemented depending on enabled upgrades.
 ///
 /// # Upgrades
 ///
-/// - `as_ref`: Implements `AsRef` for the newtype. The `Newtype` trait already has an
-///     equivalent `to_inner` method, but this provides compatability with APIs that expect `AsRef`.
+/// - `as_ref`: Implements `AsRef` for the newtype. The `Newtype` trait already
+///   has an equivalent `to_inner` method, but this provides compatability with
+///   APIs that expect `AsRef`.
 ///
 /// ```
 /// use seventy::{core::Newtype, seventy};
@@ -88,7 +90,8 @@ mod seventy;
 ///
 /// ---
 ///
-/// - `deserializable`: Implements `serde::Deserialize` for the newtype. You must have `serde` as a dependency!
+/// - `deserializable`: Implements `serde::Deserialize` for the newtype. You
+///   must have `serde` as a dependency!
 ///
 /// ```
 /// use seventy::{seventy, Newtype};
@@ -104,7 +107,8 @@ mod seventy;
 ///
 /// ---
 ///
-/// - `inherent`: Makes the `Newtype` trait methods callable without the trait in scope.
+/// - `inherent`: Makes the `Newtype` trait methods callable without the trait
+///   in scope.
 ///
 /// The code below fails to compile, since the `Newtype` trait is not in scope.
 ///
@@ -135,7 +139,8 @@ mod seventy;
 ///
 /// ---
 ///
-/// - `serializable`: Implements `serde::Serialize` for the newtype. You must have `serde` as a dependency!
+/// - `serializable`: Implements `serde::Serialize` for the newtype. You must
+///   have `serde` as a dependency!
 ///
 /// ```
 /// use seventy::{seventy, Newtype};
@@ -151,9 +156,10 @@ mod seventy;
 ///
 /// ---
 ///
-/// - `try_from`: Implements `TryFrom` for the newtype. The `Newtype` trait already has the method
-///     `Newtype::try_new`, which is similar to `TryFrom::try_from`, however the latter expects
-///     a concrete type, whereas the former `Newtype::try_new` does not.
+/// - `try_from`: Implements `TryFrom` for the newtype. The `Newtype` trait
+///   already has the method `Newtype::try_new`, which is similar to
+///   `TryFrom::try_from`, however the latter expects a concrete type, whereas
+///   the former `Newtype::try_new` does not.
 ///
 /// ```
 /// use seventy::{seventy, Newtype};
@@ -169,10 +175,11 @@ mod seventy;
 /// - `unexposed`: Prevents accessing the field directly from the same module.
 ///
 /// NOTE:
-/// When this upgrade is enabled, all attributes (such as derives) must be below the
-/// `seventy` macro.
+/// When this upgrade is enabled, all attributes (such as derives) must be below
+/// the `seventy` macro.
 ///
-/// The code below modifies a newtype's value by directly accessing the field, which is not good!
+/// The code below modifies a newtype's value by directly accessing the field,
+/// which is not good!
 ///
 /// ```
 /// use seventy::{seventy, Newtype};
@@ -186,7 +193,8 @@ mod seventy;
 /// assert_eq!(etm.into_inner(), 444);
 /// ```
 ///
-/// The code below unexposes the inner field, so the bad code now produces a compilation error.
+/// The code below unexposes the inner field, so the bad code now produces a
+/// compilation error.
 ///
 /// ```compile_fail,E0616
 /// use seventy::{Newtype, seventy};

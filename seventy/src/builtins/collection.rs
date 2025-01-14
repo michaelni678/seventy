@@ -7,8 +7,8 @@ use crate::core::{Sanitizer, Validator};
 /// # Examples
 ///
 /// The example below validates the sunscreen's SPF is among the array of
-/// common SPFs. Because of the newtype's guarantees, it is impossible to construct
-/// `SunscreenSPF` with an SPF that is not listed.
+/// common SPFs. Because of the newtype's guarantees, it is impossible to
+/// construct `SunscreenSPF` with an SPF that is not listed.
 ///
 /// ```
 /// use seventy::{builtins::collection::*, seventy, Newtype};

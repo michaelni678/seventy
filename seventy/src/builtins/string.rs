@@ -175,8 +175,8 @@ where
 /// # Examples
 ///
 /// The example below sanitizes a search query to lowercase. Because of the
-/// newtype's guarantees, the constructed `SearchQuery` will always have an inner
-/// string that is lowercase.
+/// newtype's guarantees, the constructed `SearchQuery` will always have an
+/// inner string that is lowercase.
 ///
 /// ```
 /// use seventy::{builtins::string::*, seventy, Newtype};

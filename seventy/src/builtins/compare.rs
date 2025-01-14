@@ -99,7 +99,8 @@ where
 /// # Examples
 ///
 /// The example below validates the age is over 13. Because of the newtype's
-/// guarantees, it is impossible to construct `Age` with an inner u8 less than 13.
+/// guarantees, it is impossible to construct `Age` with an inner u8 less than
+/// 13.
 ///
 /// ```
 /// use seventy::{builtins::compare::*, seventy, Newtype};
@@ -180,9 +181,9 @@ where
 ///
 /// # Examples
 ///
-/// The example below validates the loan request amount is between 5000 and 100000.
-/// Because of the newtype's guarantees, it is impossible to construct `LoanAmount`
-/// with a u32 less than 5000 or greater than 100000.
+/// The example below validates the loan request amount is between 5000 and
+/// 100000. Because of the newtype's guarantees, it is impossible to construct
+/// `LoanAmount` with a u32 less than 5000 or greater than 100000.
 ///
 /// ```
 /// use seventy::{builtins::compare::*, seventy, Newtype};
