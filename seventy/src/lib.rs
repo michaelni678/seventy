@@ -1,17 +1,15 @@
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
-//! # Seventy
-//!
 //! Seventy is a simple [newtype](https://doc.rust-lang.org/rust-by-example/generics/new_types.html) sanitizer and validator.
 //!
 //! The [`macro@seventy`] procedural macro is provided to automatically
 //! implement sanitization, validation, and other logic.
 //!
-//! ## Sanitizing
+//! # Sanitizing
 //!
 //! Sanitization mutates a target. Sanitization is run before validation.
 //!
-//! ### Examples
+//! ## Examples
 //!
 //! The example below sanitizes the inner string by trimming surrounding
 //! whitespace.
@@ -28,7 +26,7 @@
 //! );
 //! ```
 //!
-//! ### Custom Sanitizers
+//! ## Custom Sanitizers
 //!
 //! Custom sanitizers can be defined with the [`Sanitizer`] trait.
 //!
@@ -57,12 +55,12 @@
 //! assert_eq!(DivideBy::try_new(10.0).unwrap().into_inner(), 2.0);
 //! ```
 //!
-//! ## Validating
+//! # Validating
 //!
 //! Validation checks if a target adheres to a set of rules. Validation is run
 //! after sanitization.
 //!
-//! ### Examples
+//! ## Examples
 //!
 //! The example below validates the inner string is alphanumeric.
 //!
@@ -76,7 +74,7 @@
 //! assert!(Username::try_new("u$ername").is_err());
 //! ```
 //!
-//! ### Custom Validators
+//! ## Custom Validators
 //!
 //! Custom validators can be defined with the [`Validator`] trait.
 //!
@@ -101,20 +99,20 @@
 //! assert!(EvenI64::try_new(3).is_err());
 //! ```
 //!
-//! ### Errors?
+//! ## Errors?
 //!
 //! Seventy does not support error handling. A validator only returns a boolean
 //! indicating whether the validation result is valid or invalid. If you need to
 //! know the specific reason why a newtype couldn't be created, Seventy is not
 //! the crate for you.
 //!
-//! ## Upgrading
+//! # Upgrading
 //!
 //! Upgrades automatically implement useful functionality. More about upgrades
 //! and the different types of upgrades can be found in the documentation
 //! for the [`macro@seventy`] procedural macro.
 //!
-//! ### Examples
+//! ## Examples
 //!
 //! The example below uses the `deref` upgrade, which implements `Deref` on
 //! the newtype.
@@ -129,9 +127,9 @@
 //! assert_eq!(*username, "username");
 //! ```
 //!
-//! ## Incorporating it all
+//! # Incorporating it all
 //!
-//! ### Examples
+//! ## Examples
 //!
 //! The example below first trims the target and then validates if the trimmed
 //! target is alphanumeric.
@@ -139,7 +137,11 @@
 //! ```
 //! use seventy::{builtins::string::*, seventy, Newtype};
 //!
-//! #[seventy(upgrades(deref), sanitize(trim), validate(alphanumeric))]
+//! #[seventy(
+//!     upgrades(deref), 
+//!     sanitize(trim), 
+//!     validate(alphanumeric)
+//! )]
 //! pub struct Username(String);
 //!
 //! let username = Username::try_new("   username   ").unwrap();
