@@ -29,7 +29,7 @@ mod seventy;
 ///
 /// ---
 ///
-/// - `bypass`: Enables bypass functionality for the newtype.
+/// - `bypassable`: Enables bypass functionality for the newtype.
 ///
 /// ```
 /// use seventy::{
