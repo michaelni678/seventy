@@ -8,7 +8,9 @@ pub trait Newtype: Sized {
     /// The inner value of the new type.
     type Inner;
 
-    /// Attempt to construct the new type.
+    /// Attempt to construct the newtype.
+    ///
+    /// Returns the inner value if the newtype couldn't be constructed.
     ///
     /// If a concrete parameter is preferred, use the `try_from` upgrade.
     fn try_new(inner: impl Into<Self::Inner>) -> Result<Self, Self::Inner>
@@ -40,35 +42,37 @@ pub trait Validatable: Newtype {
     fn validator() -> &'static dyn Validator<Self::Inner>;
 }
 
-/// A newtype with the `bypass` upgrade.
+/// A newtype with the `bypassable` upgrade.
 ///
 /// This is implemented automatically when using the [`seventy`] macro
-/// if the `bypass` upgrade is enabled.
+/// if the `bypassable` upgrade is enabled.
 ///
 /// All functions this trait provides are marked as unsafe, because they
 /// violate the newtype's guarantees.
 pub trait Bypassable: Newtype {
-    /// Construct the new type, skipping sanitization and validation.
+    /// Construct the newtype, skipping sanitization and validation.
     ///
     /// # Safety
     ///
-    /// Created newtype may violate the newtype's guarantees.
+    /// The constructed instance may violate the newtype's guarantees.
     unsafe fn unchecked_new(inner: impl Into<Self::Inner>) -> Self;
 
-    /// Construct the new type, skipping sanitization.
+    /// Construct the newtype, skipping sanitization.
     ///
     /// # Safety
     ///
-    /// Created newtype may violate the newtype's sanitization guarantee.
+    /// The constructed instance may violate the newtype's sanitization
+    /// guarantee.
     unsafe fn unsanitized_new(inner: impl Into<Self::Inner>) -> Result<Self, Self::Inner>
     where
         Self: Validatable;
 
-    /// Construct the new type, skipping validation.
+    /// Construct the newtype, skipping validation.
     ///
     /// # Safety
     ///
-    /// Created newtype may violate the newtype's validation guarantee.
+    /// The constructed instance may violate the newtype's validation
+    /// guarantee.
     unsafe fn unvalidated_new(inner: impl Into<Self::Inner>) -> Self
     where
         Self: Sanitizable;
@@ -77,7 +81,7 @@ pub trait Bypassable: Newtype {
     ///
     /// # Safety
     ///
-    /// Mutation can possibly violate the newtype's guarantees.
+    /// Mutating the instance may violate the newtype's guarantees.
     unsafe fn to_inner_mut(&mut self) -> &mut Self::Inner;
 }
 
