@@ -8,7 +8,7 @@ homepage = "https://github.com/michaelni678/seventy"
 readme = "../README.md"
 license = "Apache-2.0"
 keywords = ["newtype", "sanitization", "validation"]
-description = "Procedural macros for `Seventy`"
+description = "Procedural macros for Seventy"
 
 [lib]
 proc-macro = true

@@ -3,12 +3,20 @@
 
 ## Overview
 
-- **Customizable**: Define your own sanitizers and validators to suit your needs.
-- **Simplistic**: There is no error handling. If you need to know why the newtype couldn't be created, this crate isn't for you.
+Seventy is a simple [newtype](https://doc.rust-lang.org/rust-by-example/generics/new_types.html) 
+sanitizer and validator. 
+
+There is no error handling. If you need to know why the newtype couldn't be 
+created, this crate isn't for you.
 
 ## Usage
 
 ```rust
+use seventy::{
+    builtins::{compare::*, string::*},
+    seventy, Newtype,
+};
+
 #[seventy(
     sanitize(trim),
     validate(alphanumeric, length::chars(within(5..=20))),
