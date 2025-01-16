@@ -28,10 +28,7 @@ regex = ["dep:regex-util"]
 url = ["dep:url-util"]
 
 [dependencies]
-seventy-macros = "0.1.0"
+seventy-macros = { path = "../seventy-macros", version = "0.1.0" }
 credit-card-util = { package = "card-validate", version = "2.4.0", optional = true }
 regex-util = { package = "regex", version = "1.11", optional = true }
 url-util = { package = "url", version = "2.5.0", optional = true }
-
-[dev-dependencies]
-seventy = { workspace = true }
