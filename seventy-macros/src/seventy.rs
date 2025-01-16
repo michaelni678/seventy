@@ -75,12 +75,6 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
 
     let mut expansion = Vec::new();
 
-    if !unexposed {
-        expansion.push(quote! {
-            #item
-        });
-    }
-
     expansion.push(quote! {
         impl #impl_generics ::seventy::core::Newtype for #ident #ty_generics #where_clause {
             type Inner = #inner;
@@ -262,6 +256,10 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
             pub use #module::#ident;
         })
     } else {
-        Ok(quote! { #(#expansion)* })
+        Ok(quote! {
+            #item
+
+            #(#expansion)*
+        })
     }
 }
