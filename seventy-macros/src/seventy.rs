@@ -85,10 +85,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
         impl #impl_generics ::seventy::core::Newtype for #ident #ty_generics #where_clause {
             type Inner = #inner;
 
-            fn try_new(inner: impl Into<Self::Inner>) -> Result<Self, Self::Inner>
-            where
-                Self: ::seventy::core::Sanitizable + ::seventy::core::Validatable,
-            {
+            fn try_new(inner: impl Into<Self::Inner>) -> Result<Self, Self::Inner> {
                 let mut inner = inner.into();
 
                 <Self as ::seventy::core::Sanitizable>::sanitizer().sanitize(&mut inner);
