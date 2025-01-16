@@ -28,7 +28,6 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
     let mut deref = false;
     let mut deserializable = false;
     let mut inherent = false;
-    let mut instanced = false;
     let mut serializable = false;
     let mut try_from = false;
     let mut unexposed = false;
@@ -53,8 +52,6 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                     deserializable = true;
                 } else if meta.path().is_ident("inherent") {
                     inherent = true;
-                } else if meta.path().is_ident("instanced") {
-                    instanced = true;
                 } else if meta.path().is_ident("serializable") {
                     serializable = true;
                 } else if meta.path().is_ident("try_from") {
@@ -110,39 +107,21 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                 self.0
             }
         }
+
+        impl #impl_generics ::seventy::core::Sanitizable for #ident #ty_generics #where_clause {
+            fn sanitizer() -> &'static dyn ::seventy::core::Sanitizer<Self::Inner> {
+                static SANITIZER: ::std::sync::LazyLock<Box<dyn ::seventy::core::Sanitizer<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new((#sanitizers)));
+                std::sync::LazyLock::force(&SANITIZER).as_ref()
+            }
+        }
+
+        impl #impl_generics ::seventy::core::Validatable for #ident #ty_generics #where_clause {
+            fn validator() -> &'static dyn ::seventy::core::Validator<Self::Inner> {
+                static VALIDATOR: ::std::sync::LazyLock<Box<dyn ::seventy::core::Validator<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new((#validators)));
+                std::sync::LazyLock::force(&VALIDATOR).as_ref()
+            }
+        }
     });
-
-    if instanced {
-        expansion.push(quote! {
-            impl #impl_generics ::seventy::core::Sanitizable for #ident #ty_generics #where_clause {
-                fn sanitizer() -> &'static dyn ::seventy::core::Sanitizer<Self::Inner> {
-                    &(#sanitizers)
-                }
-            }
-
-            impl #impl_generics ::seventy::core::Validatable for #ident #ty_generics #where_clause {
-                fn validator() -> &'static dyn ::seventy::core::Validator<Self::Inner> {
-                    &(#validators)
-                }
-            }
-        });
-    } else {
-        expansion.push(quote! {
-            impl #impl_generics ::seventy::core::Sanitizable for #ident #ty_generics #where_clause {
-                fn sanitizer() -> &'static dyn ::seventy::core::Sanitizer<Self::Inner> {
-                    static SANITIZER: ::std::sync::LazyLock<Box<dyn ::seventy::core::Sanitizer<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new((#sanitizers)));
-                    std::sync::LazyLock::force(&SANITIZER).as_ref()
-                }
-            }
-
-            impl #impl_generics ::seventy::core::Validatable for #ident #ty_generics #where_clause {
-                fn validator() -> &'static dyn ::seventy::core::Validator<Self::Inner> {
-                    static VALIDATOR: ::std::sync::LazyLock<Box<dyn ::seventy::core::Validator<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new((#validators)));
-                    std::sync::LazyLock::force(&VALIDATOR).as_ref()
-                }
-            }
-        });
-    }
 
     if as_ref {
         expansion.push(quote! {
