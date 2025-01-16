@@ -14,9 +14,11 @@ mod seventy;
 ///
 /// # Upgrades
 ///
-/// - `as_ref`: Implements `AsRef` for the newtype. The `Newtype` trait already
-///   has an equivalent `to_inner` method, but this provides compatability with
-///   APIs that expect `AsRef`.
+/// ## as_ref
+///
+/// Implements `AsRef` for the newtype. The `Newtype` trait already
+/// has an equivalent `to_inner` method, but this provides compatability with
+/// APIs that expect `AsRef`.
 ///
 /// ```
 /// use seventy::{core::Newtype, seventy};
@@ -27,9 +29,9 @@ mod seventy;
 /// assert_eq!(*Velocity::try_new(70.0).unwrap().as_ref(), 70.0);
 /// ```
 ///
-/// ---
+/// ## bypassable
 ///
-/// - `bypassable`: Enables bypass functionality for the newtype.
+/// Enables bypass functionality for the newtype.
 ///
 /// ```
 /// use seventy::{
@@ -74,9 +76,9 @@ mod seventy;
 /// assert!(!Username::validator().validate(username.to_inner()));
 /// ```
 ///
-/// ---
+/// ## deref
 ///
-/// - `deref`: Implements `Deref` for the newtype.
+/// Implements `Deref` for the newtype.
 ///
 /// ```
 /// use seventy::{seventy, Newtype};
@@ -88,10 +90,10 @@ mod seventy;
 /// assert_eq!(*sentence, "Hello, World!");
 /// ```
 ///
-/// ---
+/// ## deserializable
 ///
-/// - `deserializable`: Implements `serde::Deserialize` for the newtype. You
-///   must have `serde` as a dependency!
+/// Implements `serde::Deserialize` for the newtype. You
+/// must have `serde` as a dependency!
 ///
 /// ```
 /// use seventy::{seventy, Newtype};
@@ -105,10 +107,10 @@ mod seventy;
 /// assert_eq!(message.into_inner(), "Seventy is a cool crate");
 /// ```
 ///
-/// ---
+/// ## inherent
 ///
-/// - `inherent`: Makes the `Newtype` trait methods callable without the trait
-///   in scope.
+/// Makes the `Newtype` trait methods callable without the trait
+/// in scope.
 ///
 /// The code below fails to compile, since the `Newtype` trait is not in scope.
 ///
@@ -137,16 +139,16 @@ mod seventy;
 /// assert!(Rating::try_new(5).is_ok());
 /// ```
 ///
-/// ---
+/// ## instanced
 ///
-/// - `instanced`: By default, sanitizers and validators for a newtype are
-///   declared once per type definition and shared across all instances of the
-///   newtype using a static variable. This approach is efficient but does not
-///   support generics, as Rust prohibits generic parameters in static
-///   variables. Enabling this option ensures that the sanitizer and validator
-///   are constructed dynamically for each call to `sanitize` or `validate`,
-///   making it compatible with generic newtypes at the cost of some
-///   performance.
+/// By default, sanitizers and validators for a newtype are
+/// declared once per type definition and shared across all instances of the
+/// newtype using a static variable. This approach is efficient but does not
+/// support generics, as Rust prohibits generic parameters in static
+/// variables. Enabling this option ensures that the sanitizer and validator
+/// are constructed dynamically for each call to `sanitize` or `validate`,
+/// making it compatible with generic newtypes at the cost of some
+/// performance.
 ///
 /// The code below fails to compile, due to the generic static issue.
 ///
@@ -180,10 +182,10 @@ mod seventy;
 /// );
 /// ```
 ///
-/// ---
+/// ## serializable
 ///
-/// - `serializable`: Implements `serde::Serialize` for the newtype. You must
-///   have `serde` as a dependency!
+/// Implements `serde::Serialize` for the newtype. You must
+/// have `serde` as a dependency!
 ///
 /// ```
 /// use seventy::{seventy, Newtype};
@@ -197,12 +199,12 @@ mod seventy;
 /// assert_eq!(json, "\"Seventy is a cool crate\"");
 /// ```
 ///
-/// ---
+/// ## try_from
 ///
-/// - `try_from`: Implements `TryFrom` for the newtype. The `Newtype` trait
-///   already has the method `Newtype::try_new`, which is similar to
-///   `TryFrom::try_from`, however the latter expects a concrete type, whereas
-///   the former `Newtype::try_new` does not.
+/// Implements `TryFrom` for the newtype. The `Newtype` trait
+/// already has the method `Newtype::try_new`, which is similar to
+/// `TryFrom::try_from`, however the latter expects a concrete type, whereas
+/// the former `Newtype::try_new` does not.
 ///
 /// ```
 /// use seventy::{seventy, Newtype};
@@ -213,11 +215,11 @@ mod seventy;
 /// assert!(Number::try_from(5).is_ok());
 /// ```
 ///
-/// ---
+/// ## unexposed
 ///
-/// - `unexposed`: Prevents accessing the field directly from the same module.
+/// Prevents accessing the field directly from the same module.
 ///
-/// NOTE:
+/// **NOTE**:
 /// When this upgrade is enabled, all attributes (such as derives) must be below
 /// the `seventy` macro.
 ///
