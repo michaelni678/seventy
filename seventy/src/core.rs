@@ -13,9 +13,7 @@ pub trait Newtype: Sized {
     /// Returns the inner value if the newtype couldn't be constructed.
     ///
     /// If a concrete parameter is preferred, use the `try_from` upgrade.
-    fn try_new(inner: impl Into<Self::Inner>) -> Result<Self, Self::Inner>
-    where
-        Self: Sanitizable + Validatable;
+    fn try_new(inner: impl Into<Self::Inner>) -> Result<Self, Self::Inner>;
 
     /// Get the inner value.
     ///
@@ -63,9 +61,7 @@ pub trait Bypassable: Newtype {
     ///
     /// The constructed instance may violate the newtype's sanitization
     /// guarantee.
-    unsafe fn unsanitized_new(inner: impl Into<Self::Inner>) -> Result<Self, Self::Inner>
-    where
-        Self: Validatable;
+    unsafe fn unsanitized_new(inner: impl Into<Self::Inner>) -> Result<Self, Self::Inner>;
 
     /// Construct the newtype, skipping validation.
     ///
@@ -73,9 +69,7 @@ pub trait Bypassable: Newtype {
     ///
     /// The constructed instance may violate the newtype's validation
     /// guarantee.
-    unsafe fn unvalidated_new(inner: impl Into<Self::Inner>) -> Self
-    where
-        Self: Sanitizable;
+    unsafe fn unvalidated_new(inner: impl Into<Self::Inner>) -> Self;
 
     /// Get the inner value mutably.
     ///
