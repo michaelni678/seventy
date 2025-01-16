@@ -123,7 +123,7 @@ mod seventy;
 /// assert!(Rating::try_new(5).is_ok());
 /// ```
 ///
-/// The code below compiles due to the inherent upgrade.
+/// The code below compiles due to the `inherent` upgrade.
 ///
 /// ```
 /// use seventy::{builtins::compare::*, seventy};
@@ -135,6 +135,49 @@ mod seventy;
 /// pub struct Rating(u8);
 ///
 /// assert!(Rating::try_new(5).is_ok());
+/// ```
+///
+/// ---
+///
+/// - `instanced`: By default, sanitizers and validators for a newtype are
+///   declared once per type definition and shared across all instances of the
+///   newtype using a static variable. This approach is efficient but does not
+///   support generics, as Rust prohibits generic parameters in static
+///   variables. Enabling this option ensures that the sanitizer and validator
+///   are constructed dynamically for each call to `sanitize` or `validate`,
+///   making it compatible with generic newtypes at the cost of some
+///   performance.
+///
+/// The code below fails to compile, due to the generic static issue.
+///
+/// ```compile_fail,E0401,E0282
+/// use seventy::{builtins::collection::*, seventy};
+///
+/// #[seventy(sanitize(sort))]
+/// pub struct SortedVec<T>(Vec<T>) where T: Ord + 'static;
+/// ```
+///
+/// The code below compiles due to the `instanced` upgrade.
+///
+/// ```
+/// use seventy::{builtins::collection::*, seventy, Newtype};
+///
+/// #[seventy(upgrades(instanced), sanitize(sort))]
+/// pub struct SortedVec<T>(Vec<T>)
+/// where
+///     T: Ord + 'static;
+///
+/// assert_eq!(
+///     SortedVec::try_new([3, 0, 2, 1]).unwrap().into_inner(),
+///     [0, 1, 2, 3]
+/// );
+///
+/// assert_eq!(
+///     SortedVec::try_new(['s', 'e', 'v', 'e', 'n', 't', 'y'])
+///         .unwrap()
+///         .into_inner(),
+///     ['e', 'e', 'n', 's', 't', 'v', 'y']
+/// );
 /// ```
 ///
 /// ---
@@ -202,8 +245,8 @@ mod seventy;
 /// #[seventy(upgrades(unexposed))]
 /// pub struct UnexposedToModule(i32);
 ///
-/// let mut etm = UnexposedToModule::try_new(70).unwrap();
-/// etm.0 = 444;
+/// let mut utm = UnexposedToModule::try_new(70).unwrap();
+/// utm.0 = 444;
 /// ```
 #[proc_macro_attribute]
 pub fn seventy(metas: TokenStream, item: TokenStream) -> TokenStream {
