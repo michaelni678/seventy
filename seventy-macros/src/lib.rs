@@ -107,6 +107,15 @@ mod seventy;
 /// assert_eq!(message.into_inner(), "Seventy is a cool crate");
 /// ```
 ///
+/// ## independent
+///
+/// Normally, sanitizers and validators are shared amongst instances of the
+/// same newtype using a static variable for performance and memory reasons.
+/// This upgrade will make it so each newtype's sanitizer and validator is
+/// constructed when sanitize or validate is invoked. This is needed in certain
+/// situations, such as with a generic newtype, as Rust does not support generic
+/// statics.
+///
 /// ## inherent
 ///
 /// Makes the `Newtype` trait methods callable without the trait

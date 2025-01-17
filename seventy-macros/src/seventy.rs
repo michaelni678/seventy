@@ -27,6 +27,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
     let mut bypassable = false;
     let mut deref = false;
     let mut deserializable = false;
+    let mut independent = false;
     let mut inherent = false;
     let mut serializable = false;
     let mut try_from = false;
@@ -50,6 +51,8 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                     deref = true;
                 } else if meta.path().is_ident("deserializable") {
                     deserializable = true;
+                } else if meta.path().is_ident("independent") {
+                    independent = true;
                 } else if meta.path().is_ident("inherent") {
                     inherent = true;
                 } else if meta.path().is_ident("serializable") {
@@ -101,18 +104,41 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                 self.0
             }
         }
+    });
 
+    let sanitize;
+    let validate;
+
+    if independent {
+        sanitize = quote! {
+            (#sanitizers).sanitize(target);
+        };
+
+        validate = quote! {
+            (#validators).validate(target)
+        }
+    } else {
+        sanitize = quote! {
+            static SANITIZER: ::std::sync::LazyLock<Box<dyn ::seventy::core::Sanitizer<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new((#sanitizers)));
+            std::sync::LazyLock::force(&SANITIZER).sanitize(target);
+        };
+
+        validate = quote! {
+            static VALIDATOR: ::std::sync::LazyLock<Box<dyn ::seventy::core::Validator<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new((#validators)));
+            std::sync::LazyLock::force(&VALIDATOR).validate(target)
+        };
+    }
+
+    expansion.push(quote! {
         impl #impl_generics ::seventy::core::Sanitizable for #ident #ty_generics #where_clause {
             fn sanitize(target: &mut Self::Inner) {
-                static SANITIZER: ::std::sync::LazyLock<Box<dyn ::seventy::core::Sanitizer<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new((#sanitizers)));
-                std::sync::LazyLock::force(&SANITIZER).sanitize(target);
+                #sanitize
             }
         }
 
         impl #impl_generics ::seventy::core::Validatable for #ident #ty_generics #where_clause {
             fn validate(target: &Self::Inner) -> bool {
-                static VALIDATOR: ::std::sync::LazyLock<Box<dyn ::seventy::core::Validator<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new((#validators)));
-                std::sync::LazyLock::force(&VALIDATOR).validate(target)
+                #validate
             }
         }
     });
