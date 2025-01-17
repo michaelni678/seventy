@@ -67,13 +67,13 @@ mod seventy;
 /// let mut username = Username::try_new("username").unwrap();
 ///
 /// // Passes validation.
-/// assert!(Username::validator().validate(username.to_inner()));
+/// assert!(Username::validate(username.to_inner()));
 ///
 /// // Unsafely mutate the value.
 /// unsafe { username.to_inner_mut() }.push_str("\u{00BF}");
 ///
 /// // Fails validation.
-/// assert!(!Username::validator().validate(username.to_inner()));
+/// assert!(!Username::validate(username.to_inner()));
 /// ```
 ///
 /// ## deref
