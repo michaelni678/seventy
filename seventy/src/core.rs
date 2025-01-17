@@ -28,16 +28,16 @@ pub trait Newtype: Sized {
 ///
 /// This is implemented automatically when using the [`seventy`] macro.
 pub trait Sanitizable: Newtype {
-    /// Get the sanitizer.
-    fn sanitizer() -> &'static dyn Sanitizer<Self::Inner>;
+    /// Sanitize the newtype's inner value.
+    fn sanitize(target: &mut Self::Inner);
 }
 
 /// A newtype that can be validated.
 ///
 /// This is implemented automatically when using the [`seventy`] macro.
 pub trait Validatable: Newtype {
-    /// Get the validator.
-    fn validator() -> &'static dyn Validator<Self::Inner>;
+    /// Validate the newtype's inner value.
+    fn validate(target: &Self::Inner) -> bool;
 }
 
 /// A newtype with the `bypassable` upgrade.

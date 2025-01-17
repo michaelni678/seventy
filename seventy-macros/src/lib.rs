@@ -67,13 +67,13 @@ mod seventy;
 /// let mut username = Username::try_new("username").unwrap();
 ///
 /// // Passes validation.
-/// assert!(Username::validator().validate(username.to_inner()));
+/// assert!(Username::validate(username.to_inner()));
 ///
 /// // Unsafely mutate the value.
 /// unsafe { username.to_inner_mut() }.push_str("\u{00BF}");
 ///
 /// // Fails validation.
-/// assert!(!Username::validator().validate(username.to_inner()));
+/// assert!(!Username::validate(username.to_inner()));
 /// ```
 ///
 /// ## deref
@@ -105,6 +105,33 @@ mod seventy;
 ///
 /// let message: Message = serde_json::from_str(json).unwrap();
 /// assert_eq!(message.into_inner(), "Seventy is a cool crate");
+/// ```
+///
+/// ## independent
+///
+/// Normally, sanitizers and validators are shared amongst instances of the
+/// same newtype using a static variable for performance and memory reasons.
+/// This upgrade will make it so each newtype's sanitizer and validator is
+/// constructed when sanitize or validate is invoked. This is needed in certain
+/// situations, such as with a generic newtype, as Rust does not support generic
+/// statics.
+///
+/// The code below fails to compile due to the generic static issue.
+///
+/// ```compile_fail,E0401,E0282
+/// use seventy::seventy;
+///
+/// #[seventy()]
+/// pub struct MyVector<T>(pub Vec<T>);
+/// ```
+///
+/// The code below compiles due to the `independent` upgrade.
+///
+/// ```
+/// use seventy::seventy;
+///
+/// #[seventy(upgrades(independent))]
+/// pub struct MyVector<T>(pub Vec<T>);
 /// ```
 ///
 /// ## inherent

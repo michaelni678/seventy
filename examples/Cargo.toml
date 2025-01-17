@@ -15,3 +15,7 @@ path = "read_me.rs"
 [[example]]
 name = "register"
 path = "register.rs"
+
+[[example]]
+name = "generic"
+path = "generic.rs"

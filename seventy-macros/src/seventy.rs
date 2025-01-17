@@ -27,6 +27,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
     let mut bypassable = false;
     let mut deref = false;
     let mut deserializable = false;
+    let mut independent = false;
     let mut inherent = false;
     let mut serializable = false;
     let mut try_from = false;
@@ -50,6 +51,8 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                     deref = true;
                 } else if meta.path().is_ident("deserializable") {
                     deserializable = true;
+                } else if meta.path().is_ident("independent") {
+                    independent = true;
                 } else if meta.path().is_ident("inherent") {
                     inherent = true;
                 } else if meta.path().is_ident("serializable") {
@@ -82,9 +85,9 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
             fn try_new(inner: impl Into<Self::Inner>) -> Result<Self, Self::Inner> {
                 let mut inner = inner.into();
 
-                <Self as ::seventy::core::Sanitizable>::sanitizer().sanitize(&mut inner);
+                <Self as ::seventy::core::Sanitizable>::sanitize(&mut inner);
 
-                let is_valid = <Self as ::seventy::core::Validatable>::validator().validate(&inner);
+                let is_valid = <Self as ::seventy::core::Validatable>::validate(&inner);
 
                 if is_valid {
                     Ok(Self(inner))
@@ -101,18 +104,41 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                 self.0
             }
         }
+    });
 
+    let sanitize;
+    let validate;
+
+    if independent {
+        sanitize = quote! {
+            <_ as ::seventy::core::Sanitizer<Self::Inner>>::sanitize(&(#sanitizers), target);
+        };
+
+        validate = quote! {
+            <_ as ::seventy::core::Validator<Self::Inner>>::validate(&(#validators), target)
+        }
+    } else {
+        sanitize = quote! {
+            static SANITIZER: ::std::sync::LazyLock<Box<dyn ::seventy::core::Sanitizer<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new((#sanitizers)));
+            std::sync::LazyLock::force(&SANITIZER).sanitize(target);
+        };
+
+        validate = quote! {
+            static VALIDATOR: ::std::sync::LazyLock<Box<dyn ::seventy::core::Validator<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new((#validators)));
+            std::sync::LazyLock::force(&VALIDATOR).validate(target)
+        };
+    }
+
+    expansion.push(quote! {
         impl #impl_generics ::seventy::core::Sanitizable for #ident #ty_generics #where_clause {
-            fn sanitizer() -> &'static dyn ::seventy::core::Sanitizer<Self::Inner> {
-                static SANITIZER: ::std::sync::LazyLock<Box<dyn ::seventy::core::Sanitizer<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new((#sanitizers)));
-                std::sync::LazyLock::force(&SANITIZER).as_ref()
+            fn sanitize(target: &mut Self::Inner) {
+                #sanitize
             }
         }
 
         impl #impl_generics ::seventy::core::Validatable for #ident #ty_generics #where_clause {
-            fn validator() -> &'static dyn ::seventy::core::Validator<Self::Inner> {
-                static VALIDATOR: ::std::sync::LazyLock<Box<dyn ::seventy::core::Validator<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new((#validators)));
-                std::sync::LazyLock::force(&VALIDATOR).as_ref()
+            fn validate(target: &Self::Inner) -> bool {
+                #validate
             }
         }
     });
@@ -137,7 +163,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                 unsafe fn unsanitized_new(inner: impl Into<Self::Inner>) -> Result<Self, Self::Inner> {
                     let inner = inner.into();
 
-                    let is_valid = <Self as ::seventy::core::Validatable>::validator().validate(&inner);
+                    let is_valid = <Self as ::seventy::core::Validatable>::validate(&inner);
 
                     if is_valid {
                         Ok(Self(inner))
@@ -149,7 +175,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                 unsafe fn unvalidated_new(inner: impl Into<<Self as ::seventy::core::Newtype>::Inner>) -> Self {
                     let mut inner = inner.into();
 
-                    <Self as ::seventy::core::Sanitizable>::sanitizer().sanitize(&mut inner);
+                    <Self as ::seventy::core::Sanitizable>::sanitize(&mut inner);
 
                     Self(inner)
                 }
