@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 //! The example on the README.
 
 use seventy::{

@@ -111,11 +111,11 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
 
     if independent {
         sanitize = quote! {
-            (#sanitizers).sanitize(target);
+            <_ as ::seventy::core::Sanitizer<Self::Inner>>::sanitize(&(#sanitizers), target);
         };
 
         validate = quote! {
-            (#validators).validate(target)
+            <_ as ::seventy::core::Validator<Self::Inner>>::validate(&(#validators), target)
         }
     } else {
         sanitize = quote! {

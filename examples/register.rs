@@ -1,3 +1,5 @@
+//! A realistic example using the newtypes.
+
 use serde::Deserialize;
 use seventy::{
     builtins::{compare::*, email::*, string::*},
