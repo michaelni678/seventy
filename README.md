@@ -1,5 +1,17 @@
-<h1 align=center><code>Seventy</code></h1>
+<h1 align=center>Seventy</h1>
 <h3 align=center>Rust newtype sanitization & validation</h3>
+
+<div align="center">
+
+[![crates.io][crates-badge]][crates-url]
+[![docs.rs][docs-badge]][docs-url]
+
+[crates-badge]: https://img.shields.io/crates/v/seventy.svg
+[crates-url]: https://crates.io/crates/seventy
+[docs-badge]: https://docs.rs/seventy/badge.svg
+[docs-url]: https://docs.rs/seventy
+
+</div>
 
 ## Overview
 
