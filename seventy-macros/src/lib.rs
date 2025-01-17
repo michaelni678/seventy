@@ -116,6 +116,24 @@ mod seventy;
 /// situations, such as with a generic newtype, as Rust does not support generic
 /// statics.
 ///
+/// The code below fails to compile due to the generic static issue.
+///
+/// ```compile_fail,E0401,E0282
+/// use seventy::seventy;
+///
+/// #[seventy()]
+/// pub struct MyVector<T>(pub Vec<T>);
+/// ```
+///
+/// The code below compiles due to the `independent` upgrade.
+///
+/// ```
+/// use seventy::seventy;
+///
+/// #[seventy(upgrades(independent))]
+/// pub struct MyVector<T>(pub Vec<T>);
+/// ```
+///
 /// ## inherent
 ///
 /// Makes the `Newtype` trait methods callable without the trait
