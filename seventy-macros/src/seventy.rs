@@ -24,14 +24,14 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
     let inner = &unnamed[0].ty;
 
     let mut as_ref = false;
-    let mut bypassable = false;
     let mut deref = false;
-    let mut deserializable = false;
     let mut display = false;
+    let mut try_from = false;
+    let mut deserializable = false;
+    let mut serializable = false;
+    let mut bypassable = false;
     let mut independent = false;
     let mut inherent = false;
-    let mut serializable = false;
-    let mut try_from = false;
     let mut unexposed = false;
 
     let mut sanitizers = None;
@@ -46,22 +46,22 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
             for meta in metas {
                 if meta.path().is_ident("as_ref") {
                     as_ref = true;
-                } else if meta.path().is_ident("bypassable") {
-                    bypassable = true;
                 } else if meta.path().is_ident("deref") {
                     deref = true;
-                } else if meta.path().is_ident("deserializable") {
-                    deserializable = true;
                 } else if meta.path().is_ident("display") {
                     display = true;
+                } else if meta.path().is_ident("try_from") {
+                    try_from = true;
+                } else if meta.path().is_ident("deserializable") {
+                    deserializable = true;
+                } else if meta.path().is_ident("serializable") {
+                    serializable = true;
+                } else if meta.path().is_ident("bypassable") {
+                    bypassable = true;
                 } else if meta.path().is_ident("independent") {
                     independent = true;
                 } else if meta.path().is_ident("inherent") {
                     inherent = true;
-                } else if meta.path().is_ident("serializable") {
-                    serializable = true;
-                } else if meta.path().is_ident("try_from") {
-                    try_from = true;
                 } else if meta.path().is_ident("unexposed") {
                     unexposed = true;
                 } else {
