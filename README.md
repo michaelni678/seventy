@@ -4,6 +4,7 @@
 <div align="center">
 
 [![crates.io][crates-badge]][crates-url]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 [![docs.rs][docs-badge]][docs-url]
 
 [crates-badge]: https://img.shields.io/crates/v/seventy.svg
