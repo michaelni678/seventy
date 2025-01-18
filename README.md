@@ -2,9 +2,9 @@
 <h3 align="center">Rust newtype sanitization & validation</h3>
 <div align="center">
 
-[<img alt="crates.io" src="https://img.shields.io/crates/v/seventy?style=for-the-badge&logo=Rust">](https://crates.io/crates/seventy)
+[<img alt="docs.rs" src="https://img.shields.io/badge/docs.rs-seventy-58a78a?style=for-the-badge&logo=Docs.rs">](https://docs.rs/seventy)
 &nbsp;&nbsp;&nbsp;
-[<img alt="docs.rs" src="https://img.shields.io/docsrs/seventy?style=for-the-badge&logo=Docs.rs">](https://docs.rs/seventy)
+[<img alt="crates.io" src="https://img.shields.io/crates/v/seventy?style=for-the-badge&logo=Rust">](https://crates.io/crates/seventy)
 &nbsp;&nbsp;&nbsp;
 [<img alt="github" src="https://img.shields.io/badge/github-seventy-gray?style=for-the-badge&logo=GitHub&color=669bbc">](https://github.com/michaelni678/seventy)
 
