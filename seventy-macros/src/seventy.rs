@@ -27,6 +27,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
     let mut bypassable = false;
     let mut deref = false;
     let mut deserializable = false;
+    let mut display = false;
     let mut independent = false;
     let mut inherent = false;
     let mut serializable = false;
@@ -51,6 +52,8 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                     deref = true;
                 } else if meta.path().is_ident("deserializable") {
                     deserializable = true;
+                } else if meta.path().is_ident("display") {
+                    display = true;
                 } else if meta.path().is_ident("independent") {
                     independent = true;
                 } else if meta.path().is_ident("inherent") {
@@ -216,6 +219,16 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                     let inner = <Self as ::seventy::core::Newtype>::Inner::deserialize(deserializer)?;
                     <Self as ::seventy::core::Newtype>::try_new(inner)
                         .map_err(|_| ::serde::de::Error::custom("Validation error"))
+                }
+            }
+        });
+    }
+
+    if display {
+        expansion.push(quote! {
+            impl #impl_generics ::std::fmt::Display for #ident #ty_generics #where_clause {
+                fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+                    <Self as ::seventy::core::Newtype>::to_inner(self).fmt(f)
                 }
             }
         });

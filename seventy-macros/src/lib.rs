@@ -107,6 +107,20 @@ mod seventy;
 /// assert_eq!(message.into_inner(), "Seventy is a cool crate");
 /// ```
 ///
+/// ## display
+///
+/// Implements `Display` using the inner value's `Display` implementation.
+///
+/// ```
+/// use seventy::{seventy, Newtype};
+///
+/// #[seventy(upgrades(display))]
+/// pub struct Email(String);
+///
+/// let email = Email::try_new("example@example.com").unwrap();
+/// assert_eq!(format!("{email}"), "example@example.com");
+/// ```
+///
 /// ## independent
 ///
 /// Normally, sanitizers and validators are shared amongst instances of the
