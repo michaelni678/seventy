@@ -1,6 +1,4 @@
-<h1 align="center" style="border: none;">Seventy</h1>
-
-<hr style="height: 1px;">
+<h1 align="center"">Seventy</h1>
 
 <h3 align="center">Rust newtype sanitization & validation</h3>
 
@@ -16,8 +14,6 @@
 [docs-url]: https://docs.rs/seventy
 
 </div>
-
-<hr style="height: 1px;">
 
 Seventy is a simple [newtype](https://doc.rust-lang.org/rust-by-example/generics/new_types.html) 
 sanitizer and validator. 
