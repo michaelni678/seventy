@@ -29,6 +29,84 @@ mod seventy;
 /// assert_eq!(*Velocity::try_new(70.0).unwrap().as_ref(), 70.0);
 /// ```
 ///
+/// ## deref
+///
+/// Implements `Deref` for the newtype.
+///
+/// ```
+/// use seventy::{seventy, Newtype};
+///
+/// #[seventy(upgrades(deref))]
+/// pub struct Sentence(String);
+///
+/// let sentence = Sentence::try_new("Hello, World!").unwrap();
+/// assert_eq!(*sentence, "Hello, World!");
+/// ```
+///
+/// ## display
+///
+/// Implements `Display` using the inner value's `Display` implementation.
+///
+/// ```
+/// use seventy::{seventy, Newtype};
+///
+/// #[seventy(upgrades(display))]
+/// pub struct Email(String);
+///
+/// let email = Email::try_new("example@example.com").unwrap();
+/// assert_eq!(format!("{email}"), "example@example.com");
+/// ```
+///
+/// ## try_from
+///
+/// Implements `TryFrom` for the newtype. The `Newtype` trait
+/// already has the method `Newtype::try_new`, which is similar to
+/// `TryFrom::try_from`, however the latter expects a concrete type, whereas
+/// the former `Newtype::try_new` does not.
+///
+/// ```
+/// use seventy::{seventy, Newtype};
+///
+/// #[seventy(upgrades(try_from))]
+/// pub struct Number(i32);
+///
+/// assert!(Number::try_from(5).is_ok());
+/// ```
+///
+/// ## deserializable
+///
+/// Implements `serde::Deserialize` for the newtype. You
+/// must have `serde` as a dependency!
+///
+/// ```
+/// use seventy::{seventy, Newtype};
+///
+/// #[seventy(upgrades(deserializable))]
+/// pub struct Message(String);
+///
+/// let json = "\"Seventy is a cool crate\"";
+///
+/// let message: Message = serde_json::from_str(json).unwrap();
+/// assert_eq!(message.into_inner(), "Seventy is a cool crate");
+/// ```
+///
+/// ## serializable
+///
+/// Implements `serde::Serialize` for the newtype. You must
+/// have `serde` as a dependency!
+///
+/// ```
+/// use seventy::{seventy, Newtype};
+///
+/// #[seventy(upgrades(serializable))]
+/// pub struct Message(String);
+///
+/// let message = Message::try_new("Seventy is a cool crate").unwrap();
+/// let json = serde_json::to_string(&message).unwrap();
+///
+/// assert_eq!(json, "\"Seventy is a cool crate\"");
+/// ```
+///
 /// ## bypassable
 ///
 /// Enables bypass functionality for the newtype.
@@ -74,37 +152,6 @@ mod seventy;
 ///
 /// // Fails validation.
 /// assert!(!Username::validate(username.to_inner()));
-/// ```
-///
-/// ## deref
-///
-/// Implements `Deref` for the newtype.
-///
-/// ```
-/// use seventy::{seventy, Newtype};
-///
-/// #[seventy(upgrades(deref))]
-/// pub struct Sentence(String);
-///
-/// let sentence = Sentence::try_new("Hello, World!").unwrap();
-/// assert_eq!(*sentence, "Hello, World!");
-/// ```
-///
-/// ## deserializable
-///
-/// Implements `serde::Deserialize` for the newtype. You
-/// must have `serde` as a dependency!
-///
-/// ```
-/// use seventy::{seventy, Newtype};
-///
-/// #[seventy(upgrades(deserializable))]
-/// pub struct Message(String);
-///
-/// let json = "\"Seventy is a cool crate\"";
-///
-/// let message: Message = serde_json::from_str(json).unwrap();
-/// assert_eq!(message.into_inner(), "Seventy is a cool crate");
 /// ```
 ///
 /// ## independent
@@ -164,39 +211,6 @@ mod seventy;
 /// pub struct Rating(u8);
 ///
 /// assert!(Rating::try_new(5).is_ok());
-/// ```
-///
-/// ## serializable
-///
-/// Implements `serde::Serialize` for the newtype. You must
-/// have `serde` as a dependency!
-///
-/// ```
-/// use seventy::{seventy, Newtype};
-///
-/// #[seventy(upgrades(serializable))]
-/// pub struct Message(String);
-///
-/// let message = Message::try_new("Seventy is a cool crate").unwrap();
-/// let json = serde_json::to_string(&message).unwrap();
-///
-/// assert_eq!(json, "\"Seventy is a cool crate\"");
-/// ```
-///
-/// ## try_from
-///
-/// Implements `TryFrom` for the newtype. The `Newtype` trait
-/// already has the method `Newtype::try_new`, which is similar to
-/// `TryFrom::try_from`, however the latter expects a concrete type, whereas
-/// the former `Newtype::try_new` does not.
-///
-/// ```
-/// use seventy::{seventy, Newtype};
-///
-/// #[seventy(upgrades(try_from))]
-/// pub struct Number(i32);
-///
-/// assert!(Number::try_from(5).is_ok());
 /// ```
 ///
 /// ## unexposed
