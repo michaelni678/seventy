@@ -68,3 +68,44 @@ where
         target.sort();
     }
 }
+
+/// [`Validator`] forwards length to inner validator.
+///
+/// # Examples
+///
+/// The example below validates the length is less than or equal to 5
+/// characters. Because of the newtype's guarantees, it is impossible to
+/// construct `CharVec5` with an inner [`Vec`] containing more
+/// than 5 characters.
+///
+/// ```
+/// use seventy::{
+///     builtins::{collection::*, compare::*},
+///     seventy, Newtype,
+/// };
+///
+/// #[seventy(validate(length(le(5))))]
+/// pub struct CharVec5(Vec<char>);
+///
+/// assert!(CharVec5::try_new(['a', 'b', 'c', 'd', 'e']).is_ok());
+/// assert!(CharVec5::try_new(['a', 'b', 'c', 'd', 'e', 'f']).is_err());
+/// ```
+pub struct length<V>(pub V);
+
+impl<T, const N: usize, V> Validator<[T; N]> for length<V>
+where
+    V: Validator<usize>,
+{
+    fn validate(&self, _target: &[T; N]) -> bool {
+        self.0.validate(&N)
+    }
+}
+
+impl<T, V> Validator<Vec<T>> for length<V>
+where
+    V: Validator<usize>,
+{
+    fn validate(&self, target: &Vec<T>) -> bool {
+        self.0.validate(&target.len())
+    }
+}
