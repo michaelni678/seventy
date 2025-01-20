@@ -17,6 +17,7 @@ use crate::core::{Sanitizer, Validator};
 /// struct SunscreenSPF(u8);
 ///
 /// assert!(SunscreenSPF::try_new(50).is_ok());
+///
 /// assert!(SunscreenSPF::try_new(55).is_err());
 /// ```
 pub struct among<C>(pub C);
@@ -88,6 +89,7 @@ where
 /// pub struct CharVec5(Vec<char>);
 ///
 /// assert!(CharVec5::try_new(['a', 'b', 'c', 'd', 'e']).is_ok());
+///
 /// assert!(CharVec5::try_new(['a', 'b', 'c', 'd', 'e', 'f']).is_err());
 /// ```
 pub struct length<V>(pub V);

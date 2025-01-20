@@ -20,7 +20,9 @@ use crate::core::Validator;
 /// struct PercentGermsKilled(f32);
 ///
 /// assert!(PercentGermsKilled::try_new(99.9).is_ok());
+///
 /// assert!(PercentGermsKilled::try_new(100.0).is_err());
+///
 /// assert!(PercentGermsKilled::try_new(100.1).is_err());
 /// ```
 pub struct lt<T>(pub T);
@@ -51,7 +53,9 @@ where
 /// struct PackageWeight(f32);
 ///
 /// assert!(PackageWeight::try_new(68.3).is_ok());
+///
 /// assert!(PackageWeight::try_new(70.0).is_ok());
+///
 /// assert!(PackageWeight::try_new(70.9).is_err());
 /// ```
 pub struct le<T>(pub T);
@@ -80,7 +84,9 @@ where
 /// struct PositiveNumber(i32);
 ///
 /// assert!(PositiveNumber::try_new(70).is_ok());
+///
 /// assert!(PositiveNumber::try_new(0).is_err());
+///
 /// assert!(PositiveNumber::try_new(-70).is_err());
 /// ```
 pub struct gt<T>(pub T);
@@ -109,7 +115,9 @@ where
 /// struct Age(u8);
 ///
 /// assert!(Age::try_new(70).is_ok());
+///
 /// assert!(Age::try_new(13).is_ok());
+///
 /// assert!(Age::try_new(11).is_err());
 /// ```
 pub struct ge<T>(pub T);
@@ -137,6 +145,7 @@ where
 /// struct Seventy(u8);
 ///
 /// assert!(Seventy::try_new(70).is_ok());
+///
 /// assert!(Seventy::try_new(60).is_err());
 /// ```
 pub struct eq<T>(pub T);
@@ -164,6 +173,7 @@ where
 /// struct NonZeroU32(u32);
 ///
 /// assert!(NonZeroU32::try_new(70u32).is_ok());
+///
 /// assert!(NonZeroU32::try_new(0u32).is_err());
 /// ```
 pub struct ne<T>(pub T);
@@ -192,9 +202,13 @@ where
 /// struct LoanAmount(u32);
 ///
 /// assert!(LoanAmount::try_new(70u32).is_err());
+///
 /// assert!(LoanAmount::try_new(5000u32).is_ok());
+///
 /// assert!(LoanAmount::try_new(70000u32).is_ok());
+///
 /// assert!(LoanAmount::try_new(100000u32).is_ok());
+///
 /// assert!(LoanAmount::try_new(100070u32).is_err());
 /// ```
 pub struct within<R>(pub R);

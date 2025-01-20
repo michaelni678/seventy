@@ -6,7 +6,9 @@ fn generic_type_single() {
     pub struct Generic<T>(T);
 
     assert_eq!(Generic::<i32>::try_new(70i32).unwrap().into_inner(), 70);
+
     assert_eq!(Generic::<char>::try_new('c').unwrap().into_inner(), 'c');
+
     assert_eq!(
         Generic::<&str>::try_new("value").unwrap().into_inner(),
         "value"
@@ -24,6 +26,7 @@ fn generic_type_multiple() {
             .into_inner(),
         (70, 'x')
     );
+
     assert_eq!(
         Generic::<&str, bool>::try_new(("value", true))
             .unwrap()

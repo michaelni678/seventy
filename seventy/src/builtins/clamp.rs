@@ -17,9 +17,13 @@ use crate::core::Sanitizer;
 /// struct Movement(f32);
 ///
 /// assert_eq!(Movement::try_new(-2.0).unwrap().into_inner(), -1.0);
+///
 /// assert_eq!(Movement::try_new(-1.0).unwrap().into_inner(), -1.0);
+///
 /// assert_eq!(Movement::try_new(0.0).unwrap().into_inner(), 0.0);
+///
 /// assert_eq!(Movement::try_new(1.0).unwrap().into_inner(), 1.0);
+///
 /// assert_eq!(Movement::try_new(2.0).unwrap().into_inner(), 1.0);
 /// ```
 pub struct clamp<T> {
@@ -57,7 +61,9 @@ where
 /// struct Distance(f32);
 ///
 /// assert_eq!(Distance::try_new(-1.0).unwrap().into_inner(), 0.0);
+///
 /// assert_eq!(Distance::try_new(0.0).unwrap().into_inner(), 0.0);
+///
 /// assert_eq!(Distance::try_new(1.0).unwrap().into_inner(), 1.0);
 /// ```
 pub struct clamp_min<T>(pub T);
@@ -90,7 +96,9 @@ where
 /// struct BatteryCharge(u8);
 ///
 /// assert_eq!(BatteryCharge::try_new(101).unwrap().into_inner(), 100);
+///
 /// assert_eq!(BatteryCharge::try_new(100).unwrap().into_inner(), 100);
+///
 /// assert_eq!(BatteryCharge::try_new(70).unwrap().into_inner(), 70);
 /// ```
 pub struct clamp_max<T>(pub T);

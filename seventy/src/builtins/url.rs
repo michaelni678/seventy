@@ -17,6 +17,7 @@ use crate::core::Validator;
 /// pub struct URL(String);
 ///
 /// assert!(URL::try_new("https://github.com/michaelni678/seventy").is_ok());
+///
 /// assert!(URL::try_new("http://[:::1]").is_err());
 /// ```
 pub struct url;

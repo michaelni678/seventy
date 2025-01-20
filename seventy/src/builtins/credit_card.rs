@@ -68,6 +68,7 @@ where
 ///
 /// let mastercard = "5265187007972395";
 /// assert!(credit_card_util::Validate::from(mastercard).is_ok());
+///
 /// assert!(CreditCardNumber::try_new(mastercard).is_err());
 ///
 /// let invalid = "7070707070707070";

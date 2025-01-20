@@ -50,7 +50,9 @@ fn main() {
         let request: RegisterRequest = result.unwrap();
 
         assert_eq!(request.email.into_inner(), "seventy70@example.com");
+
         assert_eq!(request.username.into_inner(), "Seventy70");
+
         assert_eq!(request.password.into_inner(), "p455w0rd70!");
     }
 

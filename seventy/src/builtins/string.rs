@@ -101,6 +101,7 @@ impl Sanitizer<String> for trim_right {
 /// pub struct FirstName(String);
 ///
 /// assert!(FirstName::try_new("Michael").is_ok());
+///
 /// assert!(FirstName::try_new("Mich4el").is_err());
 /// ```
 pub struct alphabetic;
@@ -129,6 +130,7 @@ where
 /// pub struct Username(String);
 ///
 /// assert!(Username::try_new("Seventy70").is_ok());
+///
 /// assert!(Username::try_new("Seventy#70!").is_err());
 /// ```
 pub struct alphanumeric;
@@ -157,6 +159,7 @@ where
 /// pub struct Password(String);
 ///
 /// assert!(Password::try_new("Seventy#70!").is_ok());
+///
 /// assert!(Password::try_new("Seventy\u{7070}#70!").is_err());
 /// ```
 pub struct ascii;
@@ -203,6 +206,7 @@ where
 /// pub struct LowercaseString(String);
 ///
 /// assert!(LowercaseString::try_new("whisper").is_ok());
+///
 /// assert!(LowercaseString::try_new("Whisper").is_err());
 /// ```
 pub struct lowercase;
@@ -253,6 +257,7 @@ where
 /// pub struct UppercaseString(String);
 ///
 /// assert!(UppercaseString::try_new("SHOUT").is_ok());
+///
 /// assert!(UppercaseString::try_new("Shout").is_err());
 /// ```
 pub struct uppercase;
@@ -290,6 +295,7 @@ where
 /// pub struct TextBox(String);
 ///
 /// assert!(TextBox::try_new("Hello, World!").is_ok());
+///
 /// assert!(TextBox::try_new("Hello, World! I am hungry.").is_err());
 /// ```
 pub enum length<V> {
@@ -327,6 +333,7 @@ where
 /// pub struct TextBox(String);
 ///
 /// assert!(TextBox::try_new("Hello, World!").is_ok());
+///
 /// assert!(TextBox::try_new("").is_err());
 /// ```
 pub struct not_empty;
@@ -355,6 +362,7 @@ where
 /// pub struct Company(String);
 ///
 /// assert!(Company::try_new("Seven Tea Inc.").is_ok());
+///
 /// assert!(Company::try_new("Seven \u{1F375} Inc.").is_err());
 /// ```
 #[cfg(feature = "regex")]

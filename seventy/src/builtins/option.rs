@@ -17,6 +17,7 @@ use crate::core::{Sanitizer, Validator};
 /// pub struct RequiredField(Option<String>);
 ///
 /// assert!(RequiredField::try_new(Some(String::from("Seventy is a cool crate."))).is_ok());
+///
 /// assert!(RequiredField::try_new(None).is_err());
 /// ```
 pub struct some;
@@ -110,7 +111,9 @@ where
 /// pub struct RequiredFeedback(Option<u8>);
 ///
 /// assert!(RequiredFeedback::try_new(Some(7)).is_ok());
+///
 /// assert!(RequiredFeedback::try_new(Some(11)).is_err());
+///
 /// assert!(RequiredFeedback::try_new(None).is_err());
 /// ```
 pub struct unwrap_then<V>(pub V);

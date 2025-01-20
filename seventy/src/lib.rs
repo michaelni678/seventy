@@ -75,6 +75,7 @@
 //! pub struct Username(String);
 //!
 //! assert!(Username::try_new("username").is_ok());
+//!
 //! assert!(Username::try_new("u$ername").is_err());
 //! ```
 //!
@@ -104,6 +105,7 @@
 //! pub struct EvenI64(i64);
 //!
 //! assert!(EvenI64::try_new(2).is_ok());
+//!
 //! assert!(EvenI64::try_new(3).is_err());
 //! ```
 //!

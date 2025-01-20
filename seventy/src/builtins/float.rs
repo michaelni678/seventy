@@ -17,7 +17,9 @@ use crate::core::Validator;
 /// struct FiniteF32(f32);
 ///
 /// assert!(FiniteF32::try_new(70.70).is_ok());
+///
 /// assert!(FiniteF32::try_new(f32::INFINITY).is_err());
+///
 /// assert!(FiniteF32::try_new(f32::NAN).is_err());
 /// ```
 pub struct finite;
