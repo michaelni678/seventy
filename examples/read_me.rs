@@ -6,6 +6,7 @@ use seventy::{
 };
 
 #[seventy(
+    upgrades(display),
     sanitize(trim),
     validate(alphanumeric, length::chars(within(5..=20))),
 )]
