@@ -13,19 +13,14 @@
 Seventy is a simple [newtype](https://doc.rust-lang.org/rust-by-example/generics/new_types.html) 
 sanitizer and validator. 
 
-There is no error handling. If you need to know why the newtype couldn't be 
-created, this crate isn't for you.
-
-## Installation
-
-Add this to your `Cargo.toml`:
-
-```toml
-[dependencies]
-seventy = "0.1.0"
-```
+There is no error handling. If you need to know why the newtype couldn't be created, this crate 
+isn't for you.
 
 ## Usage
+
+The example below first trims the string and then validates if the trimmed string is both 
+alphanumeric and between 5 to 20 characters long. The `display` upgrade automatically implements
+the `Display` trait.
 
 ```rust
 use seventy::{
@@ -34,6 +29,7 @@ use seventy::{
 };
 
 #[seventy(
+    upgrades(display),
     sanitize(trim),
     validate(alphanumeric, length::chars(within(5..=20))),
 )]
