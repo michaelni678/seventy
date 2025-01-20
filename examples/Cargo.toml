@@ -17,5 +17,5 @@ name = "register"
 path = "register.rs"
 
 [[example]]
-name = "generic"
-path = "generic.rs"
+name = "generics"
+path = "generics.rs"
