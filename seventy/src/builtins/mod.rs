@@ -27,7 +27,7 @@ pub mod credit_card;
 #[cfg(feature = "email")]
 pub mod email;
 pub mod float;
-pub mod operator;
+pub mod op_assign;
 pub mod option;
 pub mod predicate;
 pub mod string;
