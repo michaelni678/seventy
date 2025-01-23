@@ -36,7 +36,7 @@ impl<T> Validator<Option<T>> for some {
 ///
 /// # Examples
 ///
-/// The example below sanitizes a middle name and validates it is alphabetic if
+/// The example below trims a middle name and validates it is alphabetic if
 /// it is given. Because of the newtype's guarantees, the constructed
 /// `MiddleName` will always be trimmed, and cannot exist if the inner string is
 /// not alphabetic.
@@ -57,9 +57,7 @@ impl<T> Validator<Option<T>> for some {
 ///         .unwrap(),
 ///     "John"
 /// );
-///
 /// assert!(MiddleName::try_new(None).is_ok());
-///
 /// assert!(MiddleName::try_new(Some(String::from("   J0hn   "))).is_err());
 /// ```
 pub struct some_then<SV>(pub SV);
