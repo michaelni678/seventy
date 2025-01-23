@@ -18,6 +18,7 @@
 //! [`seventy`]: macro@seventy::seventy
 
 pub mod bundle;
+pub mod char;
 pub mod clamp;
 pub mod collection;
 pub mod compare;
@@ -26,7 +27,10 @@ pub mod credit_card;
 #[cfg(feature = "email")]
 pub mod email;
 pub mod float;
+pub mod op_assign;
+pub mod op_logical;
 pub mod option;
+pub mod predicate;
 pub mod string;
 #[cfg(feature = "url")]
 pub mod url;
