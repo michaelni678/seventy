@@ -1,3 +1,5 @@
+//! Character built-ins.
+
 use crate::core::Validator;
 
 /// [`Validator`] checks if alphabetic.

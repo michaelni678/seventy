@@ -1,3 +1,5 @@
+//! Assignment operator built-ins.
+
 use crate::core::Sanitizer;
 
 /// [`Sanitizer`] assigns the target to the given value.

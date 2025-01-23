@@ -1,3 +1,5 @@
+//! Predicate built-ins.
+
 use crate::core::{Sanitizer, Validator};
 
 /// [`Validator`] checks if satisfies predicate.
