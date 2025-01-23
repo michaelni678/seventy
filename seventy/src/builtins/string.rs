@@ -6,16 +6,13 @@ use crate::core::{Sanitizer, Validator};
 ///
 /// # Examples
 ///
-/// The example below sanitizes a username to remove surrounding whitespace.
-/// Because of the newtype's guarantees, the constructed `Username` will
-/// always have an inner string that has been trimmed.
-///
 /// ```
 /// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(sanitize(trim))]
 /// pub struct Username(String);
 ///
+/// // Trims surrounding whitespace.
 /// assert_eq!(
 ///     Username::try_new("   username   ").unwrap().into_inner(),
 ///     "username"
@@ -34,16 +31,13 @@ impl Sanitizer<String> for trim {
 ///
 /// # Examples
 ///
-/// The example below sanitizes a username to remove left whitespace.
-/// Because of the newtype's guarantees, the constructed `Username` will
-/// always have an inner string that has been left-trimmed.
-///
 /// ```
 /// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(sanitize(trim_left))]
 /// pub struct Username(String);
 ///
+/// // Trims left whitespace, leaving the right.
 /// assert_eq!(
 ///     Username::try_new("   username   ").unwrap().into_inner(),
 ///     "username   "
@@ -62,16 +56,13 @@ impl Sanitizer<String> for trim_left {
 ///
 /// # Examples
 ///
-/// The example below sanitizes a username to remove right whitespace.
-/// Because of the newtype's guarantees, the constructed `Username` will
-/// always have an inner string that has been right-trimmed.
-///
 /// ```
 /// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(sanitize(trim_right))]
 /// pub struct Username(String);
 ///
+/// // Trims right whitespace, leaving the left.
 /// assert_eq!(
 ///     Username::try_new("   username   ").unwrap().into_inner(),
 ///     "   username"
@@ -90,17 +81,16 @@ impl Sanitizer<String> for trim_right {
 ///
 /// # Examples
 ///
-/// The example below validates the inner string is alpabetic. Because of the
-/// newtype's guarantees, it is impossible to construct `FirstName` with
-/// an inner string that is not alphabetic.
-///
 /// ```
 /// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(validate(alphabetic))]
 /// pub struct FirstName(String);
 ///
+/// // Successfully constructed because the string is only alphabetic.
 /// assert!(FirstName::try_new("Michael").is_ok());
+/// 
+/// // Unsuccessfully constructed because the string is not only alphabetic.
 /// assert!(FirstName::try_new("Mich4el").is_err());
 /// ```
 pub struct alphabetic;
@@ -118,17 +108,16 @@ where
 ///
 /// # Examples
 ///
-/// The example below validates the inner string is alphanumeric. Because of the
-/// newtype's guarantees, it is impossible to construct `Username` with
-/// an inner string that is not alphanumeric.
-///
 /// ```
 /// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(validate(alphanumeric))]
 /// pub struct Username(String);
 ///
+/// // Successfully constructed because the string is only alphanumeric.
 /// assert!(Username::try_new("Seventy70").is_ok());
+/// 
+/// // Unsuccessfully constructed because the string is not only alphanumeric.
 /// assert!(Username::try_new("Seventy#70!").is_err());
 /// ```
 pub struct alphanumeric;
@@ -146,17 +135,16 @@ where
 ///
 /// # Examples
 ///
-/// The example below validates the inner string is ASCII. Because of the
-/// newtype's guarantees, it is impossible to construct `Password` with
-/// an inner string that is not ASCII.
-///
 /// ```
 /// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(validate(ascii))]
 /// pub struct Password(String);
 ///
+/// // Successfully constructed because the string is only ASCII.
 /// assert!(Password::try_new("Seventy#70!").is_ok());
+/// 
+/// // Unsuccessfully constructed because the string is not only ASCII.
 /// assert!(Password::try_new("Seventy\u{7070}#70!").is_err());
 /// ```
 pub struct ascii;
@@ -174,9 +162,7 @@ where
 ///
 /// # Examples
 ///
-/// The example below sanitizes a search query to lowercase. Because of the
-/// newtype's guarantees, the constructed `SearchQuery` will always have an
-/// inner string that is lowercase.
+/// An example of the `lowercase` validator.
 ///
 /// ```
 /// use seventy::{builtins::string::*, seventy, Newtype};
@@ -184,6 +170,7 @@ where
 /// #[seventy(sanitize(lowercase))]
 /// pub struct SearchQuery(String);
 ///
+/// // Converts uppercase characters to lowercase.
 /// assert_eq!(
 ///     SearchQuery::try_new("What is the SeVeNTy crate?!")
 ///         .unwrap()
@@ -192,9 +179,7 @@ where
 /// );
 /// ```
 ///
-/// The example below validates the inner string is lowercase. Because of the
-/// newtype's guarantees, it is impossible to construct `LowercaseString` with
-/// an inner string that is not lowercase.
+/// An example of the `lowercase` sanitizer.
 ///
 /// ```
 /// use seventy::{builtins::string::*, seventy, Newtype};
@@ -202,7 +187,10 @@ where
 /// #[seventy(validate(lowercase))]
 /// pub struct LowercaseString(String);
 ///
+/// // Successfully constructed because the string is only lowercase.
 /// assert!(LowercaseString::try_new("whisper").is_ok());
+/// 
+/// // Unsuccessfully constructed because the string is not only lowercase.
 /// assert!(LowercaseString::try_new("Whisper").is_err());
 /// ```
 pub struct lowercase;
@@ -226,33 +214,33 @@ where
 ///
 /// # Examples
 ///
-/// The example below sanitizes an ID to uppercase. Because of the
-/// newtype's guarantees, the constructed `ID` will always have an inner
-/// string that is uppercase.
-///
+/// An example of the `uppercase` sanitizer.
+/// 
 /// ```
 /// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(sanitize(uppercase))]
 /// pub struct ID(String);
 ///
+/// // Converts lowercase characters to uppercase.
 /// assert_eq!(
 ///     ID::try_new("70sV-Nty70").unwrap().into_inner(),
 ///     "70SV-NTY70"
 /// );
 /// ```
 ///
-/// The example below validates the inner string is uppercase. Because of the
-/// newtype's guarantees, it is impossible to construct `UppercaseString` with
-/// an inner string that is not uppercase.
-///
+/// An example of the `uppercase` validator.
+/// 
 /// ```
 /// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(validate(uppercase))]
 /// pub struct UppercaseString(String);
 ///
+/// // Successfully constructed because the string is only uppercase.
 /// assert!(UppercaseString::try_new("SHOUT").is_ok());
+/// 
+/// // Unsuccessfully constructed because the string is not only uppercase.
 /// assert!(UppercaseString::try_new("Shout").is_err());
 /// ```
 pub struct uppercase;
@@ -276,10 +264,6 @@ where
 ///
 /// # Examples
 ///
-/// The example below validates the text is less than or equal to 15 characters.
-/// Because of the newtype's guarantees, it is impossible to construct
-/// `TextBox` with an inner string that greater than 15 characters.
-///
 /// ```
 /// use seventy::{
 ///     builtins::{compare::*, string::*},
@@ -289,7 +273,10 @@ where
 /// #[seventy(validate(length::chars(le(15))))]
 /// pub struct TextBox(String);
 ///
+/// // Successfully constructed because the string is <= 15 characters.
 /// assert!(TextBox::try_new("Hello, World!").is_ok());
+/// 
+/// // Unsuccessfully constructed because the string is not <= 15 characters.
 /// assert!(TextBox::try_new("Hello, World! I am hungry.").is_err());
 /// ```
 pub enum length<V> {
@@ -316,17 +303,16 @@ where
 ///
 /// # Examples
 ///
-/// The example below validates the text is not empty.
-/// Because of the newtype's guarantees, it is impossible to construct
-/// `TextBox` with an inner string that is empty.
-///
 /// ```
 /// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(validate(not_empty))]
 /// pub struct TextBox(String);
 ///
+/// // Successfully constructed because the string is not empty.
 /// assert!(TextBox::try_new("Hello, World!").is_ok());
+/// 
+/// // Unsuccessfully constructed because the string is empty.
 /// assert!(TextBox::try_new("").is_err());
 /// ```
 pub struct not_empty;
@@ -344,17 +330,16 @@ where
 ///
 /// # Examples
 ///
-/// The example below validates the company matches the regex. Because of the
-/// newtype's guarantees, it is impossible to construct `Company` with an inner
-/// string that does not match the regex.
-///
 /// ```
 /// use seventy::{builtins::string::*, seventy, Newtype};
 ///
 /// #[seventy(validate(regex(r"^[A-Z]([a-zA-Z0-9]|[- @\.#&!])*$")))]
 /// pub struct Company(String);
 ///
+/// // Successfully constructed because "Seven Tea Inc." matches the regex.
 /// assert!(Company::try_new("Seven Tea Inc.").is_ok());
+/// 
+/// // Unsuccessfuly constructed because "Seven \u{1F375} Inc." does not match the regex.
 /// assert!(Company::try_new("Seven \u{1F375} Inc.").is_err());
 /// ```
 #[cfg(feature = "regex")]

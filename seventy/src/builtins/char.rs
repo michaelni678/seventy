@@ -6,16 +6,16 @@ use crate::core::Validator;
 ///
 /// # Examples
 ///
-/// The example below validates the inner char is alphabetic. Because of the
-/// newtype's guarantees, it is impossible to construct an `AlphabeticChar` with
-/// a non-alphabetic character.
 /// ```
 /// use seventy::{builtins::char::*, seventy, Newtype};
 ///
 /// #[seventy(validate(alphabetic))]
 /// pub struct AlphabeticChar(char);
 ///
+/// // Successfully constructed because 'c' is alphabetic.
 /// assert!(AlphabeticChar::try_new('c').is_ok());
+///
+/// // Unsuccessfully constructed because '0' is not alphabetic.
 /// assert!(AlphabeticChar::try_new('0').is_err());
 /// ```
 pub struct alphabetic;
@@ -30,16 +30,16 @@ impl Validator<char> for alphabetic {
 ///
 /// # Examples
 ///
-/// The example below validates the inner char is alphanumeric. Because of the
-/// newtype's guarantees, it is impossible to construct an `AlphanumericChar`
-/// with a non-alphanumeric character.
 /// ```
 /// use seventy::{builtins::char::*, seventy, Newtype};
 ///
 /// #[seventy(validate(alphanumeric))]
 /// pub struct AlphanumericChar(char);
 ///
+/// // Successfully constructed because '0' is alphnaumeric.
 /// assert!(AlphanumericChar::try_new('0').is_ok());
+///
+/// // Unsuccessfully constructed because '$' is not alphabetic.
 /// assert!(AlphanumericChar::try_new('$').is_err());
 /// ```
 pub struct alphanumeric;
@@ -54,16 +54,16 @@ impl Validator<char> for alphanumeric {
 ///
 /// # Examples
 ///
-/// The example below validates the inner char is ASCII. Because of the
-/// newtype's guarantees, it is impossible to construct an `ASCIIChar` with a
-/// non-ASCII character.
 /// ```
 /// use seventy::{builtins::char::*, seventy, Newtype};
 ///
 /// #[seventy(validate(ascii))]
 /// pub struct ASCIIChar(char);
 ///
+/// // Successfully constructed because '$' is ASCII.
 /// assert!(ASCIIChar::try_new('$').is_ok());
+///
+/// // Unsuccessfully constructed because '\u{7070}' is not ASCII.
 /// assert!(ASCIIChar::try_new('\u{7070}').is_err());
 /// ```
 pub struct ascii;
@@ -78,16 +78,16 @@ impl Validator<char> for ascii {
 ///
 /// # Examples
 ///
-/// The example below validates the inner char is lowercase. Because of the
-/// newtype's guarantees, the constructed `LowercaseChar` will always have an
-/// inner character that is lowercase.
 /// ```
 /// use seventy::{builtins::char::*, seventy, Newtype};
 ///
 /// #[seventy(validate(lowercase))]
 /// pub struct LowercaseChar(char);
 ///
+/// // Successfully constructed because 'c' is lowercase.
 /// assert!(LowercaseChar::try_new('c').is_ok());
+///
+/// // Unsuccessfully constructed because 'c' is not lowercase.
 /// assert!(LowercaseChar::try_new('X').is_err());
 /// ```
 pub struct lowercase;
@@ -102,16 +102,16 @@ impl Validator<char> for lowercase {
 ///
 /// # Examples
 ///
-/// The example below validates the inner char is uppercase. Because of the
-/// newtype's guarantees, the constructed `UppercaseChar` will always have an
-/// inner character that is uppercase.
 /// ```
 /// use seventy::{builtins::char::*, seventy, Newtype};
 ///
 /// #[seventy(validate(uppercase))]
 /// pub struct UppercaseChar(char);
 ///
+/// // Successfully constructed because 'C' is uppercase.
 /// assert!(UppercaseChar::try_new('C').is_ok());
+///
+/// // Unsuccessfully constructed because 'X' is not uppercase.
 /// assert!(UppercaseChar::try_new('x').is_err());
 /// ```
 pub struct uppercase;

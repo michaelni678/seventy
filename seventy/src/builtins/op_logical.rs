@@ -6,10 +6,6 @@ use crate::core::Validator;
 ///
 /// # Examples
 ///
-/// The example below validates the inner char is not alphabetic. Because of the
-/// newtype's guarantees, it is impossible to construct `NotAlphabeticChar` with
-/// an inner char that is alphabetic.
-///
 /// ```
 /// use seventy::{
 ///     builtins::{char::*, op_logical::*},
@@ -19,7 +15,10 @@ use crate::core::Validator;
 /// #[seventy(validate(not(alphabetic)))]
 /// pub struct NotAlphabeticChar(char);
 ///
+/// // Successfully constructed because '0' is not alphabetic.
 /// assert!(NotAlphabeticChar::try_new('0').is_ok());
+///
+/// // Unsuccessfully constructed because 'x' is alphabetic.
 /// assert!(NotAlphabeticChar::try_new('x').is_err());
 /// ```
 pub struct not<V>(pub V);
@@ -39,8 +38,6 @@ where
 ///
 /// # Examples
 ///
-/// The example below validates the number is either 1 or 2.
-///
 /// ```
 /// use seventy::{
 ///     builtins::{compare::*, op_logical::*},
@@ -50,8 +47,11 @@ where
 /// #[seventy(validate(either(eq(1), eq(2))))]
 /// pub struct OneOrTwo(i32);
 ///
+/// // Successfully constructed because the numbers are either 1 or 2.
 /// assert!(OneOrTwo::try_new(1).is_ok());
 /// assert!(OneOrTwo::try_new(2).is_ok());
+///
+/// // Unsuccessfully constructed because 3 is not either 1 or 2.
 /// assert!(OneOrTwo::try_new(3).is_err());
 /// ```
 pub struct either<V1, V2>(pub V1, pub V2);

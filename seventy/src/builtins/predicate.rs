@@ -6,17 +6,16 @@ use crate::core::{Sanitizer, Validator};
 ///
 /// # Examples
 ///
-/// The example below validates the inner character is an ASCII digit. Because
-/// of the newtype's guarantees, it is impossible to construct `AsciiDigit` with
-/// an inner character that is not an ASCII digit.
-///
 /// ```
 /// use seventy::{builtins::predicate::*, seventy, Newtype};
 ///
 /// #[seventy(validate(satisfies(char::is_ascii_digit)))]
 /// pub struct AsciiDigit(char);
 ///
+/// // Successfully constructed because '0' satisfies `char::is_ascii_digit`.
 /// assert!(AsciiDigit::try_new('0').is_ok());
+///
+/// // Unsuccessfully constructed because 'X' doesn't satisfy `char::is_ascii_digit`.
 /// assert!(AsciiDigit::try_new('X').is_err());
 /// ```
 pub struct satisfies<F>(pub F);
@@ -43,7 +42,8 @@ where
 ///
 /// # Examples
 ///
-/// The example below converts all ASCII whitespace to spaces (U+0020).
+/// An example of the `satisfies_then` sanitizer, which converts all ASCII
+/// whitespace to spaces (U+0020).
 ///
 /// ```
 /// use seventy::{
@@ -54,16 +54,16 @@ where
 /// #[seventy(sanitize(satisfies_then(char::is_ascii_whitespace, assign(' '))))]
 /// pub struct SpacedChar(char);
 ///
+/// // No changes because satisfies `char::is_ascii_whitespace`.
 /// assert_eq!(SpacedChar::try_new('c').unwrap().into_inner(), 'c');
 /// assert_eq!(SpacedChar::try_new(' ').unwrap().into_inner(), ' ');
+///
+/// // Assigns to ' ' because '\n' satisfies `char::is_ascii_whitespace`.
 /// assert_eq!(SpacedChar::try_new('\n').unwrap().into_inner(), ' ');
 /// ```
 ///
-/// The example below validates the inner character is uppercase only if if is
-/// also ASCII alphabetic. If the inner character is not ASCII alphabetic, it
-/// can be lowercase. Because of the newtype's guarantees, it is impossible to
-/// construct `MyChar` with an inner character that is lowercase if it is ASCII
-/// alphabetic.
+/// An example of the `satisfies_then` validator, which requires uppercase for
+/// only ASCII alphabetic characters.
 ///
 /// ```
 /// use seventy::{
@@ -74,11 +74,16 @@ where
 /// #[seventy(validate(satisfies_then(char::is_ascii_alphabetic, uppercase)))]
 /// pub struct MyChar(char);
 ///
+/// // Successfully constructed because 'A' satisfies `char::is_ascii_alphabetic` and is uppercase.
 /// assert!(MyChar::try_new('A').is_ok());
 ///
+/// // Successfully constructed because '\u{0180}' does not satisfy `char::is_ascii_alphabetic`,
+/// // and so it doesn't matter if it is uppercase or not.
 /// assert!('\u{0180}'.is_lowercase());
 /// assert!(MyChar::try_new('\u{0180}').is_ok());
 ///
+/// // Unsuccessfully constructed because 'a' satisfies `char::is_ascii_alphabetic` but is not
+/// // uppercase.
 /// assert!(MyChar::try_new('a').is_err());
 /// ```
 pub struct satisfies_then<F, SV>(pub F, pub SV);

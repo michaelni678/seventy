@@ -13,17 +13,16 @@ use regex_util::Regex;
 ///
 /// # Examples
 ///
-/// The example below validates the inner string is a valid email.
-/// Because of the newtype's guarantees, it is impossible to construct
-/// `EmailAddress` with an inner string that is not a valid email.
-///
 /// ```
 /// use seventy::{builtins::email::*, seventy, Newtype};
 ///
 /// #[seventy(validate(email))]
 /// struct EmailAddress(String);
 ///
+/// // Successfully constructed because the email address is valid.
 /// assert!(EmailAddress::try_new("seventy70@example.com").is_ok());
+///
+/// // Unsuccessfully constructed because the email address is invalid.
 /// assert!(EmailAddress::try_new("seventy70@@example.com").is_err());
 /// ```
 pub struct email;

@@ -6,17 +6,16 @@ use crate::core::{Sanitizer, Validator};
 ///
 /// # Examples
 ///
-/// The example below validates the sunscreen's SPF is among the array of
-/// common SPFs. Because of the newtype's guarantees, it is impossible to
-/// construct `SunscreenSPF` with an SPF that is not listed.
-///
 /// ```
 /// use seventy::{builtins::collection::*, seventy, Newtype};
 ///
 /// #[seventy(validate(among([8, 15, 30, 40, 50, 100])))]
 /// struct SunscreenSPF(u8);
 ///
+/// // Successfully constructed because 50 is among the given array.
 /// assert!(SunscreenSPF::try_new(50).is_ok());
+///
+/// // Unsuccessfully constructed because 55 is not among the given array.
 /// assert!(SunscreenSPF::try_new(55).is_err());
 /// ```
 pub struct among<C>(pub C);
@@ -34,16 +33,13 @@ where
 ///
 /// # Examples
 ///
-/// The example below sanitizes a vec of chars to be sorted.
-/// Because of the newtype's guarantees, the constructed `SortedChars` will
-/// always have an inner vec that has been sorted.
-///
 /// ```
 /// use seventy::{builtins::collection::*, seventy, Newtype};
 ///
 /// #[seventy(sanitize(sort))]
 /// struct SortedChars(Vec<char>);
 ///
+/// // Sorts the array.
 /// assert_eq!(
 ///     SortedChars::try_new(['b', 'c', 'a']).unwrap().into_inner(),
 ///     ['a', 'b', 'c']
@@ -73,11 +69,6 @@ where
 ///
 /// # Examples
 ///
-/// The example below validates the length is less than or equal to 5
-/// characters. Because of the newtype's guarantees, it is impossible to
-/// construct `CharVec5` with an inner [`Vec`] containing more
-/// than 5 characters.
-///
 /// ```
 /// use seventy::{
 ///     builtins::{collection::*, compare::*},
@@ -87,7 +78,10 @@ where
 /// #[seventy(validate(length(le(5))))]
 /// pub struct CharVec5(Vec<char>);
 ///
+/// // Successfully constructed because collection length is 5.
 /// assert!(CharVec5::try_new(['a', 'b', 'c', 'd', 'e']).is_ok());
+///
+/// // Unsuccessfully constructed because collection length isn't 5.
 /// assert!(CharVec5::try_new(['a', 'b', 'c', 'd', 'e', 'f']).is_err());
 /// ```
 pub struct length<V>(pub V);

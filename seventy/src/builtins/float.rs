@@ -6,17 +6,16 @@ use crate::core::Validator;
 ///
 /// # Examples
 ///
-/// The example below validates the inner f32 is finite. Because of the
-/// newtype's guarantees, it is impossible to construct `FiniteF32` with
-/// an inner f32 that is not finite.
-///
 /// ```
 /// use seventy::{builtins::float::*, seventy, Newtype};
 ///
 /// #[seventy(validate(finite))]
 /// struct FiniteF32(f32);
 ///
+/// // Unsuccessfully constructed because 70.70 is finite.
 /// assert!(FiniteF32::try_new(70.70).is_ok());
+///
+/// // Unsuccessfully constructed because the numbers are not finite.
 /// assert!(FiniteF32::try_new(f32::INFINITY).is_err());
 /// assert!(FiniteF32::try_new(f32::NAN).is_err());
 /// ```

@@ -8,18 +8,16 @@ use crate::core::Validator;
 ///
 /// # Examples
 ///
-/// The example below validates the percentage of germs killed for a cleaning
-/// product is less than 100.0 units. Because of the newtype's guarantees,
-/// it is impossible to construct `PercentGermsKilled` with an inner f32 that is
-/// 100.0 or greater.
-///
 /// ```
 /// use seventy::{builtins::compare::*, seventy, Newtype};
 ///
 /// #[seventy(validate(lt(100.0)))]
 /// struct PercentGermsKilled(f32);
 ///
+/// // Successfully constructed because 99.9 < 100.0.
 /// assert!(PercentGermsKilled::try_new(99.9).is_ok());
+///
+/// // Unsuccessfully constructed because the numbers are not < 100.0.
 /// assert!(PercentGermsKilled::try_new(100.0).is_err());
 /// assert!(PercentGermsKilled::try_new(100.1).is_err());
 /// ```
@@ -38,10 +36,6 @@ where
 ///
 /// # Examples
 ///
-/// The example below validates the package weight is less than or equal
-/// to the limit of 70.0. Because of the newtype's guarantees, it is impossible
-/// to construct `PackageWeight` with an inner f32 that is greater than 70.0.
-///
 /// ```
 /// use seventy::{builtins::compare::*, seventy, Newtype};
 ///
@@ -50,8 +44,11 @@ where
 /// #[seventy(validate(le(MAX_PACKAGE_WEIGHT)))]
 /// struct PackageWeight(f32);
 ///
+/// // Successfully constructed because the numbers are <= `MAX_PACKAGE_WEIGHT`.
 /// assert!(PackageWeight::try_new(68.3).is_ok());
 /// assert!(PackageWeight::try_new(70.0).is_ok());
+///
+/// // Unsuccessfully constructed because 70.9 is not <= `MAX_PACKAGE_WEIGHT`.
 /// assert!(PackageWeight::try_new(70.9).is_err());
 /// ```
 pub struct le<T>(pub T);
@@ -69,19 +66,18 @@ where
 ///
 /// # Examples
 ///
-/// The example below validates the inner i32 is positive. Because of the
-/// newtype's guarantees, it is impossible to construct `PositiveNumber` with
-/// a negative or zero i32.
-///
 /// ```
 /// use seventy::{builtins::compare::*, seventy, Newtype};
 ///
 /// #[seventy(validate(gt(0)))]
 /// struct PositiveNumber(i32);
 ///
-/// assert!(PositiveNumber::try_new(70).is_ok());
+/// // Successfully constructed because 5 > 0.
+/// assert!(PositiveNumber::try_new(5).is_ok());
+///
+/// // Unsuccessfully constructed because the numbers are not > 0.
 /// assert!(PositiveNumber::try_new(0).is_err());
-/// assert!(PositiveNumber::try_new(-70).is_err());
+/// assert!(PositiveNumber::try_new(-5).is_err());
 /// ```
 pub struct gt<T>(pub T);
 
@@ -98,18 +94,17 @@ where
 ///
 /// # Examples
 ///
-/// The example below validates the age is over 13. Because of the newtype's
-/// guarantees, it is impossible to construct `Age` with an inner u8 less than
-/// 13.
-///
 /// ```
 /// use seventy::{builtins::compare::*, seventy, Newtype};
 ///
 /// #[seventy(validate(ge(13)))]
 /// struct Age(u8);
 ///
+/// // Successfully constructed because the numbers are >= 13.
 /// assert!(Age::try_new(70).is_ok());
 /// assert!(Age::try_new(13).is_ok());
+///
+/// // Unsuccessfully constructed because 11 is not >= 13.
 /// assert!(Age::try_new(11).is_err());
 /// ```
 pub struct ge<T>(pub T);
@@ -127,16 +122,16 @@ where
 ///
 /// # Examples
 ///
-/// The example below validates the inner u8 is 70. Because of the newtype's
-/// guarantees, it is impossible to construct `Seventy` with a non-70 u8.
-///
 /// ```
 /// use seventy::{builtins::compare::*, seventy, Newtype};
 ///
 /// #[seventy(validate(eq(70)))]
 /// struct Seventy(u8);
 ///
+/// // Successfully constructed because 70 == 70.
 /// assert!(Seventy::try_new(70).is_ok());
+///
+/// // Unsuccessfully constructed because 60 is not == 70.
 /// assert!(Seventy::try_new(60).is_err());
 /// ```
 pub struct eq<T>(pub T);
@@ -154,16 +149,16 @@ where
 ///
 /// # Examples
 ///
-/// The example below validates the inner u32 is not 0. Because of the newtype's
-/// guarantees, it is impossible to construct `NonZeroU32` with a zero.
-///
 /// ```
 /// use seventy::{builtins::compare::*, seventy, Newtype};
 ///
 /// #[seventy(validate(ne(0)))]
 /// struct NonZeroU32(u32);
 ///
+/// // Successfully constructed because the number is not equal to 0.
 /// assert!(NonZeroU32::try_new(70u32).is_ok());
+///
+/// // Unsuccessfully constructed because the number is equal to 0.
 /// assert!(NonZeroU32::try_new(0u32).is_err());
 /// ```
 pub struct ne<T>(pub T);
@@ -181,20 +176,21 @@ where
 ///
 /// # Examples
 ///
-/// The example below validates the loan request amount is between 5000 and
-/// 100000. Because of the newtype's guarantees, it is impossible to construct
-/// `LoanAmount` with a u32 less than 5000 or greater than 100000.
-///
 /// ```
 /// use seventy::{builtins::compare::*, seventy, Newtype};
 ///
 /// #[seventy(validate(within(5000..=100000)))]
 /// struct LoanAmount(u32);
 ///
+/// // Unsuccessfully constructed because 70 is not between 5K and 100k.
 /// assert!(LoanAmount::try_new(70u32).is_err());
+///
+/// // Successfully constructed because the numbers are between 5k and 100k.
 /// assert!(LoanAmount::try_new(5000u32).is_ok());
 /// assert!(LoanAmount::try_new(70000u32).is_ok());
 /// assert!(LoanAmount::try_new(100000u32).is_ok());
+///
+/// // Unsuccessfully constructed because 100070 is not between 5K and 100k.
 /// assert!(LoanAmount::try_new(100070u32).is_err());
 /// ```
 pub struct within<R>(pub R);
