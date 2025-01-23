@@ -14,7 +14,7 @@ use crate::core::Validator;
 ///
 /// // Successfully constructed because the URL is valid.
 /// assert!(URL::try_new("https://github.com/michaelni678/seventy").is_ok());
-/// 
+///
 /// // Unsuccessfully constructed because the URL is invalid.
 /// assert!(URL::try_new("http://[:::1]").is_err());
 /// ```

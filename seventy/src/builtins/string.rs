@@ -89,7 +89,7 @@ impl Sanitizer<String> for trim_right {
 ///
 /// // Successfully constructed because the string is only alphabetic.
 /// assert!(FirstName::try_new("Michael").is_ok());
-/// 
+///
 /// // Unsuccessfully constructed because the string is not only alphabetic.
 /// assert!(FirstName::try_new("Mich4el").is_err());
 /// ```
@@ -116,7 +116,7 @@ where
 ///
 /// // Successfully constructed because the string is only alphanumeric.
 /// assert!(Username::try_new("Seventy70").is_ok());
-/// 
+///
 /// // Unsuccessfully constructed because the string is not only alphanumeric.
 /// assert!(Username::try_new("Seventy#70!").is_err());
 /// ```
@@ -143,7 +143,7 @@ where
 ///
 /// // Successfully constructed because the string is only ASCII.
 /// assert!(Password::try_new("Seventy#70!").is_ok());
-/// 
+///
 /// // Unsuccessfully constructed because the string is not only ASCII.
 /// assert!(Password::try_new("Seventy\u{7070}#70!").is_err());
 /// ```
@@ -189,7 +189,7 @@ where
 ///
 /// // Successfully constructed because the string is only lowercase.
 /// assert!(LowercaseString::try_new("whisper").is_ok());
-/// 
+///
 /// // Unsuccessfully constructed because the string is not only lowercase.
 /// assert!(LowercaseString::try_new("Whisper").is_err());
 /// ```
@@ -215,7 +215,7 @@ where
 /// # Examples
 ///
 /// An example of the `uppercase` sanitizer.
-/// 
+///
 /// ```
 /// use seventy::{builtins::string::*, seventy, Newtype};
 ///
@@ -230,7 +230,7 @@ where
 /// ```
 ///
 /// An example of the `uppercase` validator.
-/// 
+///
 /// ```
 /// use seventy::{builtins::string::*, seventy, Newtype};
 ///
@@ -239,7 +239,7 @@ where
 ///
 /// // Successfully constructed because the string is only uppercase.
 /// assert!(UppercaseString::try_new("SHOUT").is_ok());
-/// 
+///
 /// // Unsuccessfully constructed because the string is not only uppercase.
 /// assert!(UppercaseString::try_new("Shout").is_err());
 /// ```
@@ -275,7 +275,7 @@ where
 ///
 /// // Successfully constructed because the string is <= 15 characters.
 /// assert!(TextBox::try_new("Hello, World!").is_ok());
-/// 
+///
 /// // Unsuccessfully constructed because the string is not <= 15 characters.
 /// assert!(TextBox::try_new("Hello, World! I am hungry.").is_err());
 /// ```
@@ -311,7 +311,7 @@ where
 ///
 /// // Successfully constructed because the string is not empty.
 /// assert!(TextBox::try_new("Hello, World!").is_ok());
-/// 
+///
 /// // Unsuccessfully constructed because the string is empty.
 /// assert!(TextBox::try_new("").is_err());
 /// ```
@@ -338,7 +338,7 @@ where
 ///
 /// // Successfully constructed because "Seven Tea Inc." matches the regex.
 /// assert!(Company::try_new("Seven Tea Inc.").is_ok());
-/// 
+///
 /// // Unsuccessfuly constructed because "Seven \u{1F375} Inc." does not match the regex.
 /// assert!(Company::try_new("Seven \u{1F375} Inc.").is_err());
 /// ```
