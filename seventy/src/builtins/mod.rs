@@ -28,6 +28,7 @@ pub mod credit_card;
 pub mod email;
 pub mod float;
 pub mod op_assign;
+pub mod op_logical;
 pub mod option;
 pub mod predicate;
 pub mod string;

@@ -344,9 +344,9 @@ where
 ///
 /// # Examples
 ///
-/// The example below validates the company matches the regex.
-/// Because of the newtype's guarantees, it is impossible to construct
-/// `Company` with an inner string that does not match the regex.
+/// The example below validates the company matches the regex. Because of the
+/// newtype's guarantees, it is impossible to construct `Company` with an inner
+/// string that does not match the regex.
 ///
 /// ```
 /// use seventy::{builtins::string::*, seventy, Newtype};

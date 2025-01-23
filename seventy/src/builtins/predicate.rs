@@ -45,7 +45,7 @@ where
 ///
 /// ```
 /// use seventy::{
-///     builtins::{operator::*, predicate::*},
+///     builtins::{op_assign::*, predicate::*},
 ///     seventy, Newtype,
 /// };
 ///

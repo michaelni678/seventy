@@ -9,7 +9,7 @@ use crate::core::Sanitizer;
 /// 5.
 ///
 /// ```
-/// use seventy::{builtins::operator::*, seventy, Newtype};
+/// use seventy::{builtins::op_assign::*, seventy, Newtype};
 ///
 /// #[seventy(sanitize(assign(5)))]
 /// pub struct Five(i32);
