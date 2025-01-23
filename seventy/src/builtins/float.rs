@@ -12,7 +12,7 @@ use crate::core::Validator;
 /// #[seventy(validate(finite))]
 /// struct FiniteF32(f32);
 ///
-/// // Unsuccessfully constructed because 70.70 is finite.
+/// // Successfully constructed because 70.70 is finite.
 /// assert!(FiniteF32::try_new(70.70).is_ok());
 ///
 /// // Unsuccessfully constructed because the numbers are not finite.
