@@ -114,6 +114,27 @@
 //! know the specific reason why a newtype couldn't be created, Seventy is not
 //! the crate for you.
 //!
+//! # Chaining
+//!
+//! Some sanitizers and validators can be chained together!
+//!
+//! The [`length`] validator below forwards the character length of the string
+//! to the inner validator [`gt`], which will validate that the length is
+//! greater than 5.
+//!
+//! ```
+//! use seventy::{
+//!     builtins::{compare::*, string::*},
+//!     seventy, Newtype,
+//! };
+//!
+//! #[seventy(validate(length::chars(gt(5))))]
+//! pub struct Username(String);
+//!
+//! assert!(Username::try_new("username").is_ok());
+//! assert!(Username::try_new("user").is_err());
+//! ```
+//!
 //! # Upgrading
 //!
 //! Upgrades automatically implement useful functionality. More about upgrades
@@ -158,6 +179,8 @@
 //! [`Sanitizer`]: seventy::core::Sanitizer
 //! [`built-in validators`]: seventy::builtins
 //! [`Validator`]: seventy::core::Validator
+//! [`length`]: seventy::builtins::string::length
+//! [`gt`]: seventy::builtins::compare::gt
 
 extern crate self as seventy;
 
