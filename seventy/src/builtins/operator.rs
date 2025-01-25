@@ -1,6 +1,30 @@
-//! Logical operator built-ins.
+//! Operator built-ins.
 
-use crate::core::Validator;
+use crate::core::{Sanitizer, Validator};
+
+/// [`Sanitizer`] assigns the target to the given value.
+///
+/// # Examples
+///
+/// ```
+/// use seventy::{builtins::operator::*, seventy, Newtype};
+///
+/// #[seventy(sanitize(assign(5)))]
+/// pub struct Five(i32);
+///
+/// // Assigns to 5.
+/// assert_eq!(Five::try_new(3).unwrap().into_inner(), 5);
+/// ```
+pub struct assign<T>(pub T);
+
+impl<T> Sanitizer<T> for assign<T>
+where
+    T: Clone,
+{
+    fn sanitize(&self, target: &mut T) {
+        *target = self.0.clone();
+    }
+}
 
 /// [`Validator`] checks if target is not the inner validation.
 ///
@@ -8,7 +32,7 @@ use crate::core::Validator;
 ///
 /// ```
 /// use seventy::{
-///     builtins::{char::*, op_logical::*},
+///     builtins::{char::*, operator::*},
 ///     seventy, Newtype,
 /// };
 ///
@@ -40,7 +64,7 @@ where
 ///
 /// ```
 /// use seventy::{
-///     builtins::{compare::*, op_logical::*},
+///     builtins::{compare::*, operator::*},
 ///     seventy, Newtype,
 /// };
 ///
