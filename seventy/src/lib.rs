@@ -114,9 +114,10 @@
 //! know the specific reason why a newtype couldn't be created, Seventy is not
 //! the crate for you.
 //!
-//! # Chaining
+//! # Forwarding
 //!
-//! Some sanitizers and validators can be chained together!
+//! Some sanitizers and validators can be nested inside each other! The outer
+//! sanitizer or validator will then forward some value to the inner.
 //!
 //! The [`length`] validator below forwards the character length of the string
 //! to the inner validator [`gt`], which will validate that the length is
