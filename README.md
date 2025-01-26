@@ -1,4 +1,4 @@
-<h1 align="center"">Seventy</h1>
+<h1 align="center">Seventy</h1>
 <h3 align="center">Rust newtype sanitization & validation</h3>
 <div align="center">
 
