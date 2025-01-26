@@ -10,8 +10,20 @@
 
 </div>
 
-Seventy is a simple [newtype](https://doc.rust-lang.org/rust-by-example/generics/new_types.html) 
+**Seventy** is a simple [newtype](https://doc.rust-lang.org/rust-by-example/generics/new_types.html)
 sanitizer and validator. 
+
+- **Why newtypes?**
+
+    Newtypes provide compile-time guarantees that your program is using the correct values by wrapping existing types.
+
+- **Why sanitize?**
+
+    Newtypes are sanitized during construction, ensuring the values conform to the formats you expect.
+
+- **Why validate?**
+
+    Newtypes are validated during construction, ensuring it's impossible to create a newtype with values that don't meet the defined rules.
 
 There is no error handling. If you need to know why the newtype couldn't be created, this crate 
 isn't for you.
