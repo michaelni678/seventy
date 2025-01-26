@@ -120,7 +120,7 @@
 //! sanitizer or validator will then forward some value to the inner.
 //!
 //! The [`length`] validator below forwards the character length of the string
-//! to the inner validator [`gt`], which will validate that the length is
+//! to the inner [`gt`] validator, which will validate that the length is
 //! greater than 5.
 //!
 //! ```
