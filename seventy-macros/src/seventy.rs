@@ -114,20 +114,20 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
 
     if independent {
         sanitize = quote! {
-            <_ as ::seventy::core::Sanitizer<Self::Inner>>::sanitize(&(#sanitizers), target);
+            <_ as ::seventy::core::Sanitizer<Self::Inner>>::sanitize(&::seventy::builtins::bundle::bundle!(#sanitizers), target);
         };
 
         validate = quote! {
-            <_ as ::seventy::core::Validator<Self::Inner>>::validate(&(#validators), target)
+            <_ as ::seventy::core::Validator<Self::Inner>>::validate(&::seventy::builtins::bundle::bundle!(#validators), target)
         }
     } else {
         sanitize = quote! {
-            static SANITIZER: ::std::sync::LazyLock<Box<dyn ::seventy::core::Sanitizer<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new((#sanitizers)));
+            static SANITIZER: ::std::sync::LazyLock<Box<dyn ::seventy::core::Sanitizer<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new(::seventy::builtins::bundle::bundle!(#sanitizers)));
             std::sync::LazyLock::force(&SANITIZER).sanitize(target);
         };
 
         validate = quote! {
-            static VALIDATOR: ::std::sync::LazyLock<Box<dyn ::seventy::core::Validator<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new((#validators)));
+            static VALIDATOR: ::std::sync::LazyLock<Box<dyn ::seventy::core::Validator<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new(::seventy::builtins::bundle::bundle!(#validators)));
             std::sync::LazyLock::force(&VALIDATOR).validate(target)
         };
     }
