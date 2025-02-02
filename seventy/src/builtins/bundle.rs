@@ -87,3 +87,267 @@ impl_bundle_validator!(V1, V2, V3, V4, V5, V6, V7, V8, V9);
 impl_bundle_validator!(V1, V2, V3, V4, V5, V6, V7, V8, V9, V10);
 impl_bundle_validator!(V1, V2, V3, V4, V5, V6, V7, V8, V9, V10, V11);
 impl_bundle_validator!(V1, V2, V3, V4, V5, V6, V7, V8, V9, V10, V11, V12);
+
+#[doc(hidden)]
+#[macro_export]
+macro_rules! _bundle {
+    ($v1:expr) => {
+        $v1
+    };
+    ($v1:expr, $v2:expr) => {
+        ($v1, $v2)
+    };
+    ($v1:expr, $v2:expr, $v3:expr) => {
+        ($v1, $v2, $v3)
+    };
+    ($v1:expr, $v2:expr, $v3:expr, $v4:expr) => {
+        ($v1, $v2, $v3, $v4)
+    };
+    ($v1:expr, $v2:expr, $v3:expr, $v4:expr, $v5:expr) => {
+        ($v1, $v2, $v3, $v4, $v5)
+    };
+    ($v1:expr, $v2:expr, $v3:expr, $v4:expr, $v5:expr, $v6:expr) => {
+        ($v1, $v2, $v3, $v4, $v5, $v6)
+    };
+    ($v1:expr, $v2:expr, $v3:expr, $v4:expr, $v5:expr, $v6:expr, $v7:expr) => {
+        ($v1, $v2, $v3, $v4, $v5, $v6, $v7)
+    };
+    ($v1:expr, $v2:expr, $v3:expr, $v4:expr, $v5:expr, $v6:expr, $v7:expr, $v8:expr) => {
+        ($v1, $v2, $v3, $v4, $v5, $v6, $v7, $v8)
+    };
+    ($v1:expr, $v2:expr, $v3:expr, $v4:expr, $v5:expr, $v6:expr, $v7:expr, $v8:expr, $v9:expr) => {
+        ($v1, $v2, $v3, $v4, $v5, $v6, $v7, $v8, $v9)
+    };
+    ($v1:expr, $v2:expr, $v3:expr, $v4:expr, $v5:expr, $v6:expr, $v7:expr, $v8:expr, $v9:expr, $v10:expr) => {
+        ($v1, $v2, $v3, $v4, $v5, $v6, $v7, $v8, $v9, $v10)
+    };
+    ($v1:expr, $v2:expr, $v3:expr, $v4:expr, $v5:expr, $v6:expr, $v7:expr, $v8:expr, $v9:expr, $v10:expr, $v11:expr) => {
+        ($v1, $v2, $v3, $v4, $v5, $v6, $v7, $v8, $v9, $v10, $v11)
+    };
+    ($v1:expr, $v2:expr, $v3:expr, $v4:expr, $v5:expr, $v6:expr, $v7:expr, $v8:expr, $v9:expr, $v10:expr, $v11:expr, $($rest:tt)*) => {
+        ($v1, $v2, $v3, $v4, $v5, $v6, $v7, $v8, $v9, $v10, $v11, $crate::builtins::bundle::bundle!($($rest)*))
+    };
+}
+
+pub use _bundle as bundle;
+
+#[cfg(test)]
+mod tests {
+    use crate::builtins::debug::*;
+
+    use super::*;
+
+    #[test]
+    fn bundle_1() {
+        matches!(bundle!(invalid), invalid);
+    }
+
+    #[test]
+    fn bundle_2() {
+        matches!(bundle!(invalid, invalid), (invalid, invalid));
+    }
+
+    #[test]
+    fn bundle_3() {
+        matches!(bundle!(invalid, invalid, invalid), (invalid, invalid, invalid));
+    }
+
+    #[test]
+    fn bundle_4() {
+        matches!(
+            bundle!(invalid, invalid, invalid, invalid),
+            (invalid, invalid, invalid, invalid)
+        );
+    }
+
+    #[test]
+    fn bundle_5() {
+        matches!(
+            bundle!(invalid, invalid, invalid, invalid, invalid),
+            (invalid, invalid, invalid, invalid, invalid)
+        );
+    }
+
+    #[test]
+    fn bundle_6() {
+        matches!(
+            bundle!(invalid, invalid, invalid, invalid, invalid, invalid),
+            (invalid, invalid, invalid, invalid, invalid, invalid)
+        );
+    }
+
+    #[test]
+    fn bundle_7() {
+        matches!(
+            bundle!(invalid, invalid, invalid, invalid, invalid, invalid, invalid),
+            (invalid, invalid, invalid, invalid, invalid, invalid, invalid)
+        );
+    }
+
+    #[test]
+    fn bundle_8() {
+        matches!(
+            bundle!(invalid, invalid, invalid, invalid, invalid, invalid, invalid, invalid),
+            (invalid, invalid, invalid, invalid, invalid, invalid, invalid, invalid)
+        );
+    }
+
+    #[test]
+    fn bundle_9() {
+        matches!(
+            bundle!(
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid
+            ),
+            (
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid
+            )
+        );
+    }
+
+    #[test]
+    fn bundle_10() {
+        matches!(
+            bundle!(
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid
+            ),
+            (
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid
+            )
+        );
+    }
+
+    #[test]
+    fn bundle_11() {
+        matches!(
+            bundle!(
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid
+            ),
+            (
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid
+            )
+        );
+    }
+
+    #[test]
+    fn bundle_12() {
+        matches!(
+            bundle!(
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid
+            ),
+            (
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid
+            )
+        );
+    }
+
+    #[test]
+    fn bundle_13() {
+        matches!(
+            bundle!(
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid
+            ),
+            (
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                invalid,
+                (invalid, invalid)
+            )
+        );
+    }
+}
