@@ -89,3 +89,47 @@ where
         self.0.validate(target) || self.1.validate(target)
     }
 }
+
+/// [`Validator`] checks if valid for any inner validator.
+///
+/// If a validator returns a valid validation, the remaining are skipped.
+///
+/// Internally expands to a bunch of [`either`] validators.
+///
+/// # Examples
+///
+/// ```
+/// use seventy::{
+///     builtins::{compare::*, operator::*},
+///     seventy, Newtype,
+/// };
+///
+/// #[seventy(validate(any!(eq(1), eq(2), eq(3))))]
+/// pub struct OneOrTwoOrThree(i32);
+///
+/// // Sucessfully constructed because the numbers are either 1, 2, or 3.
+/// assert!(OneOrTwoOrThree::try_new(1).is_ok());
+/// assert!(OneOrTwoOrThree::try_new(2).is_ok());
+/// assert!(OneOrTwoOrThree::try_new(3).is_ok());
+///
+/// // Unsuccessfully constructed because 4 is not either 1, 2, or 3.
+/// assert!(OneOrTwoOrThree::try_new(4).is_err());
+/// ```
+#[doc(hidden)]
+#[macro_export]
+macro_rules! _any {
+    ($a:expr) => {
+        $a
+    };
+    ($a:expr, $b:expr) => {
+        $crate::builtins::operator::either($a, $b)
+    };
+    ($a:expr, $($rest:tt)*) => {
+        $crate::builtins::operator::either(
+            $a,
+            $crate::builtins::operator::any!($($rest)*)
+        )
+    };
+}
+
+pub use _any as any;
