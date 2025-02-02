@@ -132,4 +132,5 @@ macro_rules! _any {
     };
 }
 
+#[doc(inline)]
 pub use _any as any;

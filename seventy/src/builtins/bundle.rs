@@ -135,6 +135,7 @@ macro_rules! _bundle {
     };
 }
 
+#[doc(inline)]
 pub use _bundle as bundle;
 
 #[cfg(test)]
