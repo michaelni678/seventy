@@ -21,7 +21,7 @@ where
 
         // SAFETY: Sorted order will be maintained after insertion, so the
         // newtype's guarantees will not be violated.
-        unsafe { self.to_inner_mut() }.insert(index, item);
+        unsafe { self.as_inner_mut() }.insert(index, item);
     }
 }
 

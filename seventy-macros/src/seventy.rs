@@ -99,7 +99,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                 }
             }
 
-            fn to_inner(&self) -> &Self::Inner {
+            fn as_inner(&self) -> &Self::Inner {
                 &self.0
             }
 
@@ -150,7 +150,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
         expansion.push(quote! {
             impl #impl_generics AsRef<<Self as ::seventy::core::Newtype>::Inner> for #ident #ty_generics #where_clause {
                 fn as_ref(&self) -> &<Self as ::seventy::core::Newtype>::Inner {
-                    self.to_inner()
+                    self.as_inner()
                 }
             }
         });
@@ -159,11 +159,11 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
     if bypassable {
         expansion.push(quote! {
             impl #impl_generics ::seventy::core::Bypassable for #ident #ty_generics #where_clause {
-                unsafe fn unchecked_new(inner: impl Into<<Self as ::seventy::core::Newtype>::Inner>) -> Self {
+                unsafe fn new_unchecked(inner: impl Into<<Self as ::seventy::core::Newtype>::Inner>) -> Self {
                     Self(inner.into())
                 }
 
-                unsafe fn unsanitized_new(inner: impl Into<Self::Inner>) -> Result<Self, Self::Inner> {
+                unsafe fn new_unsanitized(inner: impl Into<Self::Inner>) -> Result<Self, Self::Inner> {
                     let inner = inner.into();
 
                     let is_valid = <Self as ::seventy::core::Validatable>::validate(&inner);
@@ -175,7 +175,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                     }
                 }
 
-                unsafe fn unvalidated_new(inner: impl Into<<Self as ::seventy::core::Newtype>::Inner>) -> Self {
+                unsafe fn new_unvalidated(inner: impl Into<<Self as ::seventy::core::Newtype>::Inner>) -> Self {
                     let mut inner = inner.into();
 
                     <Self as ::seventy::core::Sanitizable>::sanitize(&mut inner);
@@ -183,7 +183,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                     Self(inner)
                 }
 
-                unsafe fn to_inner_mut(&mut self) -> &mut <Self as ::seventy::core::Newtype>::Inner {
+                unsafe fn as_inner_mut(&mut self) -> &mut <Self as ::seventy::core::Newtype>::Inner {
                     &mut self.0
                 }
             }
@@ -228,7 +228,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
         expansion.push(quote! {
             impl #impl_generics ::std::fmt::Display for #ident #ty_generics #where_clause {
                 fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
-                    <Self as ::seventy::core::Newtype>::to_inner(self).fmt(f)
+                    <Self as ::seventy::core::Newtype>::as_inner(self).fmt(f)
                 }
             }
         });
@@ -241,8 +241,8 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                     <Self as ::seventy::core::Newtype>::try_new(inner)
                 }
 
-                pub fn to_inner(&self) -> &<Self as ::seventy::core::Newtype>::Inner {
-                    <Self as ::seventy::core::Newtype>::to_inner(self)
+                pub fn as_inner(&self) -> &<Self as ::seventy::core::Newtype>::Inner {
+                    <Self as ::seventy::core::Newtype>::as_inner(self)
                 }
 
                 pub fn into_inner(self) -> <Self as ::seventy::core::Newtype>::Inner {
@@ -259,7 +259,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                 where
                     S: ::serde::Serializer,
                 {
-                    serializer.serialize_newtype_struct(stringify!(#ident), self.to_inner())
+                    serializer.serialize_newtype_struct(stringify!(#ident), self.as_inner())
                 }
             }
         });

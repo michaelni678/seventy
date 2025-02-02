@@ -18,7 +18,7 @@ pub trait Newtype: Sized {
     /// Get the inner value.
     ///
     /// This is an alternative to the `as_ref` upgrade.
-    fn to_inner(&self) -> &Self::Inner;
+    fn as_inner(&self) -> &Self::Inner;
 
     /// Convert to the inner value.
     fn into_inner(self) -> Self::Inner;
@@ -53,7 +53,7 @@ pub trait Bypassable: Newtype {
     /// # Safety
     ///
     /// The constructed instance may violate the newtype's guarantees.
-    unsafe fn unchecked_new(inner: impl Into<Self::Inner>) -> Self;
+    unsafe fn new_unchecked(inner: impl Into<Self::Inner>) -> Self;
 
     /// Construct the newtype, skipping sanitization.
     ///
@@ -61,7 +61,7 @@ pub trait Bypassable: Newtype {
     ///
     /// The constructed instance may violate the newtype's sanitization
     /// guarantee.
-    unsafe fn unsanitized_new(inner: impl Into<Self::Inner>) -> Result<Self, Self::Inner>;
+    unsafe fn new_unsanitized(inner: impl Into<Self::Inner>) -> Result<Self, Self::Inner>;
 
     /// Construct the newtype, skipping validation.
     ///
@@ -69,14 +69,14 @@ pub trait Bypassable: Newtype {
     ///
     /// The constructed instance may violate the newtype's validation
     /// guarantee.
-    unsafe fn unvalidated_new(inner: impl Into<Self::Inner>) -> Self;
+    unsafe fn new_unvalidated(inner: impl Into<Self::Inner>) -> Self;
 
     /// Get the inner value mutably.
     ///
     /// # Safety
     ///
     /// Mutating the instance may violate the newtype's guarantees.
-    unsafe fn to_inner_mut(&mut self) -> &mut Self::Inner;
+    unsafe fn as_inner_mut(&mut self) -> &mut Self::Inner;
 }
 
 /// Sanitization logic.
