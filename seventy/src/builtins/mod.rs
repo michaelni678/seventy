@@ -24,7 +24,6 @@ pub mod collection;
 pub mod compare;
 #[cfg(feature = "credit-card")]
 pub mod credit_card;
-pub mod debug;
 #[cfg(feature = "email")]
 pub mod email;
 pub mod float;
