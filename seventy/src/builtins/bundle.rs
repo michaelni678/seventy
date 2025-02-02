@@ -97,6 +97,9 @@ impl_bundle_validator!(V1, V2, V3, V4, V5, V6, V7, V8, V9, V10, V11, V12);
 #[doc(hidden)]
 #[macro_export]
 macro_rules! _bundle {
+    () => {
+        ()
+    };
     ($sv1:expr) => {
         $sv1
     };
