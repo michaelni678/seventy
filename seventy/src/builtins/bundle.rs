@@ -88,6 +88,12 @@ impl_bundle_validator!(V1, V2, V3, V4, V5, V6, V7, V8, V9, V10);
 impl_bundle_validator!(V1, V2, V3, V4, V5, V6, V7, V8, V9, V10, V11);
 impl_bundle_validator!(V1, V2, V3, V4, V5, V6, V7, V8, V9, V10, V11, V12);
 
+/// [`Sanitizer`] and [`Validator`] expands into bundle tuples.
+///
+/// Only tuples up to an arity of 12 implement [`Sanitizer`] and [`Validator`].
+/// Luckily, bundles can be nested within each other! This macro takes any
+/// number of sanitizers or validators and expands into the necessary bundle
+/// tuples.
 #[doc(hidden)]
 #[macro_export]
 macro_rules! _bundle {
@@ -145,135 +151,54 @@ mod tests {
 
     #[test]
     fn bundle_2() {
-        matches!(
-            bundle!(sv::<1>, sv::<2>),
-            (sv::<1>, sv::<2>)
-        );
+        matches!(bundle!(sv::<1>, sv::<2>), (sv::<1>, sv::<2>));
     }
 
     #[test]
     fn bundle_3() {
         matches!(
-            bundle!(
-                sv::<1>,
-                sv::<2>,
-                sv::<3>
-            ),
-            (
-                sv::<1>,
-                sv::<2>,
-                sv::<3>
-            )
+            bundle!(sv::<1>, sv::<2>, sv::<3>),
+            (sv::<1>, sv::<2>, sv::<3>)
         );
     }
 
     #[test]
     fn bundle_4() {
         matches!(
-            bundle!(
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>
-            ),
-            (
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>
-            )
+            bundle!(sv::<1>, sv::<2>, sv::<3>, sv::<4>),
+            (sv::<1>, sv::<2>, sv::<3>, sv::<4>)
         );
     }
 
     #[test]
     fn bundle_5() {
         matches!(
-            bundle!(
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>,
-                sv::<5>
-            ),
-            (
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>,
-                sv::<5>
-            )
+            bundle!(sv::<1>, sv::<2>, sv::<3>, sv::<4>, sv::<5>),
+            (sv::<1>, sv::<2>, sv::<3>, sv::<4>, sv::<5>)
         );
     }
 
     #[test]
     fn bundle_6() {
         matches!(
-            bundle!(
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>,
-                sv::<5>,
-                sv::<6>
-            ),
-            (
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>,
-                sv::<5>,
-                sv::<6>
-            )
+            bundle!(sv::<1>, sv::<2>, sv::<3>, sv::<4>, sv::<5>, sv::<6>),
+            (sv::<1>, sv::<2>, sv::<3>, sv::<4>, sv::<5>, sv::<6>)
         );
     }
 
     #[test]
     fn bundle_7() {
         matches!(
-            bundle!(
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>,
-                sv::<5>,
-                sv::<6>,
-                sv::<7>
-            ),
-            (
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>,
-                sv::<5>,
-                sv::<6>,
-                sv::<7>
-            )
+            bundle!(sv::<1>, sv::<2>, sv::<3>, sv::<4>, sv::<5>, sv::<6>, sv::<7>),
+            (sv::<1>, sv::<2>, sv::<3>, sv::<4>, sv::<5>, sv::<6>, sv::<7>)
         );
     }
 
     #[test]
     fn bundle_8() {
         matches!(
-            bundle!(
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>,
-                sv::<5>,
-                sv::<6>,
-                sv::<7>,
-                sv::<8>
-            ),
-            (
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>,
-                sv::<5>,
-                sv::<6>,
-                sv::<7>,
-                sv::<8>
-            )
+            bundle!(sv::<1>, sv::<2>, sv::<3>, sv::<4>, sv::<5>, sv::<6>, sv::<7>, sv::<8>),
+            (sv::<1>, sv::<2>, sv::<3>, sv::<4>, sv::<5>, sv::<6>, sv::<7>, sv::<8>)
         );
     }
 
@@ -281,27 +206,9 @@ mod tests {
     fn bundle_9() {
         matches!(
             bundle!(
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>,
-                sv::<5>,
-                sv::<6>,
-                sv::<7>,
-                sv::<8>,
-                sv::<9>
+                sv::<1>, sv::<2>, sv::<3>, sv::<4>, sv::<5>, sv::<6>, sv::<7>, sv::<8>, sv::<9>
             ),
-            (
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>,
-                sv::<5>,
-                sv::<6>,
-                sv::<7>,
-                sv::<8>,
-                sv::<9>
-            )
+            (sv::<1>, sv::<2>, sv::<3>, sv::<4>, sv::<5>, sv::<6>, sv::<7>, sv::<8>, sv::<9>)
         );
     }
 
@@ -309,27 +216,11 @@ mod tests {
     fn bundle_10() {
         matches!(
             bundle!(
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>,
-                sv::<5>,
-                sv::<6>,
-                sv::<7>,
-                sv::<8>,
-                sv::<9>,
+                sv::<1>, sv::<2>, sv::<3>, sv::<4>, sv::<5>, sv::<6>, sv::<7>, sv::<8>, sv::<9>,
                 sv::<10>
             ),
             (
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>,
-                sv::<5>,
-                sv::<6>,
-                sv::<7>,
-                sv::<8>,
-                sv::<9>,
+                sv::<1>, sv::<2>, sv::<3>, sv::<4>, sv::<5>, sv::<6>, sv::<7>, sv::<8>, sv::<9>,
                 sv::<10>
             )
         );
@@ -339,30 +230,12 @@ mod tests {
     fn bundle_11() {
         matches!(
             bundle!(
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>,
-                sv::<5>,
-                sv::<6>,
-                sv::<7>,
-                sv::<8>,
-                sv::<9>,
-                sv::<10>,
-                sv::<11>
+                sv::<1>, sv::<2>, sv::<3>, sv::<4>, sv::<5>, sv::<6>, sv::<7>, sv::<8>, sv::<9>,
+                sv::<10>, sv::<11>
             ),
             (
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>,
-                sv::<5>,
-                sv::<6>,
-                sv::<7>,
-                sv::<8>,
-                sv::<9>,
-                sv::<10>,
-                sv::<11>
+                sv::<1>, sv::<2>, sv::<3>, sv::<4>, sv::<5>, sv::<6>, sv::<7>, sv::<8>, sv::<9>,
+                sv::<10>, sv::<11>
             )
         );
     }
@@ -371,32 +244,12 @@ mod tests {
     fn bundle_12() {
         matches!(
             bundle!(
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>,
-                sv::<5>,
-                sv::<6>,
-                sv::<7>,
-                sv::<8>,
-                sv::<9>,
-                sv::<10>,
-                sv::<11>,
-                sv::<12>
+                sv::<1>, sv::<2>, sv::<3>, sv::<4>, sv::<5>, sv::<6>, sv::<7>, sv::<8>, sv::<9>,
+                sv::<10>, sv::<11>, sv::<12>
             ),
             (
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>,
-                sv::<5>,
-                sv::<6>,
-                sv::<7>,
-                sv::<8>,
-                sv::<9>,
-                sv::<10>,
-                sv::<11>,
-                sv::<12>
+                sv::<1>, sv::<2>, sv::<3>, sv::<4>, sv::<5>, sv::<6>, sv::<7>, sv::<8>, sv::<9>,
+                sv::<10>, sv::<11>, sv::<12>
             )
         );
     }
@@ -405,19 +258,8 @@ mod tests {
     fn bundle_13() {
         matches!(
             bundle!(
-                sv::<1>,
-                sv::<2>,
-                sv::<3>,
-                sv::<4>,
-                sv::<5>,
-                sv::<6>,
-                sv::<7>,
-                sv::<8>,
-                sv::<9>,
-                sv::<10>,
-                sv::<11>,
-                sv::<12>,
-                sv::<13>
+                sv::<1>, sv::<2>, sv::<3>, sv::<4>, sv::<5>, sv::<6>, sv::<7>, sv::<8>, sv::<9>,
+                sv::<10>, sv::<11>, sv::<12>, sv::<13>
             ),
             (
                 sv::<1>,
