@@ -125,33 +125,33 @@ mod seventy;
 /// )]
 /// pub struct Username(String);
 ///
-/// /* `Bypassable::unchecked_new` */
+/// /* `Bypassable::new_unchecked` */
 ///
-/// let username = unsafe { Username::unchecked_new("   username!   ") };
-/// assert_eq!(username.to_inner(), "   username!   ");
+/// let username = unsafe { Username::new_unchecked("   username!   ") };
+/// assert_eq!(username.as_inner(), "   username!   ");
 ///
-/// /* `Bypassable::unsanitized_new` */
+/// /* `Bypassable::new_unsanitized` */
 ///
-/// let username = unsafe { Username::unsanitized_new("   username   ") }.unwrap();
-/// assert_eq!(username.to_inner(), "   username   ");
+/// let username = unsafe { Username::new_unsanitized("   username   ") }.unwrap();
+/// assert_eq!(username.as_inner(), "   username   ");
 ///
-/// /* `Bypassable::unvalidated_new` */
+/// /* `Bypassable::new_unvalidated` */
 ///
-/// let username = unsafe { Username::unvalidated_new("   username!   ") };
-/// assert_eq!(username.to_inner(), "username!");
+/// let username = unsafe { Username::new_unvalidated("   username!   ") };
+/// assert_eq!(username.as_inner(), "username!");
 ///
-/// /* `Bypassable::to_inner_mut` */
+/// /* `Bypassable::as_inner_mut` */
 ///
 /// let mut username = Username::try_new("username").unwrap();
 ///
 /// // Passes validation.
-/// assert!(Username::validate(username.to_inner()));
+/// assert!(Username::validate(username.as_inner()));
 ///
 /// // Unsafely mutate the value.
-/// unsafe { username.to_inner_mut() }.push_str("\u{00BF}");
+/// unsafe { username.as_inner_mut() }.push_str("\u{00BF}");
 ///
 /// // Fails validation.
-/// assert!(!Username::validate(username.to_inner()));
+/// assert!(!Username::validate(username.as_inner()));
 /// ```
 ///
 /// ## independent
