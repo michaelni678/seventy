@@ -1,4 +1,4 @@
-//! Procedural macros for Seventy.
+//! Procedural macros for [Seventy](https://crates.io/crates/seventy).
 
 use proc_macro::TokenStream;
 use syn::{parse::Parser, punctuated::Punctuated, Error, ItemStruct, Meta, Token};
