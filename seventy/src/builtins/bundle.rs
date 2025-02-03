@@ -19,6 +19,8 @@
 //! )]
 //! pub struct MiddleName(Option<String>);
 //! ```
+//! 
+//! If you need a bundle size greater than 12, you can use the [`bundle`] macro.
 
 use crate::core::{Sanitizer, Validator};
 
