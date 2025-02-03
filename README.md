@@ -55,4 +55,4 @@ assert_eq!(
 assert!(Username::try_new("   u$ername   ").is_err());
 ```
 
-See the [examples](examples) directory for more!
+See the [examples](/examples) directory for more!
