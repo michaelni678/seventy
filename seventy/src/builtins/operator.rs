@@ -56,7 +56,7 @@ where
     }
 }
 
-/// [`Validator`] checks if valid for either inner validator.
+/// [`Validator`] checks if valid for any of the two inner validators.
 ///
 /// If the first validator returns a valid validation, the second is skipped.
 ///
@@ -68,19 +68,19 @@ where
 ///     seventy, Newtype,
 /// };
 ///
-/// #[seventy(validate(either(eq(1), eq(2))))]
+/// #[seventy(validate(any(eq(1), eq(2))))]
 /// pub struct OneOrTwo(i32);
 ///
-/// // Successfully constructed because the numbers are either 1 or 2.
+/// // Successfully constructed because the numbers are 1 or 2.
 /// assert!(OneOrTwo::try_new(1).is_ok());
 /// assert!(OneOrTwo::try_new(2).is_ok());
 ///
-/// // Unsuccessfully constructed because 3 is not either 1 or 2.
+/// // Unsuccessfully constructed because 3 is not 1 or 2.
 /// assert!(OneOrTwo::try_new(3).is_err());
 /// ```
-pub struct either<V1, V2>(pub V1, pub V2);
+pub struct any<V1, V2>(pub V1, pub V2);
 
-impl<T, V1, V2> Validator<T> for either<V1, V2>
+impl<T, V1, V2> Validator<T> for any<V1, V2>
 where
     V1: Validator<T>,
     V2: Validator<T>,
@@ -94,7 +94,7 @@ where
 ///
 /// If a validator returns a valid validation, the remaining are skipped.
 ///
-/// Internally expands to a bunch of [`either`] validators.
+/// Internally expands to a bunch of [`struct@any`] validators.
 ///
 /// # Examples
 ///
@@ -122,10 +122,10 @@ macro_rules! _any {
         $a
     };
     ($a:expr, $b:expr) => {
-        $crate::builtins::operator::either($a, $b)
+        $crate::builtins::operator::any($a, $b)
     };
     ($a:expr, $($rest:tt)*) => {
-        $crate::builtins::operator::either(
+        $crate::builtins::operator::any(
             $a,
             $crate::builtins::operator::any!($($rest)*)
         )
