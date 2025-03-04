@@ -154,33 +154,6 @@ mod seventy;
 /// assert!(!Username::validate(username.as_inner()));
 /// ```
 ///
-/// ## independent
-///
-/// Normally, sanitizers and validators are shared amongst instances of the
-/// same newtype using a static variable for performance and memory reasons.
-/// This upgrade will make it so each newtype's sanitizer and validator is
-/// constructed when sanitize or validate is invoked. This is needed in certain
-/// situations, such as with a generic newtype, as Rust does not support generic
-/// statics.
-///
-/// The code below fails to compile due to the generic static issue.
-///
-/// ```compile_fail,E0401,E0282
-/// use seventy::seventy;
-///
-/// #[seventy()]
-/// pub struct MyVector<T>(pub Vec<T>);
-/// ```
-///
-/// The code below compiles due to the `independent` upgrade.
-///
-/// ```
-/// use seventy::seventy;
-///
-/// #[seventy(upgrades(independent))]
-/// pub struct MyVector<T>(pub Vec<T>);
-/// ```
-///
 /// ## inherent
 ///
 /// Makes the `Newtype` trait methods callable without the trait
@@ -212,6 +185,17 @@ mod seventy;
 ///
 /// assert!(Rating::try_new(5).is_ok());
 /// ```
+///
+/// ## shared
+///
+/// Sanitizers and validators are typically created each time they are used,
+/// which works well for simple validations. However, it may be inefficient for
+/// more complex sanitizers and validators to be constructed per-use. This
+/// upgrade makes it so each newtype instance shares its sanitizers and
+/// validators with other instances.
+///
+/// This upgrade takes away support for generics, and introduces some
+/// performance overhead.
 ///
 /// ## unexposed
 ///

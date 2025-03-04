@@ -2,7 +2,7 @@ use seventy::{seventy, Newtype};
 
 #[test]
 fn generic_type_single() {
-    #[seventy(upgrades(independent))]
+    #[seventy()]
     pub struct Generic<T>(T);
 
     assert_eq!(Generic::<i32>::try_new(5i32).unwrap().into_inner(), 5);
@@ -10,7 +10,7 @@ fn generic_type_single() {
 
 #[test]
 fn generic_type_multiple() {
-    #[seventy(upgrades(independent))]
+    #[seventy()]
     pub struct Generic<T, U>((T, U));
 
     assert_eq!(
@@ -23,7 +23,7 @@ fn generic_type_multiple() {
 
 #[test]
 fn generic_lifetime_single() {
-    #[seventy(upgrades(independent))]
+    #[seventy()]
     pub struct Generic<'a>(&'a i32);
 
     assert_eq!(Generic::<'_>::try_new(&5).unwrap().into_inner(), &5);
@@ -31,7 +31,7 @@ fn generic_lifetime_single() {
 
 #[test]
 fn generic_lifetime_multiple() {
-    #[seventy(upgrades(independent))]
+    #[seventy()]
     pub struct Generic<'a, 'b>(&'a &'b i32);
 
     assert_eq!(Generic::<'_, '_>::try_new(&&5).unwrap().into_inner(), &&5);
@@ -39,7 +39,7 @@ fn generic_lifetime_multiple() {
 
 #[test]
 fn generic_mixed_single() {
-    #[seventy(upgrades(independent))]
+    #[seventy()]
     pub struct Generic<'a, T>(&'a T);
 
     assert_eq!(Generic::<'_, i32>::try_new(&5).unwrap().into_inner(), &5);
@@ -47,7 +47,7 @@ fn generic_mixed_single() {
 
 #[test]
 fn generic_mixed_multiple() {
-    #[seventy(upgrades(independent))]
+    #[seventy()]
     pub struct Generic<'a, 'b, T, U>(&'a (T, &'b U));
 
     assert_eq!(
