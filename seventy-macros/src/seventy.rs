@@ -27,11 +27,13 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
     let mut deref = false;
     let mut display = false;
     let mut try_from = false;
+
     let mut deserializable = false;
     let mut serializable = false;
+
     let mut bypassable = false;
-    let mut independent = false;
     let mut inherent = false;
+    let mut shared = false;
     let mut unexposed = false;
 
     let mut sanitizers = None;
@@ -58,10 +60,10 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
                     serializable = true;
                 } else if meta.path().is_ident("bypassable") {
                     bypassable = true;
-                } else if meta.path().is_ident("independent") {
-                    independent = true;
                 } else if meta.path().is_ident("inherent") {
                     inherent = true;
+                } else if meta.path().is_ident("shared") {
+                    shared = true;
                 } else if meta.path().is_ident("unexposed") {
                     unexposed = true;
                 } else {
@@ -112,15 +114,7 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
     let sanitize;
     let validate;
 
-    if independent {
-        sanitize = quote! {
-            <_ as ::seventy::core::Sanitizer<Self::Inner>>::sanitize(&::seventy::builtins::bundle::bundle!(#sanitizers), target);
-        };
-
-        validate = quote! {
-            <_ as ::seventy::core::Validator<Self::Inner>>::validate(&::seventy::builtins::bundle::bundle!(#validators), target)
-        }
-    } else {
+    if shared {
         sanitize = quote! {
             static SANITIZER: ::std::sync::LazyLock<Box<dyn ::seventy::core::Sanitizer<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new(::seventy::builtins::bundle::bundle!(#sanitizers)));
             std::sync::LazyLock::force(&SANITIZER).sanitize(target);
@@ -130,6 +124,14 @@ pub fn expand(metas: Punctuated<Meta, Token![,]>, item: ItemStruct) -> Result<To
             static VALIDATOR: ::std::sync::LazyLock<Box<dyn ::seventy::core::Validator<#inner> + Send + Sync>> = ::std::sync::LazyLock::new(|| Box::new(::seventy::builtins::bundle::bundle!(#validators)));
             std::sync::LazyLock::force(&VALIDATOR).validate(target)
         };
+    } else {
+        sanitize = quote! {
+            <_ as ::seventy::core::Sanitizer<Self::Inner>>::sanitize(&::seventy::builtins::bundle::bundle!(#sanitizers), target);
+        };
+
+        validate = quote! {
+            <_ as ::seventy::core::Validator<Self::Inner>>::validate(&::seventy::builtins::bundle::bundle!(#validators), target)
+        }
     }
 
     expansion.push(quote! {

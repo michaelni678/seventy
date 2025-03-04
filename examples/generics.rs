@@ -3,10 +3,7 @@
 use seventy::{builtins::collection::*, core::Bypassable, seventy};
 
 /// A vec that is always sorted.
-#[seventy(
-    upgrades(bypassable, deref, independent, inherent, unexposed),
-    sanitize(sort)
-)]
+#[seventy(upgrades(bypassable, deref, inherent, unexposed), sanitize(sort))]
 pub struct SortedVec<T>(Vec<T>)
 where
     T: Ord;

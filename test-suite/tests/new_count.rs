@@ -22,26 +22,26 @@ impl Sanitizer<()> for sanitizer {
 }
 
 #[test]
-fn sanitizer_shared() {
-    static NEW_COUNT: AtomicUsize = AtomicUsize::new(0);
-
-    #[seventy(sanitize(sanitizer::new(&NEW_COUNT)))]
-    pub struct Shared(());
-
-    assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 0);
-
-    let _ = Shared::try_new(());
-    assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 1);
-
-    let _ = Shared::try_new(());
-    assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 1);
-}
-
-#[test]
 fn sanitizer_independent() {
     static NEW_COUNT: AtomicUsize = AtomicUsize::new(0);
 
-    #[seventy(upgrades(independent), sanitize(sanitizer::new(&NEW_COUNT)))]
+    #[seventy(sanitize(sanitizer::new(&NEW_COUNT)))]
+    pub struct Independent(());
+
+    assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 0);
+
+    let _ = Independent::try_new(());
+    assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 1);
+
+    let _ = Independent::try_new(());
+    assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 2);
+}
+
+#[test]
+fn sanitizer_shared() {
+    static NEW_COUNT: AtomicUsize = AtomicUsize::new(0);
+
+    #[seventy(upgrades(shared), sanitize(sanitizer::new(&NEW_COUNT)))]
     pub struct Shared(());
 
     assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 0);
@@ -50,7 +50,7 @@ fn sanitizer_independent() {
     assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 1);
 
     let _ = Shared::try_new(());
-    assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 2);
+    assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 1);
 }
 
 #[allow(non_camel_case_types)]
@@ -72,26 +72,26 @@ impl Validator<()> for validator {
 }
 
 #[test]
-fn validator_shared() {
-    static NEW_COUNT: AtomicUsize = AtomicUsize::new(0);
-
-    #[seventy(validate(validator::new(&NEW_COUNT)))]
-    pub struct Shared(());
-
-    assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 0);
-
-    let _ = Shared::try_new(());
-    assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 1);
-
-    let _ = Shared::try_new(());
-    assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 1);
-}
-
-#[test]
 fn validator_independent() {
     static NEW_COUNT: AtomicUsize = AtomicUsize::new(0);
 
-    #[seventy(upgrades(independent), validate(validator::new(&NEW_COUNT)))]
+    #[seventy(validate(validator::new(&NEW_COUNT)))]
+    pub struct Independent(());
+
+    assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 0);
+
+    let _ = Independent::try_new(());
+    assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 1);
+
+    let _ = Independent::try_new(());
+    assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 2);
+}
+
+#[test]
+fn validator_shared() {
+    static NEW_COUNT: AtomicUsize = AtomicUsize::new(0);
+
+    #[seventy(upgrades(shared), validate(validator::new(&NEW_COUNT)))]
     pub struct Shared(());
 
     assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 0);
@@ -100,5 +100,5 @@ fn validator_independent() {
     assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 1);
 
     let _ = Shared::try_new(());
-    assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 2);
+    assert_eq!(NEW_COUNT.load(Ordering::Relaxed), 1);
 }
